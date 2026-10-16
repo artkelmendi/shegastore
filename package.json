@@ -1,0 +1,28 @@
+{
+  "name": "shega-store",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "postbuild": "node scripts/build-pages.mjs",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "motion": "^12.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.0.0"
+  },
+  "devDependencies": {
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "@playwright/test": "^1.64.1",
+    "@vitejs/plugin-react": "^5.0.0",
+    "lighthouse": "^13.5.0",
+    "prettier": "^3.9.10",
+    "vite": "^7.0.0"
+  }
+}
