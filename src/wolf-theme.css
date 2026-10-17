@@ -1,4 +1,102 @@
 /* Wolf Shop: original #FF0033 artwork, calm light surfaces and a real dark palette. */
+:root .favorites-section .section-heading {
+  border-left: 3px solid var(--red);
+  padding-left: 14px;
+}
+:root .favorites-section .product-meta > span:last-child {
+  color: var(--red-text);
+}
+.favorites-group .product-image-wrap::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 18px;
+  height: 18px;
+  border-top: 1px solid var(--red);
+  border-left: 1px solid var(--red);
+  z-index: 1;
+  pointer-events: none;
+}
+.editorial-photo {
+  position: relative;
+}
+.editorial-photo::before,
+.editorial-photo::after {
+  content: "";
+  position: absolute;
+  width: clamp(32px, 5vw, 72px);
+  height: clamp(32px, 5vw, 72px);
+  z-index: 1;
+  pointer-events: none;
+}
+.editorial-photo::before {
+  top: 18px;
+  left: 18px;
+  border-top: 2px solid var(--red);
+  border-left: 2px solid var(--red);
+}
+.editorial-photo::after {
+  bottom: 18px;
+  right: 18px;
+  border-bottom: 2px solid var(--red);
+  border-right: 2px solid var(--red);
+}
+:root .editorial-copy .eyebrow {
+  color: var(--red-text);
+}
+:root .editorial-footnote {
+  border-top: 1px solid var(--red);
+  padding-top: 16px;
+}
+.favorites-word,
+:root .favorites-section .text-link,
+:root .favorites-section .product-save {
+  color: var(--red-text);
+}
+:root .favorites-section .text-link {
+  border-bottom-color: var(--red);
+}
+.favorites-group .product-image-wrap::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--red);
+  pointer-events: none;
+}
+.cookie-panel {
+  transform-origin: bottom left;
+}
+.cookie-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--red);
+  transform-origin: left center;
+  animation: cookie-accent-in 650ms var(--ease-out) 100ms both;
+}
+@keyframes cookie-accent-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@media (max-width: 767px) {
+  .cookie-panel {
+    transform-origin: bottom center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cookie-panel::before {
+    animation: none;
+  }
+}
 :root,
 :root[data-theme="light"] {
   --red: #ff0033;
@@ -185,6 +283,27 @@ body {
 }
 :root .category-caption .category-tagline {
   color: #111217;
+}
+:root[data-theme="light"] .category-tile,
+:root[data-theme="light"] .category-caption {
+  background: var(--red);
+}
+:root[data-theme="light"] .category-caption,
+:root[data-theme="light"] .category-caption h2,
+:root[data-theme="light"] .category-caption p,
+:root[data-theme="light"] .category-caption > span,
+:root[data-theme="light"] .category-caption .category-tagline {
+  color: #fff;
+}
+:root[data-theme="light"] .category-caption svg {
+  color: #fff;
+  border-color: #ffffff66;
+  background: transparent;
+}
+@media (hover: hover) and (pointer: fine) {
+  :root[data-theme="light"] .category-tile:hover .category-caption {
+    background: #ed0030;
+  }
 }
 html {
   scrollbar-color: var(--red) var(--surface);

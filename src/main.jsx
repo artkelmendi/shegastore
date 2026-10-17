@@ -732,7 +732,8 @@ function FavoritesCarousel() {
         <div>
           <p className="eyebrow">THE WOLF SELECTION</p>
           <h2>
-            Our favorites<span className="accent">.</span>
+            Our <span className="favorites-word">favorites</span>
+            <span className="accent">.</span>
           </h2>
         </div>
         <Link to="/shop" className="text-link">
