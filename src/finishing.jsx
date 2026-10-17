@@ -1,0 +1,257 @@
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useMotionTemplate,
+  useReducedMotion,
+} from "motion/react";
+import Lenis from "lenis";
+import "lenis/dist/lenis.css";
+import { ArrowUpRight, X, Check } from "@phosphor-icons/react";
+import "./finishing.css";
+
+export function OutfitEdit() {
+  return (
+    <section
+      className="outfit-edit page-width"
+      aria-labelledby="outfit-heading"
+    >
+      <div className="outfit-intro">
+        <span className="edit-index">THE DRESS CODE / 03 WAYS IN</span>
+        <h2 id="outfit-heading">
+          What’s
+          <br />
+          the <em>plan?</em>
+        </h2>
+        <p>A few good pieces. Somewhere to go.</p>
+        <span className="edit-signoff">Wear it your way. — Shega</span>
+      </div>
+      <div className="outfit-links">
+        {[
+          [
+            "01",
+            "Out of office",
+            "T-shirts for the unplanned days.",
+            "/shop?category=T-Shirts",
+          ],
+          [
+            "02",
+            "After hours",
+            "A sweatshirt. Your usual spot.",
+            "/shop?category=Sweatshirts",
+          ],
+          [
+            "03",
+            "Taking it easy",
+            "Hood up. Plans optional.",
+            "/shop?category=Hoodies",
+          ],
+        ].map(([number, title, copy, to]) => (
+          <Link to={to} key={number}>
+            <span className="outfit-number">{number}</span>
+            <div>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </div>
+            <ArrowUpRight size={25} />
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+const consentKey = "shega-consent-v1";
+function getChoice() {
+  try {
+    const choice = JSON.parse(localStorage.getItem(consentKey));
+    return choice?.version === 1 &&
+      typeof choice.optional === "boolean" &&
+      Date.now() - choice.time < 180 * 86400000
+      ? choice
+      : null;
+  } catch {
+    return null;
+  }
+}
+export function CookieConsent({ ready }) {
+  const [open, setOpen] = useState(false);
+  const [choice, setChoice] = useState(getChoice);
+  const [details, setDetails] = useState(false);
+  const trigger = useRef(null);
+  const reduce = useReducedMotion();
+  useEffect(() => {
+    if (!ready || choice) return;
+    const timer = setTimeout(() => setOpen(true), 700);
+    return () => clearTimeout(timer);
+  }, [ready, choice]);
+  useEffect(() => {
+    const reopen = () => {
+      trigger.current = document.activeElement;
+      setOpen(true);
+      setDetails(false);
+    };
+    window.addEventListener("shega-cookie-settings", reopen);
+    return () => window.removeEventListener("shega-cookie-settings", reopen);
+  }, []);
+  const save = (optional) => {
+    const next = { version: 1, optional, time: Date.now() };
+    try {
+      localStorage.setItem(consentKey, JSON.stringify(next));
+    } catch {}
+    setChoice(next);
+    setOpen(false);
+    window.dispatchEvent(
+      new CustomEvent("shega-consent-change", { detail: next }),
+    );
+    trigger.current?.focus();
+  };
+  return (
+    <AnimatePresence>
+      {open && ready && (
+        <motion.section
+          className="cookie-panel"
+          aria-label="Cookie preferences"
+          initial={{
+            opacity: 0,
+            transform: reduce ? "none" : "translateY(24px)",
+          }}
+          animate={{ opacity: 1, transform: "translateY(0px)" }}
+          exit={{ opacity: 0, transform: reduce ? "none" : "translateY(24px)" }}
+          transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+        >
+          <div className="cookie-heading">
+            <span className="cookie-label">YOUR BROWSER. YOUR CHOICE.</span>
+            {choice && (
+              <button
+                aria-label="Close cookie preferences"
+                onClick={() => {
+                  setOpen(false);
+                  trigger.current?.focus();
+                }}
+              >
+                <X size={18} />
+              </button>
+            )}
+          </div>
+          <h2>A small note on cookies.</h2>
+          <p>
+            We use local storage to keep your bag, saved pieces and consent
+            choice. This preview has no analytics or advertising trackers.
+          </p>
+          <button
+            className="cookie-details-toggle"
+            aria-expanded={details}
+            onClick={() => setDetails(!details)}
+          >
+            What gets stored? <span>{details ? "−" : "+"}</span>
+          </button>
+          {details && (
+            <div className="cookie-details">
+              <p>
+                <Check size={14} /> Essential storage: your bag, saved items and
+                this choice.
+              </p>
+              <p>
+                Optional cookies: none installed. Accepting does not add
+                trackers. You can change your choice from the footer anytime.
+              </p>
+              <Link to="/privacy">
+                Privacy information <ArrowUpRight size={14} />
+              </Link>
+            </div>
+          )}
+          <div className="cookie-actions">
+            <button onClick={() => save(false)}>Reject optional</button>
+            <button onClick={() => save(true)}>Accept all</button>
+          </div>
+        </motion.section>
+      )}
+    </AnimatePresence>
+  );
+}
+
+export function CookieSettingsButton() {
+  return (
+    <button
+      className="cookie-settings-link"
+      onClick={() => window.dispatchEvent(new Event("shega-cookie-settings"))}
+    >
+      Cookie settings
+    </button>
+  );
+}
+
+export function SmoothExperience({ blocked }) {
+  const reduce = useReducedMotion();
+  const scroller = useRef(null);
+  useEffect(() => {
+    if (reduce || !matchMedia("(hover: hover) and (pointer: fine)").matches)
+      return;
+    const lenis = new Lenis({
+      autoRaf: true,
+      anchors: true,
+      lerp: 0.1,
+      smoothWheel: true,
+      prevent: (node) =>
+        node.closest("dialog, .cookie-panel, [data-lenis-prevent]"),
+    });
+    scroller.current = lenis;
+    return () => {
+      lenis.destroy();
+      scroller.current = null;
+    };
+  }, [reduce]);
+  useEffect(() => {
+    if (blocked) scroller.current?.stop();
+    else scroller.current?.start();
+  }, [blocked, reduce]);
+  return null;
+}
+
+export function RedPointer() {
+  const reduce = useReducedMotion();
+  const x = useMotionValue(-100),
+    y = useMotionValue(-100);
+  const dotTransform = useMotionTemplate`translate3d(${x}px, ${y}px, 0)`;
+  const [visible, setVisible] = useState(false);
+  const [interactive, setInteractive] = useState(false);
+  useEffect(() => {
+    if (reduce || !matchMedia("(hover: hover) and (pointer: fine)").matches)
+      return;
+    const move = (e) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+      setVisible(true);
+    };
+    const over = (e) =>
+      setInteractive(!!e.target.closest("a,button,input,select,summary"));
+    const leave = () => setVisible(false);
+    window.addEventListener("pointermove", move, { passive: true });
+    window.addEventListener("pointerover", over, { passive: true });
+    document.documentElement.addEventListener("pointerleave", leave);
+    window.addEventListener("blur", leave);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerover", over);
+      document.documentElement.removeEventListener("pointerleave", leave);
+      window.removeEventListener("blur", leave);
+    };
+  }, [reduce, x, y]);
+  if (reduce) return null;
+  return (
+    <div
+      className={`red-pointer ${visible ? "is-visible" : ""} ${interactive ? "is-interactive" : ""}`}
+      aria-hidden="true"
+    >
+      <motion.span
+        className="pointer-dot-position"
+        style={{ transform: dotTransform }}
+      >
+        <span className="pointer-dot" />
+      </motion.span>
+    </div>
+  );
+}

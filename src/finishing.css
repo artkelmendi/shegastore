@@ -1,0 +1,463 @@
+html {
+  scrollbar-color: var(--red) #f2edee;
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #f2edee;
+}
+::-webkit-scrollbar-thumb {
+  background: #be0d2d;
+  border: 2px solid #f2edee;
+  border-radius: 12px;
+}
+.outfit-edit {
+  margin-block: 110px 100px;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  border-top: 2px solid var(--red);
+  padding-top: 32px;
+  gap: 70px;
+}
+.edit-index {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--red);
+}
+.outfit-intro h2 {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: clamp(52px, 6.5vw, 96px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+  margin: 30px 0 24px;
+}
+.outfit-intro h2 em {
+  font-family: Telma, serif;
+  font-style: normal;
+  color: var(--red);
+  font-weight: 700;
+}
+.outfit-intro > p {
+  font-size: 14px;
+  color: #777;
+}
+.edit-signoff {
+  display: block;
+  margin-top: 28px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+.outfit-links {
+  align-self: center;
+  border-top: 1px solid #d8cece;
+}
+.outfit-links a {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 29px 0;
+  border-bottom: 1px solid #d8cece;
+}
+.outfit-number {
+  color: var(--red);
+  font-size: 10px;
+  align-self: flex-start;
+  padding-top: 8px;
+}
+.outfit-links h3 {
+  font-family: "Clash Display", sans-serif;
+  font-size: clamp(24px, 2.6vw, 38px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  margin-bottom: 8px;
+}
+.outfit-links p {
+  font-size: 12px;
+  color: #777;
+}
+.outfit-links svg {
+  margin-left: auto;
+  color: var(--red);
+  flex-shrink: 0;
+  transition: transform 180ms var(--ease-out);
+}
+.cookie-panel {
+  position: fixed;
+  z-index: 65;
+  bottom: 22px;
+  left: 24px;
+  width: min(430px, calc(100vw - 48px));
+  padding: 24px;
+  background: #fbfbfa;
+  border: 1px solid #d9cccc;
+  border-top: 3px solid var(--red);
+  box-shadow: 0 10px 45px #32131c16;
+  color: #191919;
+  max-height: calc(100svh - 40px);
+  overflow: auto;
+}
+.cookie-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cookie-label {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--red);
+}
+.cookie-heading button {
+  padding: 4px;
+  display: grid;
+  place-items: center;
+}
+.cookie-panel h2 {
+  font-family: "Clash Display", sans-serif;
+  font-weight: 500;
+  font-size: 27px;
+  letter-spacing: -0.035em;
+  margin: 18px 0 12px;
+  line-height: 1.1;
+}
+.cookie-panel > p {
+  font-size: 12px;
+  line-height: 1.75;
+  color: #666;
+}
+.cookie-details-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 11px;
+  padding: 15px 0;
+  margin-top: 8px;
+  border-bottom: 1px solid #ddd;
+}
+.cookie-details-toggle span {
+  color: var(--red);
+}
+.cookie-details {
+  font-size: 11px;
+  line-height: 1.7;
+  padding-top: 12px;
+  color: #666;
+}
+.cookie-details p {
+  margin-bottom: 10px;
+}
+.cookie-details p:first-child {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cookie-details svg {
+  color: var(--red);
+  flex-shrink: 0;
+}
+.cookie-details a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  text-decoration: underline;
+  color: #191919;
+}
+.cookie-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+.cookie-actions button {
+  border: 1px solid var(--red);
+  color: var(--red);
+  padding: 13px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+.cookie-actions button:focus-visible,
+.cookie-details-toggle:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+.cookie-settings-link {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  width: fit-content;
+  cursor: pointer;
+}
+.red-pointer {
+  display: none;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+.red-pointer.is-visible {
+  opacity: 1;
+}
+.pointer-dot-position {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .red-pointer {
+    display: block;
+  }
+  .outfit-links a:hover svg {
+    transform: translate(3px, -3px);
+  }
+  .cookie-actions button:hover {
+    background: var(--red);
+    color: white;
+  }
+}
+@media (max-width: 767px) {
+  .outfit-edit {
+    margin-block: 70px;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 24px;
+  }
+  .outfit-intro h2 {
+    margin-block: 24px 18px;
+    font-size: 65px;
+  }
+  .edit-signoff {
+    margin-top: 16px;
+  }
+  .outfit-links a {
+    padding: 24px 0;
+  }
+  .cookie-panel {
+    left: 12px;
+    bottom: 12px;
+    width: calc(100vw - 24px);
+    padding: 20px;
+  }
+  .cookie-panel h2 {
+    font-size: 25px;
+  }
+  .cookie-label {
+    font-size: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .red-pointer {
+    display: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .outfit-links a:hover svg {
+    transform: none;
+  }
+}
+/* The native pointer stays primary: one soft highlight, attached without lag. */
+.pointer-dot {
+  display: block;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  background: #be0d2d18;
+  border: 1px solid #be0d2d25;
+  transition:
+    background 160ms ease,
+    transform 160ms var(--ease-out);
+}
+.red-pointer.is-interactive .pointer-dot {
+  background: #be0d2d25;
+  transform: scale(1.15);
+}
+/* Shop: the same type system as the home, with clearer product information. */
+.shop-page .page-intro {
+  padding-bottom: 40px;
+}
+.shop-page .page-intro .eyebrow {
+  color: var(--red);
+  font-family: Satoshi, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  margin-bottom: 20px;
+}
+.shop-page .page-intro h1 {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 800;
+  font-size: clamp(48px, 6.5vw, 92px);
+  line-height: 1.03;
+  letter-spacing: -0.05em;
+  text-transform: none;
+  max-width: 1100px;
+}
+.shop-page .page-intro > p:last-child:not(.eyebrow) {
+  font-family: Satoshi, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: 0;
+  margin-top: 18px;
+  color: #6c6c67;
+}
+.shop-page .shop-tabs {
+  gap: 36px;
+  border-bottom: 1px solid #dcd6d6;
+}
+.shop-page .shop-tabs button {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -0.025em;
+  padding: 20px 0;
+  border-bottom-width: 2px;
+  color: #777;
+}
+.shop-page .shop-tabs button.active {
+  color: var(--red);
+  border-color: var(--red);
+}
+.shop-page .shop-toolbar,
+.shop-page .shop-toolbar button,
+.shop-page .shop-toolbar select,
+.shop-page .filter-panel,
+.shop-page .filter-panel select,
+.shop-page .active-filters button {
+  font-family: Satoshi, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.shop-page .shop-toolbar {
+  padding-block: 22px;
+  gap: 20px;
+}
+.shop-page .sort-select select {
+  font-size: 13px;
+  max-width: 180px;
+}
+.shop-page .filter-panel {
+  background: #f5f1f1;
+  border-top: 1px solid #d9caca;
+  padding: 24px;
+}
+.shop-page .filter-panel label {
+  font-size: 12px;
+  gap: 12px;
+}
+.shop-page .filter-panel select {
+  font-size: 14px;
+}
+.shop-page .filter-toggle svg {
+  color: var(--red);
+}
+.shop-page .product-brand {
+  font-family: Satoshi, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  color: #191919;
+}
+.shop-page .product-meta {
+  font-family: Satoshi, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  gap: 10px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  margin-top: 16px;
+}
+.shop-page .product-name {
+  font-family: Satoshi, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+  margin-top: 5px;
+  text-transform: none;
+}
+.shop-page .product-color {
+  font-family: Satoshi, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.7;
+  margin-top: 6px;
+}
+.product-detail .product-info h1 {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 800;
+  font-size: clamp(34px, 3.2vw, 52px);
+  line-height: 1.07;
+  letter-spacing: -0.04em;
+  text-transform: none;
+}
+.product-detail .product-info .product-detail-brand {
+  font-family: Satoshi, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+@media (max-width: 767px) {
+  .shop-page .page-intro {
+    padding-bottom: 28px;
+  }
+  .shop-page .page-intro h1 {
+    font-size: clamp(42px, 10vw, 66px);
+  }
+  .shop-page .page-intro > p:last-child:not(.eyebrow) {
+    font-size: 13px;
+  }
+  .shop-page .shop-tabs {
+    gap: 23px;
+  }
+  .shop-page .shop-tabs button {
+    font-size: 16px;
+    padding-block: 16px;
+  }
+  .shop-page .shop-toolbar {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .shop-page .sort-select {
+    margin-left: auto;
+  }
+  .shop-page .sort-select select {
+    font-size: 13px;
+    max-width: 160px;
+  }
+  .shop-page .filter-panel {
+    padding: 18px;
+  }
+  .shop-page .product-brand {
+    font-size: 10px;
+  }
+  .shop-page .product-meta {
+    font-size: 12px;
+    gap: 4px;
+    align-items: flex-start;
+  }
+  .shop-page .product-name {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .shop-page .product-color {
+    font-size: 10px;
+  }
+  .shop-page .product-type {
+    margin-left: 0;
+  }
+  .shop-page .product-grid {
+    row-gap: 30px !important;
+  }
+}

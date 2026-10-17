@@ -14,7 +14,7 @@ Open the Local URL printed by Vite. `npm run build` creates a portable `dist` fo
 
 ## Included
 
-- Home with a two-slide hero with store-supplied BOSS and Emporio Armani images, categories, products, editorial, and newsletter preview.
+- Home with a two-slide hero with store-supplied BOSS and Emporio Armani images, categories, products, editorial, and an outfit edit.
 - Shop with category, brand, new-arrival and sale filters, search, sorting, and empty states.
 - Eight individual product pages with real model photography, selectable product/detail views, required size selection, zoom, a size guide, and related pieces.
 - Brand directory, saved pieces, contact, about, privacy, delivery, and a not-found page.
@@ -59,3 +59,13 @@ The latest home layout uses Cabinet Grotesk and Telma, a drawn Shega logo with w
 
 Production checks: `npm run build` and `node scripts/verify-pages.mjs` (set `SHEGA_PREVIEW_URL` to the production-style preview URL).
 
+
+## Finishing details
+
+The former newsletter block is now a three-link outfit edit. Lenis smooths desktop wheel scrolling while mobile and reduced-motion visitors keep native scrolling. The red cursor highlight follows the native cursor without lag, and the scrollbar uses Shega red.
+
+Cookie preferences appear after the opening animation. Accept and reject have equal prominence; the choice is saved for 180 days and can be reopened in the footer. No analytics or advertising trackers are installed. Adding optional services requires gating their loading on consent and updating the consent version and privacy copy. Contact remains a frontend preview.
+
+Verify with `node scripts/verify-finishing.mjs`; `SHEGA_PREVIEW_URL` can target a production-style preview.
+
+The shop now uses Cabinet Grotesk headings and category tabs, with Satoshi product details and controls. `scripts/verify-shop-refresh.mjs` checks typography, responsive grids, filters, sorting and empty states.

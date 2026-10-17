@@ -50,6 +50,13 @@ import {
 } from "@phosphor-icons/react";
 import { products, brands, brandLogos, categories, money } from "./data";
 import { BackgroundMarks, DrawnHeroLogo } from "./brand-motion";
+import {
+  OutfitEdit,
+  CookieConsent,
+  CookieSettingsButton,
+  SmoothExperience,
+  RedPointer,
+} from "./finishing";
 import "./styles.css";
 import "./editorial.css";
 import "./brand-motion.css";
@@ -117,9 +124,6 @@ function StoreProvider({ children }) {
   }, [saved]);
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem("shega-theme", JSON.stringify(theme));
-    } catch {}
   }, [theme]);
   useEffect(() => () => clearTimeout(noticeTimeout.current), []);
   const notify = (text) => {
@@ -651,21 +655,7 @@ function Home({ ready = true }) {
           </Reveal>
         </div>
       </section>
-      <section className="newsletter-section page-width">
-        <Reveal>
-          <h2>
-            BE FIRST.
-            <br />
-            <span className="outline-text">STAY SHEGA.</span>
-          </h2>
-        </Reveal>
-        <Reveal className="newsletter-copy" delay={0.08}>
-          <p>
-            New arrivals. Fresh edits. A little inspiration for your next look.
-          </p>
-          <Newsletter />
-        </Reveal>
-      </section>
+      <OutfitEdit />
     </>
   );
 }
@@ -883,33 +873,34 @@ function Shop() {
   if (sort === "new")
     filtered = [...filtered].sort((a, b) => Number(b.fresh) - Number(a.fresh));
   const title = query
-    ? `RESULTS FOR “${query}”`
+    ? `Search: “${query}”`
     : edit === "new"
-      ? "JUST LANDED."
+      ? "Just landed"
       : edit === "sale"
-        ? "GOOD FINDS. BETTER PRICES."
+        ? "Sale"
         : category !== "All pieces"
-          ? `${category.toUpperCase()}.`
+          ? category
           : brand !== "All brands"
-            ? `${brand}.`
-            : "THE SHEGA SELECTION.";
+            ? brand
+            : "The collection";
   return (
-    <div className="inner-page page-width">
+    <div className="inner-page shop-page page-width">
       <div className="breadcrumbs">
         <Link to="/">Home</Link>
         <span>/</span>
         <span>Shop</span>
       </div>
       <Reveal className="page-intro">
-        <p className="eyebrow">YOUR NEXT EVERYDAY FAVOURITE</p>
+        <p className="eyebrow">SHEGA STORE / SHOP</p>
         <h1>{title}</h1>
-        <p>Iconic styles, selected for your rotation.</p>
+        <p>T-shirts, hoodies and sweatshirts. Find your fit.</p>
       </Reveal>
       <div className="shop-tabs" aria-label="Product categories">
         {categories.map((c) => (
           <button
             key={c}
             className={category === c ? "active" : ""}
+            aria-pressed={category === c}
             onClick={() => update("category", c)}
           >
             {c}
@@ -1562,16 +1553,25 @@ function InfoPage({ privacy = false }) {
         <>
           <h2>What this preview stores</h2>
           <p>
-            Your shopping bag, saved pieces, and theme preference are stored in
-            your own browser’s local storage. They stay on your device and can
-            be removed by clearing this site’s browser data.
+            Your shopping bag, saved pieces, and cookie consent choice are
+            stored in your own browser’s local storage. They stay on your device
+            and can be removed by clearing this site’s browser data.
           </p>
           <h2>Forms and payments</h2>
           <p>
-            The contact and newsletter forms are demonstrations. They do not
-            send or save your name, email address, or message to a server. No
-            payment information is collected.
+            The contact form is a demonstration. It does not send or save your
+            name, email address, or message to a server. No payment information
+            is collected.
           </p>
+          <h2>Cookies and choices</h2>
+          <p>
+            This preview does not install analytics or advertising cookies. Bag
+            and saved-item storage support features you request. Your cookie
+            choice is remembered for up to 180 days. Accepting optional cookies
+            currently enables no additional tracking. Use Cookie settings in the
+            footer to review or change your choice.
+          </p>
+          <CookieSettingsButton />
           <h2>Before the store launches</h2>
           <p>
             Final store contact information, data handling terms, and any
@@ -1630,40 +1630,6 @@ function NotFound() {
   );
 }
 
-function Newsletter() {
-  const { notify } = useContext(Store);
-  const [email, setEmail] = useState("");
-  return (
-    <form
-      className="newsletter-form"
-      onSubmit={(e) => {
-        e.preventDefault();
-        notify(
-          "You’ve tried the newsletter preview. Sign-ups will open when Shega launches.",
-        );
-        setEmail("");
-      }}
-    >
-      <label className="sr-only" htmlFor="newsletter-email">
-        Your email address
-      </label>
-      <input
-        id="newsletter-email"
-        type="email"
-        autoComplete="email"
-        required
-        value={email}
-        maxLength="254"
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Your email address"
-      />
-      <button aria-label="Preview newsletter signup" type="submit">
-        <ArrowUpRight size={24} />
-      </button>
-    </form>
-  );
-}
-
 function Footer() {
   return (
     <footer className="site-footer">
@@ -1696,6 +1662,7 @@ function Footer() {
               <Link to="/delivery">Delivery & returns</Link>
               <Link to="/saved">Saved pieces</Link>
               <Link to="/privacy">Privacy information</Link>
+              <CookieSettingsButton />
             </div>
             <div>
               <h3>THE WORLD OF SHEGA</h3>
@@ -2151,6 +2118,8 @@ function App() {
   return (
     <MotionConfig reducedMotion="user">
       <BackgroundMarks />
+      <SmoothExperience blocked={opening !== "complete" || Boolean(overlay)} />
+      <RedPointer />
       <div
         className="site-shell"
         data-opening={opening}
@@ -2211,6 +2180,7 @@ function App() {
           )}
         </div>
       </div>
+      <CookieConsent ready={opening === "complete"} />
       {opening !== "complete" && (
         <Opening phase={opening} onComplete={() => setOpening("complete")} />
       )}
