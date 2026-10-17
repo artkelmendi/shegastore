@@ -293,3 +293,29 @@
     width: calc((100vw - 84px) / 3);
   }
 }
+/* Content determines the hero height; pagination has its own reserved space. */
+@media (min-width: 1024px) {
+  .hero {
+    height: auto;
+    min-height: 700px;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+  .hero-content {
+    padding-top: 72px;
+    padding-bottom: 124px;
+  }
+  .hero-pagination {
+    bottom: 22px;
+  }
+}
+.hero-title-mask {
+  padding-block: 0;
+  line-height: 1;
+}
+.hero-title-mask + .hero-title-mask {
+  margin-top: -0.08em;
+}
+.hero-title .accent {
+  line-height: 1.04;
+}

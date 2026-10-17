@@ -55,6 +55,7 @@ Public URL: https://artkelmendi.github.io/shegastore/
 
 Pushes to `main` run `.github/workflows/pages.yml`, build with `VITE_BASE_PATH=/shegastore/`, and deploy `dist` to GitHub Pages. Local development keeps the `/` base. Product and FAQ routes include static entry points for direct links.
 
-The latest home layout uses Cabinet Grotesk and Telma, a drawn Shega logo without floating background marks, T-shirts/Sweatshirts/Hoodies categories, and a continuously moving shuffled Our favorites carousel. Mobile product grids retain two columns. The BOSS editorial display was supplied by the store. FAQ answers describe the preview's actual limitations.
+The latest home layout uses Cabinet Grotesk and Telma, a drawn Shega logo with watery background marks outside the hero, T-shirts/Sweatshirts/Hoodies categories, and a continuously moving shuffled Our favorites carousel. Mobile product grids retain two columns. The BOSS editorial display was supplied by the store. FAQ answers describe the preview's actual limitations.
 
 Production checks: `npm run build` and `node scripts/verify-pages.mjs` (set `SHEGA_PREVIEW_URL` to the production-style preview URL).
+

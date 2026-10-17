@@ -230,7 +230,7 @@ export function BackgroundMarks({ contained = false }) {
       resize();
       if (!reduced) frame = requestAnimationFrame(tick);
     };
-    picture.src = "/logos/shega-mark.svg";
+    picture.src = `${import.meta.env.BASE_URL}logos/shega-mark.svg`;
     addEventListener("resize", resize);
     const observer = new ResizeObserver(resize);
     observer.observe(element);

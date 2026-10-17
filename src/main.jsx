@@ -49,7 +49,7 @@ import {
   Play,
 } from "@phosphor-icons/react";
 import { products, brands, brandLogos, categories, money } from "./data";
-import { DrawnHeroLogo } from "./brand-motion";
+import { BackgroundMarks, DrawnHeroLogo } from "./brand-motion";
 import "./styles.css";
 import "./editorial.css";
 import "./brand-motion.css";
@@ -493,7 +493,6 @@ function Home({ ready = true }) {
               }}
               transition={{ duration: 0.28, ease }}
             >
-              <p className="eyebrow hero-enter">A NEW POINT OF VIEW</p>
               <h1 className="hero-title" aria-label={current.title.join(" ")}>
                 <span className="hero-title-mask">
                   <span className="hero-enter" style={{ "--delay": "70ms" }}>
@@ -2151,6 +2150,7 @@ function App() {
   else page = <NotFound />;
   return (
     <MotionConfig reducedMotion="user">
+      <BackgroundMarks />
       <div
         className="site-shell"
         data-opening={opening}

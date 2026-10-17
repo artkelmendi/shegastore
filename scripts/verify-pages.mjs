@@ -15,7 +15,8 @@ for (const width of [1440, 390, 320]) {
   await page.goto(origin);
   await page.locator(".opening").waitFor({ state: "hidden", timeout: 8000 });
   await page.waitForTimeout(700);
-  assert.equal(await page.locator("canvas").count(), 0);
+  assert.equal(await page.locator("canvas.background-marks").count(), 1);
+  assert.equal(await page.locator(".hero canvas").count(), 0);
   assert.equal(await page.locator(".category-hoodies").count(), 1);
   assert.equal(
     await page.locator(".editorial-photo img").getAttribute("src"),
@@ -35,12 +36,10 @@ for (const width of [1440, 390, 320]) {
   await page.screenshot({ path: `artifacts/latest-hero-${width}.png` });
   await page.locator(".favorites-section").scrollIntoViewIfNeeded();
   await page.waitForTimeout(800);
-  const sizes = await page
-    .locator(".favorites-window")
-    .evaluate((el) => ({
-      width: el.clientWidth,
-      card: el.querySelector(".product-card").getBoundingClientRect().width,
-    }));
+  const sizes = await page.locator(".favorites-window").evaluate((el) => ({
+    width: el.clientWidth,
+    card: el.querySelector(".product-card").getBoundingClientRect().width,
+  }));
   if (width < 768)
     assert.ok(sizes.width >= sizes.card * 2 + 12, JSON.stringify(sizes));
   const track = page.locator(".favorites-track");
