@@ -18,6 +18,22 @@ try {
         "wolf-consent-v1",
         JSON.stringify({ version: 1, optional: false, time: Date.now() }),
       );
+      window.__introHandoff = [];
+      const removeAttribute = Element.prototype.removeAttribute;
+      Element.prototype.removeAttribute = function (name) {
+        const result = removeAttribute.call(this, name);
+        if (name === "style" && this.classList.contains("site-shell")) {
+          const veil = document.querySelector(".origin-veil");
+          if (veil) {
+            const style = getComputedStyle(veil);
+            window.__introHandoff.push({
+              opacity: Number(style.opacity),
+              visibility: style.visibility,
+            });
+          }
+        }
+        return result;
+      };
     }, theme);
     const page = await context.newPage();
     page.on("pageerror", (e) => errors.push(e.message));
@@ -124,6 +140,14 @@ try {
       .locator(".origin-entrance")
       .waitFor({ state: "detached", timeout: 5000 });
     const afterRelease = await measure();
+    const handoff = await page.evaluate(() => window.__introHandoff);
+    assert.ok(handoff.length > 0, "Observed the entrance layer release");
+    assert.ok(
+      handoff.every(
+        (frame) => frame.visibility === "hidden" || frame.opacity === 0,
+      ),
+      "The white veil cannot reappear while the page layer is released",
+    );
     beforeRelease.forEach((box, i) =>
       box.forEach((value, j) =>
         assert.ok(

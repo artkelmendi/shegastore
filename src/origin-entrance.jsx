@@ -17,10 +17,12 @@ const out = "cubic-bezier(0.23, 1, 0.32, 1)",
 export function OriginEntrance({ onReveal, onComplete }) {
   const callbacks = useRef({ onReveal, onComplete });
   callbacks.current = { onReveal, onComplete };
-  const emblem = useRef(),
+  const entrance = useRef(),
+    emblem = useRef(),
     veil = useRef(),
     finish = useRef();
   useLayoutEffect(() => {
+    entrance.current.style.visibility = "visible";
     const root = document.documentElement,
       shell = document.querySelector(".site-shell");
     const previousOverflow = document.body.style.overflow,
@@ -46,6 +48,10 @@ export function OriginEntrance({ onReveal, onComplete }) {
     document.body.style.overflow = "hidden";
     root.dataset.originExperiment = "pending";
     const restore = () => {
+      // Cancelling the veil's finished fade restores its CSS opacity to 1.
+      // Hide the entire intro before cancellation or dropping the page's z-index;
+      // React may commit the unmount on a later frame, especially on mobile.
+      entrance.current.style.visibility = "hidden";
       animations.forEach((animation) => animation.cancel());
       originalStyles.forEach((style, el) =>
         style === null
@@ -244,6 +250,7 @@ export function OriginEntrance({ onReveal, onComplete }) {
   }, []);
   return (
     <div
+      ref={entrance}
       className="origin-entrance"
       aria-label="Waking Wolf Shop"
       role="region"

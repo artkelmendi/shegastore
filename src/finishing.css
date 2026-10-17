@@ -14,76 +14,96 @@ html {
   border: 2px solid #f2edee;
   border-radius: 12px;
 }
-.outfit-edit {
-  margin-block: 110px 100px;
+/* A short social handoff before the footer, using the store's existing type. */
+.instagram-strip {
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  border-top: 2px solid var(--red);
-  padding-top: 32px;
-  gap: 70px;
-}
-.edit-index {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--red);
-}
-.outfit-intro h2 {
-  font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(52px, 6.5vw, 96px);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.055em;
-  margin: 30px 0 24px;
-}
-.outfit-intro h2 em {
-  font-family: var(--font-heading);
-  font-style: normal;
-  color: var(--red);
-  font-weight: 700;
-}
-.outfit-intro > p {
-  font-size: 14px;
-  color: #777;
-}
-.edit-signoff {
-  display: block;
-  margin-top: 28px;
-  font-size: 11px;
-  letter-spacing: 0.02em;
-}
-.outfit-links {
-  align-self: center;
-  border-top: 1px solid #d8cece;
-}
-.outfit-links a {
-  display: flex;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
   align-items: center;
   gap: 22px;
-  padding: 29px 0;
-  border-bottom: 1px solid #d8cece;
+  margin-block: 56px 48px;
+  padding-block: 26px;
+  border-top: 2px solid var(--red);
+  border-bottom: 1px solid var(--border);
 }
-.outfit-number {
-  color: var(--red);
-  font-size: 10px;
-  align-self: flex-start;
-  padding-top: 8px;
+.instagram-symbol {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  color: var(--red-text);
+  border: 1px solid var(--border);
 }
-.outfit-links h3 {
+.instagram-copy h2 {
   font-family: var(--font-heading);
-  font-size: clamp(24px, 2.6vw, 38px);
-  font-weight: 500;
+  font-size: clamp(23px, 2.2vw, 32px);
+  font-weight: 800;
   letter-spacing: -0.035em;
-  margin-bottom: 8px;
+  line-height: 1.15;
 }
-.outfit-links p {
-  font-size: 12px;
-  color: #777;
+.instagram-copy p {
+  font-family: var(--font-body);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 6px;
 }
-.outfit-links svg {
-  margin-left: auto;
-  color: var(--red);
-  flex-shrink: 0;
+.instagram-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--red);
+  justify-self: start;
+}
+.instagram-link svg {
+  color: var(--red-text);
   transition: transform 180ms var(--ease-out);
+}
+.instagram-link:active {
+  opacity: 0.65;
+}
+@media (hover: hover) and (pointer: fine) {
+  .instagram-link:hover svg {
+    transform: translate(2px, -2px);
+  }
+}
+@media (max-width: 767px) {
+  .instagram-strip {
+    grid-template-columns: 36px minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 12px;
+    margin-block: 32px;
+    padding-block: 22px;
+    align-items: start;
+  }
+  .instagram-symbol {
+    width: 36px;
+    height: 36px;
+  }
+  .instagram-symbol svg {
+    width: 24px;
+    height: 24px;
+  }
+  .instagram-copy h2 {
+    font-size: 24px;
+  }
+  .instagram-copy p {
+    font-size: 12px;
+  }
+  .instagram-link {
+    grid-column: 2;
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .instagram-link svg {
+    transition: none;
+  }
+  .instagram-link:hover svg {
+    transform: none;
+  }
 }
 .cookie-panel {
   position: fixed;
@@ -216,31 +236,12 @@ html {
   .red-pointer {
     display: block;
   }
-  .outfit-links a:hover svg {
-    transform: translate(3px, -3px);
-  }
   .cookie-actions button:hover {
     background: var(--red);
     color: white;
   }
 }
 @media (max-width: 767px) {
-  .outfit-edit {
-    margin-block: 70px;
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding-top: 24px;
-  }
-  .outfit-intro h2 {
-    margin-block: 24px 18px;
-    font-size: 65px;
-  }
-  .edit-signoff {
-    margin-top: 16px;
-  }
-  .outfit-links a {
-    padding: 24px 0;
-  }
   .cookie-panel {
     left: 12px;
     bottom: 12px;
@@ -260,9 +261,6 @@ html {
   }
   html {
     scroll-behavior: auto;
-  }
-  .outfit-links a:hover svg {
-    transform: none;
   }
 }
 /* The native pointer stays primary: one soft highlight, attached without lag. */

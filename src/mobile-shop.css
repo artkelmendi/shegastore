@@ -1,0 +1,423 @@
+/* Local browsing experiment: keep the identity, shorten the path to a product. */
+.hero-cta-mobile,
+.shop-mobile-count,
+.footer-mobile-links {
+  display: none;
+}
+@media (min-width: 1024px) {
+  :root .hero {
+    height: clamp(520px, 64svh, 610px);
+    min-height: 0;
+  }
+}
+@media (max-width: 767px) {
+  :root .site-footer {
+    padding: 26px 0 18px;
+  }
+  :root .footer-top {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 0;
+    margin: 0;
+  }
+  :root .footer-brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    max-width: none;
+    flex: none;
+  }
+  :root .footer-brand img {
+    width: 72px;
+    height: auto;
+  }
+  :root .footer-brand p {
+    margin: 0;
+    font-size: 12px;
+    max-width: 160px;
+    line-height: 1.5;
+  }
+  :root .footer-links {
+    display: none;
+  }
+  .footer-mobile-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 16px;
+    width: 100%;
+  }
+  .footer-mobile-links :is(a, button) {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--text);
+  }
+  .footer-mobile-links :is(a, button):active {
+    color: var(--red-text);
+  }
+  :root .footer-bottom {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 16px 0 0;
+    padding: 14px 0 0;
+    font-size: 10px;
+  }
+  :root .footer-bottom > span:nth-child(2) {
+    display: none;
+  }
+  :root .footer-disclosure {
+    margin-top: 10px;
+    max-width: none;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  :root .hero {
+    height: clamp(306px, 44vw, 350px);
+    min-height: 0;
+    display: block;
+    overflow: hidden;
+  }
+  :root .hero-photography {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  :root .hero-image {
+    object-fit: cover;
+    object-position: 65% center;
+  }
+  :root .hero-shade {
+    display: block;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(
+      90deg,
+      #efefed 0%,
+      #efefedf5 28%,
+      #efefedb3 51%,
+      #efefed00 78%
+    );
+  }
+  :root[data-theme="dark"] .hero-shade {
+    background: linear-gradient(
+      90deg,
+      #101114 0%,
+      #101114f5 28%,
+      #101114b3 51%,
+      #10111400 78%
+    );
+  }
+  :root .hero-content {
+    position: relative;
+    inset: auto;
+    padding: 22px 18px 44px;
+    width: 68%;
+    height: 100%;
+    margin: 0;
+  }
+  :root .hero-message {
+    width: 100%;
+  }
+  :root .hero-signature {
+    width: 76px;
+    margin-bottom: 12px;
+  }
+  :root .hero-title {
+    font-size: clamp(31px, 8.8vw, 48px);
+    line-height: 1.03;
+  }
+  :root .hero-title .accent {
+    font-size: clamp(42px, 12vw, 64px);
+    line-height: 1.07;
+  }
+  :root .hero-description {
+    max-width: 175px;
+    font-size: 11px;
+    line-height: 1.5;
+    margin: 12px 0 16px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  :root .hero .button {
+    min-width: 0;
+    min-height: 42px;
+    height: 42px;
+    width: 140px;
+    padding: 0 14px;
+    gap: 12px;
+    font-size: 10px;
+  }
+  .hero-cta-desktop {
+    display: none;
+  }
+  .hero-cta-mobile {
+    display: inline;
+  }
+  :root .hero-pagination {
+    position: absolute;
+    bottom: 10px;
+    left: 18px;
+    right: 12px;
+    width: auto;
+    padding: 0;
+    background: none;
+    gap: 10px;
+    min-height: 28px;
+  }
+  :root .hero-slide-name {
+    display: block;
+    font-size: 9px;
+  }
+  :root .hero-pagination .circle-button {
+    width: 30px;
+    height: 30px;
+    background: var(--surface-input);
+  }
+  :root .hero-arrows {
+    gap: 5px;
+  }
+  :root .brand-marquee {
+    padding: 14px 12px;
+    margin-top: 10px;
+  }
+  :root .brand-band-heading {
+    display: none;
+  }
+  :root .brand-marquee-group {
+    height: 32px;
+  }
+  :root .brand-band-logo {
+    width: 90px;
+  }
+  :root .favorites-section {
+    padding-top: 26px;
+    padding-bottom: 24px;
+  }
+  :root .favorites-section .section-heading {
+    margin-bottom: 18px;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  :root .favorites-section .section-heading > div {
+    flex-basis: auto;
+  }
+  :root .favorites-window {
+    container-type: inline-size;
+  }
+  :root .favorites-group .product-card {
+    width: calc((100cqw - 12px) / 2);
+  }
+  :root .favorites-section .eyebrow {
+    display: none;
+  }
+  :root .favorites-section .section-heading h2 {
+    font-size: 27px;
+  }
+  :root .favorites-section .text-link {
+    font-size: 11px;
+  }
+  :root .category-section {
+    padding-top: 20px;
+  }
+
+  /* A compact catalogue header and an intentional two-piece browsing grid. */
+  :root:has(.shop-page) .background-marks {
+    visibility: hidden;
+  }
+  :root .shop-page {
+    padding-top: 98px;
+    padding-inline: 16px;
+    width: 100%;
+    margin-inline: 0;
+  }
+  :root .shop-page .breadcrumbs {
+    margin-bottom: 14px;
+    font-size: 10px;
+  }
+  :root .shop-page .page-intro {
+    padding-bottom: 18px;
+  }
+  :root .shop-page .page-intro > .eyebrow,
+  :root .shop-page .page-intro > p:last-child {
+    display: none;
+  }
+  .shop-heading-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  :root .shop-page .page-intro h1 {
+    font-size: 33px;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+  }
+  .shop-mobile-count {
+    display: block;
+    flex: 0 0 auto;
+    color: var(--muted);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+  }
+  :root .shop-tabs {
+    gap: 6px;
+    border: 0;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .shop-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  :root .shop-tabs button {
+    min-height: 44px;
+    padding: 0 13px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    background: var(--surface);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  :root .shop-tabs button.active {
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--surface);
+    box-shadow: inset 0 -3px var(--red);
+  }
+  :root .shop-toolbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 12px 0 18px;
+    gap: 10px;
+  }
+  :root .shop-toolbar .results-count {
+    display: none;
+  }
+  :root .filter-toggle {
+    min-height: 44px;
+    border: 1px solid var(--border);
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  :root .filter-toggle svg {
+    color: var(--red-text);
+  }
+  .filter-toggle[aria-expanded="true"] {
+    background: var(--surface-raised);
+  }
+  :root .sort-select {
+    position: relative;
+    margin: 0;
+    border: 1px solid var(--border);
+    min-width: 0;
+    width: 100%;
+    max-width: none;
+  }
+  :root .sort-select select {
+    height: 44px;
+    width: 100%;
+    max-width: none;
+    padding: 0 26px 0 12px;
+    font-size: 16px;
+    color: var(--text);
+  }
+  :root .sort-select svg {
+    position: absolute;
+    right: 10px;
+    margin: 0;
+  }
+  :root .filter-panel {
+    margin-bottom: 16px;
+    padding: 16px;
+    gap: 14px;
+  }
+  :root .filter-panel label {
+    font-size: 12px;
+  }
+  :root .filter-panel select {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  :root .filter-panel .text-link {
+    font-size: 12px;
+    min-height: 44px;
+  }
+  :root .shop-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 10px;
+  }
+  :root .shop-products .product-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  :root .shop-products .product-image-wrap {
+    order: 0;
+    margin-bottom: 10px;
+  }
+  :root .shop-products .product-meta {
+    display: contents;
+  }
+  :root .shop-products .product-brand {
+    order: 1;
+    font-size: 10px;
+    line-height: 1.4;
+    margin-bottom: 4px;
+    letter-spacing: 0.035em;
+  }
+  :root .shop-products .product-name {
+    order: 2;
+    font-size: 13px;
+    line-height: 1.4;
+    min-height: 2.8em;
+    margin: 0 0 7px;
+    color: var(--text);
+  }
+  :root .shop-products .product-meta > span:last-child {
+    order: 3;
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  :root .shop-products .product-color {
+    order: 4;
+    margin-top: 6px;
+    gap: 5px;
+    font-size: 10px;
+  }
+  :root .shop-products .product-save {
+    width: 40px;
+    height: 40px;
+    top: 0;
+    right: 0;
+  }
+  :root .shop-products .product-save svg {
+    width: 17px;
+  }
+  :root .shop-disclosure {
+    margin-top: 30px;
+  }
+  :root .shop-tabs button:active,
+  :root .filter-toggle:active {
+    opacity: 0.7;
+  }
+}

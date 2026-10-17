@@ -55,7 +55,7 @@ import { staticPreview } from "./api";
 import { ThemeProvider, ThemeToggle, useTheme } from "./theme";
 import { BackgroundMarks, DrawnHeroLogo } from "./brand-motion";
 import {
-  OutfitEdit,
+  InstagramStrip,
   CookieConsent,
   CookieSettingsButton,
   SmoothExperience,
@@ -70,6 +70,7 @@ import { originEnabled, OriginEntrance } from "./origin-entrance";
 
 import { ScrollDetails } from "./scroll-details";
 import "./wolf-theme.css";
+import "./mobile-shop.css";
 
 const Store = createContext();
 const ease = [0.23, 1, 0.32, 1];
@@ -566,7 +567,12 @@ function Home({ ready = true }) {
                 {current.copy}
               </p>
               <div className="hero-enter" style={{ "--delay": "310ms" }}>
-                <Button to={current.link}>Explore the collection</Button>
+                <Button to={current.link}>
+                  <span className="hero-cta-desktop">
+                    Explore the collection
+                  </span>
+                  <span className="hero-cta-mobile">Shop now</span>
+                </Button>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -606,6 +612,7 @@ function Home({ ready = true }) {
         </div>
       </section>
       <BrandMarquee />
+      <FavoritesCarousel />
       <section
         className="category-section page-width"
         aria-label="Shop by category"
@@ -663,7 +670,6 @@ function Home({ ready = true }) {
           ))}
         </div>
       </section>
-      <FavoritesCarousel />
       <section className="editorial-section page-width">
         <Reveal className="editorial-photo">
           <img
@@ -702,7 +708,7 @@ function Home({ ready = true }) {
           </Reveal>
         </div>
       </section>
-      <OutfitEdit />
+      <InstagramStrip />
     </>
   );
 }
@@ -941,7 +947,12 @@ function Shop() {
       </div>
       <Reveal className="page-intro">
         <p className="eyebrow">WOLF SHOP / SHOP</p>
-        <h1>{title}</h1>
+        <div className="shop-heading-row">
+          <h1>{title}</h1>
+          <span className="shop-mobile-count" aria-live="polite">
+            {filtered.length} pieces
+          </span>
+        </div>
         <p>T-shirts, hoodies and sweatshirts. Find your fit.</p>
       </Reveal>
       <div className="shop-tabs" aria-label="Product categories">
@@ -1755,6 +1766,14 @@ function Footer() {
             </Link>
             <p>Wear your own statement.</p>
           </div>
+          <nav className="footer-mobile-links" aria-label="Footer navigation">
+            <Link to="/shop">Shop the collection</Link>
+            <Link to="/contact">Contact us</Link>
+            <Link to="/faq">Common questions</Link>
+            <Link to="/delivery">Delivery &amp; returns</Link>
+            <Link to="/privacy">Privacy information</Link>
+            <CookieSettingsButton />
+          </nav>
           <div className="footer-links">
             <div>
               <h3>THE COLLECTION</h3>

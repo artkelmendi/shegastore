@@ -9,57 +9,34 @@ import {
 } from "motion/react";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
-import { ArrowUpRight, X, Check } from "@phosphor-icons/react";
+import { ArrowUpRight, InstagramLogo, X, Check } from "@phosphor-icons/react";
+import { socialLinks } from "./site-config";
 import "./finishing.css";
 
-export function OutfitEdit() {
+export function InstagramStrip() {
   return (
     <section
-      className="outfit-edit page-width"
+      className="instagram-strip page-width"
       data-reveal=""
-      aria-labelledby="outfit-heading"
+      aria-labelledby="instagram-heading"
     >
-      <div className="outfit-intro">
-        <span className="edit-index">THE DRESS CODE / 03 WAYS IN</span>
-        <h2 id="outfit-heading">
-          What’s
-          <br />
-          the <em>plan?</em>
+      <span className="instagram-symbol" aria-hidden="true">
+        <InstagramLogo size={30} weight="light" />
+      </span>
+      <div className="instagram-copy">
+        <h2 id="instagram-heading">
+          See new arrivals and the details up close.
         </h2>
-        <p>A few good pieces. Somewhere to go.</p>
-        <span className="edit-signoff">Wear it your way. — Wolf Shop</span>
+        <p>Follow Wolf Shop on Instagram for more.</p>
       </div>
-      <div className="outfit-links">
-        {[
-          [
-            "01",
-            "Out of office",
-            "T-shirts for the unplanned days.",
-            "/shop?category=T-Shirts",
-          ],
-          [
-            "02",
-            "After hours",
-            "A sweatshirt. Your usual spot.",
-            "/shop?category=Sweatshirts",
-          ],
-          [
-            "03",
-            "Taking it easy",
-            "Hood up. Plans optional.",
-            "/shop?category=Hoodies",
-          ],
-        ].map(([number, title, copy, to]) => (
-          <Link to={to} key={number}>
-            <span className="outfit-number">{number}</span>
-            <div>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-            </div>
-            <ArrowUpRight size={25} />
-          </Link>
-        ))}
-      </div>
+      <a
+        className="instagram-link"
+        href={socialLinks.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open Instagram <ArrowUpRight size={19} aria-hidden="true" />
+      </a>
     </section>
   );
 }
