@@ -88,6 +88,10 @@ export function BackgroundMarks({ contained = false }) {
       last = 0,
       disposed = false;
     let ripples = [];
+    const scroll = { current: window.scrollY, target: window.scrollY };
+    const onScroll = () => {
+      scroll.target = window.scrollY;
+    };
     const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
     const resize = () => {
       width = element.clientWidth;
@@ -122,12 +126,20 @@ export function BackgroundMarks({ contained = false }) {
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
       context.clearRect(0, 0, width, height);
       const time = reduced ? 0 : now / 1000;
+      scroll.current += (scroll.target - scroll.current) * 0.12;
+      const travel = reduced || contained ? 0 : scroll.current;
       ripples = ripples.filter((ripple) => now - ripple.born < 2400);
       for (const [nx, ny, base, rotation, phase] of marks) {
         const size = base * (width < 768 ? 0.7 : 1);
         const h = (size * 338) / 345;
-        const cx = width * nx + Math.sin(time * 0.075 + phase) * 22;
-        const cy = height * ny + Math.cos(time * 0.065 + phase) * 25;
+        const cx =
+          width * nx +
+          Math.sin(time * 0.075 + phase) * 22 +
+          (Math.sin(travel * 0.0013 + phase) - Math.sin(phase)) * 8;
+        const cy =
+          height * ny +
+          Math.cos(time * 0.065 + phase) * 25 +
+          (Math.sin(travel * 0.002 + phase) - Math.sin(phase)) * 18;
         const angle =
           rotation + (reduced ? 0 : Math.sin(time * 0.045 + phase) * 0.035);
         const cos = Math.cos(angle),
@@ -232,6 +244,7 @@ export function BackgroundMarks({ contained = false }) {
     };
     picture.src = `${import.meta.env.BASE_URL}logos/shega-mark.svg`;
     addEventListener("resize", resize);
+    if (!reduced) addEventListener("scroll", onScroll, { passive: true });
     const observer = new ResizeObserver(resize);
     observer.observe(element);
     addEventListener("pointermove", move, { passive: true });
@@ -244,6 +257,7 @@ export function BackgroundMarks({ contained = false }) {
       cancelAnimationFrame(frame);
       observer.disconnect();
       removeEventListener("resize", resize);
+      removeEventListener("scroll", onScroll);
       removeEventListener("pointermove", move);
       removeEventListener("pointerdown", press);
       removeEventListener("blur", leave);

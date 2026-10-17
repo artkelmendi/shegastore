@@ -1,0 +1,292 @@
+{
+  "390": {
+    ".site-header": {
+      "rect": [
+        0,
+        0,
+        380,
+        76
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": "0"
+    },
+    ".header-brand": {
+      "rect": [
+        18,
+        19,
+        116,
+        39
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": ""
+    },
+    ".desktop-nav": {
+      "rect": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "13px",
+      "weight": "500",
+      "color": "rgb(25, 25, 25)",
+      "text": "ShopSaleContact usCommon questions"
+    },
+    ".hero": {
+      "rect": [
+        12,
+        88,
+        356,
+        719.96875
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": "Dress Like\nyourself.\n\nDistinctive pieces. Iconic names. A wardrobe with a point of view.\n\nEXPLORE THE COLLECTION\nThe BOSS edit"
+    },
+    ".hero-content": {
+      "rect": [
+        12,
+        88,
+        356,
+        343.96875
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": "Dress Like\nyourself.\n\nDistinctive pieces. Iconic names. A wardrobe with a point of view.\n\nEXPLORE THE COLLECTION"
+    },
+    ".hero-signature": {
+      "rect": [
+        36,
+        124,
+        135,
+        47.390625
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": ""
+    },
+    ".hero-title": {
+      "rect": [
+        33,
+        190.390625,
+        311,
+        90.984375
+      ],
+      "font": "\"Cabinet Grotesk\", sans-serif",
+      "fontSize": "43px",
+      "weight": "800",
+      "color": "rgb(25, 25, 25)",
+      "text": "Dress Like\nyourself."
+    },
+    ".hero-description": {
+      "rect": [
+        36,
+        298.375,
+        300,
+        39.59375
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "12px",
+      "weight": "400",
+      "color": "rgb(74, 74, 71)",
+      "text": "Distinctive pieces. Iconic names. A wardrobe with a point of view."
+    },
+    ".hero .button": {
+      "rect": [
+        36,
+        359.96875,
+        249.640625,
+        52
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "11px",
+      "weight": "700",
+      "color": "rgb(255, 255, 255)",
+      "text": "EXPLORE THE COLLECTION"
+    },
+    ".hero-pagination": {
+      "rect": [
+        12,
+        743.96875,
+        356,
+        64
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": "The BOSS edit"
+    },
+    ".brand-marquee": {
+      "rect": [
+        12,
+        819.96875,
+        356,
+        128.4375
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(255, 255, 255)",
+      "text": "In good company."
+    }
+  },
+  "1440": {
+    ".site-header": {
+      "rect": [
+        0,
+        0,
+        1430,
+        90
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": "Shop\nSale\nContact us\nCommon questions\n0"
+    },
+    ".header-brand": {
+      "rect": [
+        64.796875,
+        22.5,
+        134,
+        46
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": ""
+    },
+    ".desktop-nav": {
+      "rect": [
+        228.796875,
+        22.5,
+        988.40625,
+        46
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "14px",
+      "weight": "500",
+      "color": "rgb(25, 25, 25)",
+      "text": "Shop\nSale\nContact us\nCommon questions"
+    },
+    ".hero": {
+      "rect": [
+        16,
+        104,
+        1398,
+        700
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": "Dress Like\nyourself.\n\nDistinctive pieces. Iconic names. A wardrobe with a point of view.\n\nEXPLORE THE COLLECTION\nThe BOSS edit"
+    },
+    ".hero-content": {
+      "rect": [
+        80.796875,
+        104,
+        1268.390625,
+        594.125
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": "Dress Like\nyourself.\n\nDistinctive pieces. Iconic names. A wardrobe with a point of view.\n\nEXPLORE THE COLLECTION"
+    },
+    ".hero-signature": {
+      "rect": [
+        80.796875,
+        176,
+        155,
+        54.40625
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": ""
+    },
+    ".hero-title": {
+      "rect": [
+        77.796875,
+        252.40625,
+        573.765625,
+        165.125
+      ],
+      "font": "\"Cabinet Grotesk\", sans-serif",
+      "fontSize": "79.2px",
+      "weight": "800",
+      "color": "rgb(25, 25, 25)",
+      "text": "Dress Like\nyourself."
+    },
+    ".hero-description": {
+      "rect": [
+        80.796875,
+        442.53125,
+        300,
+        47.59375
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "14px",
+      "weight": "400",
+      "color": "rgb(74, 74, 71)",
+      "text": "Distinctive pieces. Iconic names. A wardrobe with a point of view."
+    },
+    ".hero .button": {
+      "rect": [
+        80.796875,
+        519.125,
+        257.640625,
+        55
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "11px",
+      "weight": "700",
+      "color": "rgb(255, 255, 255)",
+      "text": "EXPLORE THE COLLECTION"
+    },
+    ".hero-pagination": {
+      "rect": [
+        80.796875,
+        726,
+        289.640625,
+        56
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(25, 25, 25)",
+      "text": "The BOSS edit"
+    },
+    ".brand-marquee": {
+      "rect": [
+        16,
+        822,
+        1398,
+        159.671875
+      ],
+      "font": "Satoshi, Arial, sans-serif",
+      "fontSize": "16px",
+      "weight": "400",
+      "color": "rgb(255, 255, 255)",
+      "text": "In good company.\n\nICONIC LABELS. YOUR OWN WAY."
+    }
+  }
+}

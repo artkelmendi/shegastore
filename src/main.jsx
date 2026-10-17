@@ -62,6 +62,9 @@ import "./styles.css";
 import "./editorial.css";
 import "./brand-motion.css";
 import "./type-system.css";
+import { originEnabled, OriginEntrance } from "./origin-entrance";
+
+import { ScrollDetails } from "./scroll-details";
 
 const Store = createContext();
 const ease = [0.23, 1, 0.32, 1];
@@ -2056,6 +2059,7 @@ function App() {
       setOpening("complete");
       return;
     }
+    if (originEnabled) return;
     const timers = [];
     const wait = (ms) =>
       new Promise((resolve) => timers.push(setTimeout(resolve, ms)));
@@ -2123,6 +2127,7 @@ function App() {
       <SmoothExperience blocked={opening !== "complete" || Boolean(overlay)} />
       <RedPointer />
       <DetailReveals route={location.pathname} />
+      <ScrollDetails ready={opening === "complete"} route={location.pathname} />
       <div
         className="site-shell"
         data-opening={opening}
@@ -2184,9 +2189,15 @@ function App() {
         </div>
       </div>
       <CookieConsent ready={opening === "complete"} />
-      {opening !== "complete" && (
-        <Opening phase={opening} onComplete={() => setOpening("complete")} />
-      )}
+      {opening !== "complete" &&
+        (originEnabled ? (
+          <OriginEntrance
+            onReveal={() => setOpening("departing")}
+            onComplete={() => setOpening("complete")}
+          />
+        ) : (
+          <Opening phase={opening} onComplete={() => setOpening("complete")} />
+        ))}
     </MotionConfig>
   );
 }

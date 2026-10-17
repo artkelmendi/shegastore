@@ -11,7 +11,9 @@ for (const width of [1440, 390, 320]) {
   });
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto(origin);
-  await page.locator(".opening").waitFor({ state: "hidden", timeout: 8000 });
+  await page
+    .locator(".opening, .origin-entrance")
+    .waitFor({ state: "hidden", timeout: 8000 });
   await page.locator(".cookie-panel").waitFor();
   assert.equal(await page.locator(".newsletter-section").count(), 0);
   assert.equal(await page.locator(".outfit-links a").count(), 3);
@@ -31,7 +33,9 @@ for (const width of [1440, 390, 320]) {
     false,
   );
   await page.reload();
-  await page.locator(".opening").waitFor({ state: "hidden", timeout: 8000 });
+  await page
+    .locator(".opening, .origin-entrance")
+    .waitFor({ state: "hidden", timeout: 8000 });
   await page.waitForTimeout(1000);
   assert.equal(await page.locator(".cookie-panel").count(), 0);
   await page

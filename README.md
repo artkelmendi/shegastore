@@ -75,3 +75,11 @@ The shop now uses Cabinet Grotesk headings, with Satoshi category tabs, product 
 `src/type-system.css` provides the shared type scale, control fonts, red details and spacing. Cabinet Grotesk 800 is used for headings; Satoshi 400/500/700 is used for readable text and interface controls. Telma is reserved for the hero signature. Legacy Clash Display, Panchang and Chillax font declarations and the obsolete preload have been removed.
 
 `node scripts/verify-type-system.mjs` audits rendered text fonts and overflow on 10 pages at 1440, 768, 390 and 320px, and verifies pointer hover/press feedback. Existing Motion reveals are supplemented with a reduced-motion-aware entrance for the FAQ, information pages, outfit edit and footer. The pointer remains attached to the native cursor without lag.
+
+## Origin entrance and scroll details
+
+The approved origin-based entrance is now the default in both development and production. A single document-timeline clock coordinates the circular reveal, logo, hero, navigation and controls over roughly 2.7 seconds. Fonts and the first hero image get a bounded readiness check, and a quiet first paint avoids compositing during the moving reveal. Final geometry is restored exactly; in-app navigation does not replay the opening.
+
+Use `?entrance=classic` to preview the preserved original opening. Escape or viewport changes safely settle the scene; reduced motion goes straight to the finished page. `scripts/verify-origin-entrance.mjs` verifies the production build against the original layout fixture, including mobile, slow assets and fallback behavior.
+
+Faint background marks now respond gently to scrolling as well as their existing slow drift and water interaction. The brand-strip G dividers and small editorial marks receive a bounded scroll rotation and translation. `ScrollDetails` only updates visible decorative elements and cleans up on navigation; all scroll effects stay static under reduced motion. Text, product cards and click targets retain their positions.

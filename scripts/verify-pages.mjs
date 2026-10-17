@@ -13,7 +13,9 @@ const origin =
 for (const width of [1440, 390, 320]) {
   await page.setViewportSize({ width, height: 950 });
   await page.goto(origin);
-  await page.locator(".opening").waitFor({ state: "hidden", timeout: 8000 });
+  await page
+    .locator(".opening, .origin-entrance")
+    .waitFor({ state: "hidden", timeout: 8000 });
   await page.waitForTimeout(700);
   assert.equal(await page.locator("canvas.background-marks").count(), 1);
   assert.equal(await page.locator(".hero canvas").count(), 0);
@@ -70,7 +72,9 @@ for (const route of [
   "product/boss-signature-hoodie/",
 ]) {
   await page.goto(new URL(route, origin).href);
-  await page.locator(".opening").waitFor({ state: "hidden", timeout: 8000 });
+  await page
+    .locator(".opening, .origin-entrance")
+    .waitFor({ state: "hidden", timeout: 8000 });
   assert.equal(await page.locator(".not-found").count(), 0);
   assert.ok(await page.locator("h1").innerText());
 }
