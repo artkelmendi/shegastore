@@ -17,8 +17,7 @@
       } catch {}
       if (
         !/(?:^|\/)(?:login|admin|account)(?:\/|$)/.test(location.pathname) &&
-        new URLSearchParams(location.search).get("entrance") !== "classic" &&
-        !matchMedia("(prefers-reduced-motion: reduce)").matches
+        new URLSearchParams(location.search).get("entrance") !== "classic"
       )
         document.documentElement.dataset.originExperiment = "pending";
     </script>

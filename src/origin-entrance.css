@@ -18,26 +18,24 @@ html[data-origin-experiment="pending"] .red-pointer,
 html[data-origin-experiment="unfolding"] .red-pointer {
   visibility: hidden;
 }
-html[data-origin-experiment="pending"] .hero-image,
-html[data-origin-experiment="unfolding"] .hero-image {
-  transition: none;
-}
 .origin-entrance {
-  position: absolute;
-  inset: 0;
-  z-index: auto;
-  pointer-events: none;
-  color: #16171a;
-}
-.origin-veil {
   position: fixed;
   inset: 0;
   z-index: 70;
+  pointer-events: auto;
+  touch-action: none;
+  overscroll-behavior: contain;
+  color: #16171a;
+}
+.origin-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background: #fff;
 }
 .origin-emblem {
-  position: fixed;
-  z-index: 72;
+  position: absolute;
+  z-index: 1;
   top: 50%;
   left: 50%;
   width: clamp(360px, 44vw, 680px);
@@ -63,8 +61,8 @@ html[data-origin-experiment="unfolding"] .hero-image {
   }
 }
 .origin-skip {
-  position: fixed;
-  z-index: 73;
+  position: absolute;
+  z-index: 2;
   bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   right: 24px;
   color: #66676a;
@@ -86,9 +84,6 @@ html[data-origin-experiment="unfolding"] .hero-image {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .origin-entrance {
-    display: none;
-  }
   html[data-origin-experiment] .site-shell {
     clip-path: none !important;
   }

@@ -12,9 +12,11 @@ The original artwork red is **#FF0033**. Text and filled action buttons use rela
 
 ## Entrance
 
-The entrance starts on pure white in either theme. Only the original red eye contours appear, with the ticket's 30-degree tilt removed so both eyes sit level. They are deliberately large on desktop (44vw, capped at 680px) and proportioned for mobile (68vw, capped at 400px). They resolve softly into a steady gaze, easing slightly inward without blinking or squeezing, then dive forward past the viewer. The full page crossfades beneath the dive, followed by staggered imagery, header, logo and typography. Document height stays unchanged and the timeline waits for the last stagger before releasing the intro; no viewport crop is removed at the handoff. The ticket and wordmark stay hidden throughout the intro; the full logo remains in the finished hero. The sequence runs for approximately 3.1 seconds. Font/image preparation is bounded and overlaps the gaze reveal.
+The entrance starts on pure white in either theme. The original red eye contours sit level, resolve into a steady gaze and then dive forward. The page appears through a fading white viewport cover, followed by staggered hero elements. The underlying document keeps its normal opacity, stacking order, height and scroll behaviour throughout; the intro never promotes or fades the whole document. The cover is hidden before animation cancellation, after two final paint frames. The sequence runs for approximately 3.1 seconds, with bounded font/image preparation overlapping the gaze.
 
-The implementation uses WAAPI, the existing easing tokens, opacity, transforms and clip masks. Escape, the Skip entrance button, a substantial width/orientation change, or enabling reduced motion immediately settles the page and restores scrolling. Reduced-motion users enter directly. Sign-in/admin/account pages skip the marketing entrance. `?entrance=classic` keeps a simple full-logo fallback.
+With Reduce Motion enabled, the entrance uses a short opacity-only eye/cover fade (about 1.1 seconds), with no zoom, sliding or parallax. It no longer skips straight to the hero. Responsive viewport changes do not cancel either variant. A background-first tab waits until it becomes visible before starting. Escape, Skip entrance or enabling reduced motion during a full entrance settles immediately. Sign-in/admin/account pages skip the marketing entrance. `?entrance=classic` keeps the simple full-logo fallback.
+
+`window.__wolfOrigin` records the selected mode, phase, completion reason and any caught animation error. Animation errors release the page through a short cover fade rather than an abrupt cut.
 
 ## Existing data
 
@@ -24,6 +26,7 @@ The database and authentication cookie identifiers are deliberately unchanged so
 
 ```powershell
 node scripts/verify-wolf.mjs
+node scripts/verify-safari-entrance.mjs
 npm run test:api
 npm run test:workspace
 npm run build

@@ -2165,17 +2165,18 @@ function App() {
   // A fresh document always gets the opening; in-app navigation never replays it.
   const [opening, setOpening] = useState(() =>
     /^\/account(\/|$)/.test(location.pathname) ||
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    (!originEnabled &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches)
       ? "complete"
       : "arriving",
   );
   const previousPath = useRef(location.pathname);
   useEffect(() => {
+    if (originEnabled) return;
     if (reduced) {
       setOpening("complete");
       return;
     }
-    if (originEnabled) return;
     const timers = [];
     const wait = (ms) =>
       new Promise((resolve) => timers.push(setTimeout(resolve, ms)));

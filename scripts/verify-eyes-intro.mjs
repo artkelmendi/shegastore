@@ -19,10 +19,10 @@ try {
         JSON.stringify({ version: 1, optional: false, time: Date.now() }),
       );
       window.__introHandoff = [];
-      const removeAttribute = Element.prototype.removeAttribute;
-      Element.prototype.removeAttribute = function (name) {
-        const result = removeAttribute.call(this, name);
-        if (name === "style" && this.classList.contains("site-shell")) {
+      const cancel = Animation.prototype.cancel;
+      Animation.prototype.cancel = function () {
+        const result = cancel.call(this);
+        if (window.__wolfOrigin?.phase === "settling") {
           const veil = document.querySelector(".origin-veil");
           if (veil) {
             const style = getComputedStyle(veil);
@@ -40,7 +40,7 @@ try {
     await page.goto(base);
     await page.waitForFunction(() =>
       window.__wolfOrigin?.animations.some((a) =>
-        a.effect.target.classList.contains("site-shell"),
+        a.effect.target.classList.contains("origin-veil"),
       ),
     );
     await page.evaluate(() => {
@@ -198,7 +198,8 @@ try {
   const page = await browser.newPage({ reducedMotion: "reduce" });
   await page.goto(base);
   await expect(page.locator(".hero-title")).toBeVisible();
-  assert.equal(await page.locator(".origin-entrance").count(), 0);
+  await page.locator(".origin-entrance").waitFor({ state: "detached" });
+  assert.equal(await page.evaluate(() => window.__wolfOrigin.mode), "gentle");
   assert.equal(
     await page.locator(".site-shell").evaluate((el) => el.inert),
     false,
