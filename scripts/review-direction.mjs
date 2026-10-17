@@ -41,10 +41,12 @@ assert.equal(
   0,
 );
 
-for (const width of [1440, 390]) {
+assert.equal(await page.locator(".hero-image").count(), 2);
+assert.equal(await page.locator('.hero img[src*="campaign-"]').count(), 0);
+for (const width of [1440, 1024, 768, 390, 320]) {
   await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
   await page.goto("http://localhost:5173/", { waitUntil: "networkidle" });
-  for (let slide = 0; slide < 3; slide++) {
+  for (let slide = 0; slide < 2; slide++) {
     await page.waitForTimeout(1000);
     const active = page.locator(".hero-image.is-active");
     assert.equal(
@@ -97,7 +99,8 @@ const result = {
     "Stable hero position after initial load",
     "New locally hosted fonts loaded",
     "Removed hoodie uniform tile",
-    "All campaign photos visible on desktop and mobile",
+    "Both supplied hero images replace the previous campaign photos",
+    "Both hero slides visible at five screen widths",
     "Scrolling reveals",
   ],
   errors,

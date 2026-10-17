@@ -290,25 +290,17 @@ const heroSlides = [
   {
     title: ["DRESS LIKE", "YOURSELF."],
     copy: "Distinctive pieces. Iconic names. A wardrobe with a point of view.",
-    image: "campaign-country",
-    alt: "David Beckham in layered BOSS outerwear beside a vintage convertible, with a country house and trees behind him",
-    label: "The signature edit",
+    image: "shega-boss-hero",
+    alt: "Stacked black and white BOSS polo shirts with contrasting collars and a patterned Porsche BOSS layer",
+    label: "The BOSS edit",
     link: "/shop",
-  },
-  {
-    title: ["THE CITY", "IS YOURS."],
-    copy: "From the first coffee to the last light. Make an entrance, every day.",
-    image: "campaign-city",
-    alt: "Aaron Pierre wearing a beige coat over a blue BOSS suit on a city street outside a storefront",
-    label: "The city edit",
-    link: "/shop?edit=new",
   },
   {
     title: ["MAKE IT", "PERSONAL."],
     copy: "Considered details. Individual style. A new perspective on your everyday wardrobe.",
-    image: "campaign-tailoring",
-    alt: "Aaron Pierre in dark BOSS tailoring beside architectural columns and a car on a city street",
-    label: "The personal edit",
+    image: "shega-armani-hero",
+    alt: "Stacked black and white Emporio Armani polo shirts with striped collars and eagle embroidery",
+    label: "The Armani edit",
     link: "/shop",
   },
 ];
@@ -396,8 +388,8 @@ function Home() {
               src={image(item.image)}
               alt={item.alt}
               aria-hidden={index !== slide}
-              width={index === 0 ? 2400 : 1280}
-              height={index === 0 ? 1100 : 853}
+              width="1672"
+              height="941"
               fetchPriority={index === 0 ? "high" : "low"}
               decoding="async"
             />
@@ -450,9 +442,6 @@ function Home() {
             </motion.div>
           </AnimatePresence>
         </div>
-        <span className="hero-photo-note">
-          THE SHEGA PERSPECTIVE <span>—</span> VOL. 01
-        </span>
         <div className="hero-pagination">
           <span className="hero-slide-name">{current.label}</span>
           <div className="hero-dots" aria-label="Hero slides">

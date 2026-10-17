@@ -41,7 +41,7 @@ assert.equal(await page.locator("h1").innerText(), "DRESS LIKE\nYOURSELF.");
 await page
   .getByRole("button", { name: "Next collection", exact: true })
   .click();
-await page.getByRole("heading", { name: "THE CITY IS YOURS." }).waitFor();
+await page.getByRole("heading", { name: "MAKE IT PERSONAL." }).waitFor();
 await page
   .getByRole("button", { name: "Previous collection", exact: true })
   .click();

@@ -1113,3 +1113,139 @@
     transition: none;
   }
 }
+
+/* The supplied still-life images leave space for dark type on the left. */
+.hero {
+  color: var(--text);
+  background: #eee;
+}
+.hero-image {
+  object-position: 70% center;
+}
+.hero-shade {
+  display: none;
+}
+.hero-message {
+  width: 45%;
+}
+.hero-title {
+  font-size: clamp(52px, 5.5vw, 94px);
+}
+.hero-content .eyebrow,
+.hero-title .accent,
+.hero-slide-name {
+  color: var(--text);
+}
+.hero-description {
+  color: #4a4a47;
+  max-width: 300px;
+}
+.hero .button {
+  background: #191919;
+  color: #fff;
+}
+.hero-pagination {
+  color: var(--text);
+  background: #fbfbfaed;
+  padding: 8px 12px 8px 18px;
+  left: var(--page-gutter);
+  right: auto;
+}
+.hero-pagination .circle-button {
+  color: var(--text);
+  border-color: #19191955;
+}
+.hero-dots button:after {
+  background: #19191940;
+}
+.hero-dots button.active:after {
+  background: var(--red);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero .button:hover {
+    background: var(--red);
+    color: #fff;
+  }
+  .hero .button:hover svg {
+    color: #fff;
+  }
+  .hero-pagination .circle-button:hover {
+    background: #1919190d;
+  }
+}
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .hero {
+    height: auto;
+    aspect-ratio: 1672 / 941;
+    min-height: 0;
+  }
+  .hero-content {
+    padding-top: 65px;
+  }
+  .hero-title {
+    font-size: 50px;
+  }
+  .hero-description {
+    max-width: 255px;
+  }
+  .hero .button {
+    min-width: 220px;
+    gap: 20px;
+  }
+}
+@media (max-width: 1023px) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-content {
+    position: relative;
+    order: 0;
+    inset: auto;
+    width: 100%;
+    padding: 36px 24px 20px;
+  }
+  .hero-message {
+    width: 100%;
+  }
+  .hero-title {
+    font-size: clamp(40px, 11.8vw, 68px);
+  }
+  .hero-content .eyebrow {
+    margin-bottom: 17px;
+  }
+  .hero-description {
+    max-width: 300px;
+    margin-block: 17px 22px;
+  }
+  .hero-photography {
+    position: relative;
+    order: 1;
+    inset: auto;
+    height: clamp(240px, 80vw, 420px);
+    width: 100%;
+  }
+  .hero-image {
+    object-position: right center;
+  }
+  .hero-photo-note {
+    display: none;
+  }
+  .hero-pagination {
+    position: relative;
+    order: 2;
+    inset: auto;
+    width: 100%;
+    padding: 14px 24px;
+    background: transparent;
+  }
+}
+@media (max-width: 360px) {
+  .hero-content {
+    width: 100%;
+    left: auto;
+    padding-inline: 19px;
+  }
+}
