@@ -1,0 +1,101 @@
+/* Original vector marks, balanced by optical width; no blend/contrast tricks. */
+:root .brand-marquee {
+  background: var(--red);
+  color: #fff;
+  border-top: 2px solid var(--red);
+  border-bottom: 0;
+  padding: 22px 0;
+}
+:root .brand-marquee-window {
+  mix-blend-mode: normal;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 3%,
+    #000 97%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 3%,
+    #000 97%,
+    transparent
+  );
+}
+:root .brand-marquee-track {
+  animation-duration: 48s;
+}
+:root .brand-marquee-group {
+  width: max-content;
+  gap: 32px;
+  padding-inline: 24px 8px;
+  height: 54px;
+}
+:root .brand-marquee .official-brand {
+  width: 120px;
+  height: 44px;
+}
+:root .brand-marquee .official-brand.brand-emporio {
+  width: 215px;
+}
+:root .brand-marquee .official-brand.brand-diesel {
+  width: 120px;
+}
+:root .brand-marquee .official-brand img {
+  width: 100%;
+  height: auto;
+  max-height: 36px;
+  object-fit: contain;
+  filter: none;
+  mix-blend-mode: normal;
+}
+:root .brand-band-divider {
+  width: 22px;
+  height: 1px;
+  background: #fff;
+  opacity: 0.4;
+}
+@media (max-width: 767px) {
+  :root .brand-marquee {
+    padding: 14px 0;
+  }
+  :root .brand-marquee-group {
+    height: 38px;
+    gap: 22px;
+    padding-inline: 16px 6px;
+  }
+  :root .brand-marquee .official-brand {
+    width: 96px;
+    height: 32px;
+  }
+  :root .brand-marquee .official-brand.brand-emporio {
+    width: 178px;
+  }
+  :root .brand-marquee .official-brand.brand-diesel {
+    width: 98px;
+  }
+  :root .brand-marquee .official-brand img {
+    max-height: 28px;
+  }
+  :root .brand-band-divider {
+    width: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root .brand-marquee-track {
+    animation: none;
+  }
+  :root .brand-marquee-window {
+    overflow-x: auto;
+  }
+  :root .brand-marquee-group[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .brand-marquee-window:hover .brand-marquee-track {
+    animation-play-state: paused;
+  }
+}

@@ -188,7 +188,10 @@ try {
     await page.locator(".origin-entrance").waitFor({ state: "detached" });
     await page.reload();
     await page.locator(".origin-skip").waitFor({ state: "attached" });
-    await page.setViewportSize({ width: width - 10, height: 900 });
+    await page.setViewportSize({
+      width: width > 1000 ? 1100 : 800,
+      height: 900,
+    });
     await page.locator(".origin-entrance").waitFor({ state: "detached" });
     await context.close();
   }

@@ -128,5 +128,20 @@
   "wolf-boss-editorial.webp": {
     "source": "User-supplied BOSS clothing display image",
     "usage": "GOOD STYLE. NO EFFORT. editorial section"
+  },
+  "brand-logo-boss": {
+    "url": "https://www.hugoboss.com/on/demandware.static/Sites-US-Site/-/default/dw6a643174/svg/all_svgs.svg",
+    "source_page": "https://www.hugoboss.com/us/men/",
+    "note": "Original boss_logo symbol extracted unchanged as a standalone SVG."
+  },
+  "brand-logo-hugo": {
+    "url": "https://www.hugoboss.com/on/demandware.static/Sites-US-Site/-/default/dw6a643174/svg/all_svgs.svg",
+    "source_page": "https://www.hugoboss.com/us/men/",
+    "note": "Original hugo_logo symbol extracted unchanged as a standalone SVG."
+  },
+  "brand-logo-diesel-wordmark": {
+    "source_page": "https://global.diesel.com/",
+    "source_asset": "public/logos/brands/diesel.svg",
+    "note": "Original six letter paths retained, cropped to their bounds, rendered in monochrome without the small tagline or background."
   }
 }

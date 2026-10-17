@@ -1,38 +1,51 @@
-/* Supplied Helvetica Now Display Regular/Medium, scoped to product cards.
- * The user's archive contains Display, rather than Nike's Text optical cut.
- */
+/* Helvetica Now Text is retained only for sale-product cards. */
 @font-face {
-  font-family: "Wolf Product Helvetica";
-  src: url("/fonts/HelveticaNowDisplay.otf") format("opentype");
+  font-family: "Wolf Product Helvetica Text";
+  src: url("/fonts/HelveticaNowText-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Wolf Product Helvetica Text";
+  src: url("/fonts/HelveticaNowText-Regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: "Wolf Product Helvetica";
-  src: url("/fonts/HelveticaNowDisplayMedium.otf") format("opentype");
+  font-family: "Wolf Product Helvetica Text";
+  src: url("/fonts/HelveticaNowText-Medium.woff2") format("woff2");
   font-style: normal;
   font-weight: 500;
   font-display: swap;
 }
 :root {
-  --product-font: "Wolf Product Helvetica", Helvetica, Arial, sans-serif;
-  --product-font-medium: "Wolf Product Helvetica", Helvetica, Arial, sans-serif;
+  --product-font: "Wolf Product Helvetica Text", Helvetica, Arial, sans-serif;
+  --product-font-medium:
+    "Wolf Product Helvetica Text", Helvetica, Arial, sans-serif;
 }
-:root :is(.shop-products, .favorites-group) .product-card {
+:root :is(.shop-products, .favorites-group) .product-card[data-sale="true"] {
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
-:root :is(.shop-products, .favorites-group) .product-image-wrap {
+:root
+  :is(.shop-products, .favorites-group)
+  .product-card[data-sale="true"]
+  .product-image-wrap {
   order: 0;
   margin-bottom: 12px;
 }
-:root :is(.shop-products, .favorites-group) .product-meta {
+:root
+  :is(.shop-products, .favorites-group)
+  .product-card[data-sale="true"]
+  .product-meta {
   display: contents;
 }
 :root
   :is(.shop-products, .favorites-group)
+  .product-card[data-sale="true"]
   :is(.product-brand, .product-name, .product-meta > span:last-child) {
   font-size: 16px;
   line-height: 24px;
@@ -40,14 +53,20 @@
   font-style: normal;
   text-transform: none;
 }
-:root :is(.shop-products, .favorites-group) .product-brand {
+:root
+  :is(.shop-products, .favorites-group)
+  .product-card[data-sale="true"]
+  .product-brand {
   order: 1;
   font-family: var(--product-font-medium);
-  font-weight: 500;
+  font-weight: 700;
   color: var(--text);
   margin: 0;
 }
-:root :is(.shop-products, .favorites-group) .product-name {
+:root
+  :is(.shop-products, .favorites-group)
+  .product-card[data-sale="true"]
+  .product-name {
   order: 2;
   font-family: var(--product-font);
   font-weight: 400;
@@ -55,17 +74,27 @@
   min-height: 0;
   margin: 0;
 }
-:root :is(.shop-products, .favorites-group) .product-meta > span:last-child {
+:root
+  :is(.shop-products, .favorites-group)
+  .product-card[data-sale="true"]
+  .product-meta
+  > span:last-child {
   order: 3;
   font-family: var(--product-font-medium);
-  font-weight: 500;
+  font-weight: 700;
   color: var(--text);
   margin-top: 4px;
 }
-:root :is(.shop-products, .favorites-group) .sale-price {
+:root
+  :is(.shop-products, .favorites-group)
+  .product-card[data-sale="true"]
+  .sale-price {
   color: var(--text);
 }
-:root :is(.shop-products, .favorites-group) .product-color {
+:root
+  :is(.shop-products, .favorites-group)
+  .product-card[data-sale="true"]
+  .product-color {
   order: 4;
   font-family: var(--product-font);
   font-size: 12px;

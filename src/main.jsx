@@ -45,8 +45,6 @@ import {
   ArrowCounterClockwise,
   Ruler,
   Trash,
-  Pause,
-  Play,
   UserCircle,
 } from "@phosphor-icons/react";
 import { brands, brandLogos, categories, money } from "./data";
@@ -72,6 +70,7 @@ import { ScrollDetails } from "./scroll-details";
 import "./wolf-theme.css";
 import "./mobile-shop.css";
 import "./product-type.css";
+import "./brand-strip.css";
 
 const Store = createContext();
 const ease = [0.23, 1, 0.32, 1];
@@ -409,18 +408,13 @@ const heroSlides = [
 ];
 
 function BrandMarquee() {
-  const [paused, setPaused] = useState(false);
   return (
     <section
       className="brand-marquee page-width"
       aria-label="Explore the brands"
     >
-      <div className="brand-band-heading">
-        <h2>In good company.</h2>
-        <p>ICONIC LABELS. YOUR OWN WAY.</p>
-      </div>
       <div className="brand-marquee-window">
-        <div className={`brand-marquee-track ${paused ? "is-paused" : ""}`}>
+        <div className="brand-marquee-track">
           {[0, 1].map((copy) => (
             <div
               className="brand-marquee-group"
@@ -436,34 +430,19 @@ function BrandMarquee() {
                     aria-label={`Shop ${brand}`}
                   >
                     <img
-                      src={brandLogos[brand]}
+                      src={brandLogos[brand].replace(".svg", "-white.svg")}
                       alt={brand}
                       width="160"
                       height="50"
                     />
                   </Link>
-                  <span className="brand-band-divider" aria-hidden="true">
-                    <img
-                      src={asset("/logos/wolf-ticket-light.svg")}
-                      alt=""
-                      width="22"
-                      height="22"
-                    />
-                  </span>
+                  <span className="brand-band-divider" aria-hidden="true" />
                 </React.Fragment>
               ))}
             </div>
           ))}
         </div>
       </div>
-      <button
-        className="marquee-control icon-button"
-        onClick={() => setPaused(!paused)}
-        aria-label={paused ? "Play brand animation" : "Pause brand animation"}
-        aria-pressed={paused}
-      >
-        {paused ? <Play size={13} /> : <Pause size={13} />}
-      </button>
     </section>
   );
 }
@@ -828,6 +807,7 @@ function ProductCard({ product, duplicate = false }) {
   return (
     <article
       className="product-card"
+      data-sale={product.oldPrice ? "true" : undefined}
       data-image-crop={product.id === "boss-ivory-hoodie" ? "full" : undefined}
     >
       <div className="product-image-wrap">
@@ -2225,6 +2205,8 @@ function App() {
     if (previousPath.current === location.pathname)
       window.scrollTo({ top: 0, behavior: "instant" });
     previousPath.current = location.pathname;
+  }, [location.pathname, location.search]);
+  useEffect(() => {
     const titles = {
       "/": "Wear your own statement.",
       "/shop": "The collection",

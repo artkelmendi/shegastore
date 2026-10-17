@@ -73,11 +73,17 @@ export function OriginEntrance({ onReveal, onComplete }) {
       if (event.key === "Escape") complete();
     };
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    const initialWidth = innerWidth;
+    const resize = () => {
+      // Safari's browser bars resize the visual viewport during first paint.
+      // Only a substantial width/orientation change should interrupt the intro.
+      if (Math.abs(innerWidth - initialWidth) > 64) complete();
+    };
     const preference = () => {
       if (reduced.matches) complete();
     };
     addEventListener("keydown", escape);
-    addEventListener("resize", complete);
+    addEventListener("resize", resize);
     reduced.addEventListener("change", preference);
     const clock = document.timeline.currentTime + 40;
     window.__wolfOrigin = {
@@ -244,7 +250,7 @@ export function OriginEntrance({ onReveal, onComplete }) {
       timers.forEach(clearTimeout);
       restore();
       removeEventListener("keydown", escape);
-      removeEventListener("resize", complete);
+      removeEventListener("resize", resize);
       reduced.removeEventListener("change", preference);
     };
   }, []);

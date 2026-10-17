@@ -31,7 +31,17 @@ export function CatalogProvider({ children }) {
       if (!response.ok) return;
       const data = await response.json();
       if (!Array.isArray(data.products) || current !== request.current) return;
-      setState({ products: data.products, source: "database", loading: false });
+      setState((previous) => {
+        const sameProducts =
+          JSON.stringify(previous.products) === JSON.stringify(data.products);
+        if (sameProducts && previous.source === "database" && !previous.loading)
+          return previous;
+        return {
+          products: sameProducts ? previous.products : data.products,
+          source: "database",
+          loading: false,
+        };
+      });
     } catch {
       /* Static hosting retains the standalone storefront preview. */
     } finally {

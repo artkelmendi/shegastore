@@ -144,20 +144,21 @@ export const products = [
 
 export const brands = ["BOSS", "DIESEL", "EMPORIO ARMANI", "HUGO"];
 export const brandLogos = {
-  BOSS: `${import.meta.env?.BASE_URL || "/"}/logos/brands/boss.png`.replace(
+  BOSS: `${import.meta.env?.BASE_URL || "/"}/logos/brands/boss.svg`.replace(
     /\/\/+/g,
     "/",
   ),
-  DIESEL: `${import.meta.env?.BASE_URL || "/"}/logos/brands/diesel.svg`.replace(
-    /\/\/+/g,
-    "/",
-  ),
+  DIESEL:
+    `${import.meta.env?.BASE_URL || "/"}/logos/brands/diesel-wordmark.svg`.replace(
+      /\/\/+/g,
+      "/",
+    ),
   "EMPORIO ARMANI":
     `${import.meta.env?.BASE_URL || "/"}/logos/brands/armani.svg`.replace(
       /\/\/+/g,
       "/",
     ),
-  HUGO: `${import.meta.env?.BASE_URL || "/"}/logos/brands/hugo.png`.replace(
+  HUGO: `${import.meta.env?.BASE_URL || "/"}/logos/brands/hugo.svg`.replace(
     /\/\/+/g,
     "/",
   ),
