@@ -52,6 +52,7 @@ import {
 import { brands, brandLogos, categories, money } from "./data";
 import { CatalogProvider, useCatalog } from "./catalog";
 import { staticPreview } from "./api";
+import { ThemeProvider, ThemeToggle, useTheme } from "./theme";
 import { BackgroundMarks, DrawnHeroLogo } from "./brand-motion";
 import {
   OutfitEdit,
@@ -68,6 +69,7 @@ import "./type-system.css";
 import { originEnabled, OriginEntrance } from "./origin-entrance";
 
 import { ScrollDetails } from "./scroll-details";
+import "./wolf-theme.css";
 
 const Store = createContext();
 const ease = [0.23, 1, 0.32, 1];
@@ -87,7 +89,10 @@ const image = (name) =>
 
 function readSaved(key, fallback, validate) {
   try {
-    const value = JSON.parse(localStorage.getItem(key));
+    const value = JSON.parse(
+      localStorage.getItem(key) ??
+        localStorage.getItem(key.replace(/^wolf-/, "shega-")),
+    );
     return validate(value) ? value : fallback;
   } catch {
     return fallback;
@@ -98,7 +103,7 @@ function StoreProvider({ children }) {
   const { products, source } = useCatalog();
   const [bag, setBag] = useState(() =>
     readSaved(
-      "shega-bag",
+      "wolf-bag",
       [],
       (v) =>
         Array.isArray(v) &&
@@ -114,14 +119,14 @@ function StoreProvider({ children }) {
   );
   const [saved, setSaved] = useState(() =>
     readSaved(
-      "shega-saved",
+      "wolf-saved",
       [],
       (v) => Array.isArray(v) && v.every((id) => typeof id === "string"),
     ),
   );
   const [overlay, setOverlay] = useState(null);
   const [notice, setNotice] = useState("");
-  const [theme, setTheme] = useState("light");
+  const { theme, setTheme } = useTheme();
   const noticeTimeout = useRef();
   useEffect(() => {
     if (source !== "database") return;
@@ -142,17 +147,14 @@ function StoreProvider({ children }) {
   }, [products, source]);
   useEffect(() => {
     try {
-      localStorage.setItem("shega-bag", JSON.stringify(bag));
+      localStorage.setItem("wolf-bag", JSON.stringify(bag));
     } catch {}
   }, [bag]);
   useEffect(() => {
     try {
-      localStorage.setItem("shega-saved", JSON.stringify(saved));
+      localStorage.setItem("wolf-saved", JSON.stringify(saved));
     } catch {}
   }, [saved]);
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
   useEffect(() => () => clearTimeout(noticeTimeout.current), []);
   const notify = (text) => {
     clearTimeout(noticeTimeout.current);
@@ -262,7 +264,7 @@ function Opening({ phase, onComplete }) {
     <dialog
       ref={dialog}
       className={`opening ${phase === "departing" ? "opening-is-leaving" : ""}`}
-      aria-label="Welcome to Shega"
+      aria-label="Welcome to Wolf Shop"
       tabIndex={-1}
       onCancel={(event) => {
         event.preventDefault();
@@ -281,8 +283,8 @@ function Opening({ phase, onComplete }) {
         <div className="opening-logo-mask">
           <img
             className="opening-logo"
-            src={asset("/logos/shega-dark.svg")}
-            alt="Shega Store"
+            src={asset("/logos/wolf-full-light.svg")}
+            alt="Wolf Shop"
             width="300"
             height="105"
             fetchPriority="high"
@@ -318,15 +320,18 @@ function Header() {
         className={`site-header ${isHome && atTop ? "header-over-hero" : ""}`}
       >
         <div className="header-inner">
-          <Link to="/" aria-label="Shega Store home" className="header-brand">
+          <Link to="/" aria-label="Wolf Shop home" className="header-brand">
             <img
               className="header-logo header-mark"
-              src={asset("/logos/shega-mark.svg")}
-              alt="Shega Store"
+              src={asset("/logos/wolf-ticket-light.svg")}
+              alt="Wolf Shop"
               width="134"
               height="47"
             />
           </Link>
+          <NavLink to="/shop" className="mobile-shop-link">
+            Shop
+          </NavLink>
           <nav className="desktop-nav" aria-label="Main navigation">
             <NavLink to="/shop">Shop</NavLink>
             <Link className="sale-link" to="/shop?edit=sale">
@@ -336,6 +341,7 @@ function Header() {
             <NavLink to="/faq">Common questions</NavLink>
           </nav>
           <div className="header-tools">
+            <ThemeToggle />
             <button
               aria-label="Search the store"
               className="icon-button"
@@ -385,7 +391,7 @@ const heroSlides = [
   {
     title: ["Dress Like", "yourself."],
     copy: "Distinctive pieces. Iconic names. A wardrobe with a point of view.",
-    image: "shega-boss-hero",
+    image: "wolf-boss-hero",
     alt: "Stacked black and white BOSS polo shirts with contrasting collars and a patterned Porsche BOSS layer",
     label: "The BOSS edit",
     link: "/shop",
@@ -393,7 +399,7 @@ const heroSlides = [
   {
     title: ["Make It", "personal."],
     copy: "Considered details. Individual style. A new perspective on your everyday wardrobe.",
-    image: "shega-armani-hero",
+    image: "wolf-armani-hero",
     alt: "Stacked black and white Emporio Armani polo shirts with striped collars and eagle embroidery",
     label: "The Armani edit",
     link: "/shop",
@@ -436,7 +442,7 @@ function BrandMarquee() {
                   </Link>
                   <span className="brand-band-divider" aria-hidden="true">
                     <img
-                      src={asset("/logos/shega-mark.svg")}
+                      src={asset("/logos/wolf-ticket-light.svg")}
                       alt=""
                       width="22"
                       height="22"
@@ -487,7 +493,7 @@ function Home({ ready = true }) {
       <section
         className={`hero hero-${current.image} ${ready ? "hero-is-ready" : "hero-is-waiting"}`}
         ref={hero}
-        aria-label="Shega seasonal collection"
+        aria-label="Wolf Shop seasonal collection"
       >
         <motion.div
           className="hero-photography"
@@ -661,7 +667,7 @@ function Home({ ready = true }) {
       <section className="editorial-section page-width">
         <Reveal className="editorial-photo">
           <img
-            src={image("shega-boss-editorial")}
+            src={image("wolf-boss-editorial")}
             alt="Black and white BOSS polo shirts and sweatshirt displayed on white plinths"
             width="1086"
             height="1448"
@@ -688,7 +694,7 @@ function Home({ ready = true }) {
             <span>CONSIDERED PIECES.</span>
             <span>INDIVIDUAL STYLE.</span>
             <img
-              src={asset("/logos/shega-mark.svg")}
+              src={asset("/logos/wolf-ticket-light.svg")}
               alt=""
               width="36"
               height="36"
@@ -718,7 +724,7 @@ function FavoritesCarousel() {
     >
       <Reveal className="section-heading">
         <div>
-          <p className="eyebrow">THE SHEGA SELECTION</p>
+          <p className="eyebrow">THE WOLF SELECTION</p>
           <h2>
             Our favorites<span className="accent">.</span>
           </h2>
@@ -756,8 +762,8 @@ function FavoritesCarousel() {
 function FAQ() {
   const questions = [
     [
-      "What does Shega sell?",
-      "Shega's selection is presented as 1:1 replica clothing. These are not authentic products from, or an official partnership with, the featured brands. Product photographs illustrate the styles; confirm the actual item before ordering.",
+      "What does Wolf Shop sell?",
+      "Wolf Shop's selection is presented as 1:1 replica clothing. These are not authentic products from, or an official partnership with, the featured brands. Product photographs illustrate the styles; confirm the actual item before ordering.",
     ],
     [
       "How do I choose my size?",
@@ -769,11 +775,11 @@ function FAQ() {
     ],
     [
       "What about delivery and returns?",
-      "Delivery areas, costs, timeframes and return terms must be confirmed with Shega before an order. The preview does not calculate shipping or promise a delivery date.",
+      "Delivery areas, costs, timeframes and return terms must be confirmed with Wolf Shop before an order. The preview does not calculate shipping or promise a delivery date.",
     ],
     [
       "Are prices and stock final?",
-      "The selection and prices are illustrative. Confirm the price, available colors and stock with Shega before purchasing.",
+      "The selection and prices are illustrative. Confirm the price, available colors and stock with Wolf Shop before purchasing.",
     ],
     [
       "Where are my saved pieces kept?",
@@ -934,7 +940,7 @@ function Shop() {
         <span>Shop</span>
       </div>
       <Reveal className="page-intro">
-        <p className="eyebrow">SHEGA STORE / SHOP</p>
+        <p className="eyebrow">WOLF SHOP / SHOP</p>
         <h1>{title}</h1>
         <p>T-shirts, hoodies and sweatshirts. Find your fit.</p>
       </Reveal>
@@ -1055,7 +1061,7 @@ function Shop() {
         />
       )}
       <p className="shop-disclosure">
-        Shega offers 1:1 replica styles. Products are not manufactured or
+        Wolf Shop offers 1:1 replica styles. Products are not manufactured or
         authorised by the referenced brands. Images and prices are illustrative.
       </p>
     </div>
@@ -1356,9 +1362,8 @@ function Brands() {
         </div>
       </div>
       <p className="shop-disclosure">
-        An independent selection of replica styles. Shega Store is not
-        affiliated with, endorsed by, or an authorised retailer of the brands
-        referenced.
+        An independent selection of replica styles. Wolf Shop is not affiliated
+        with, endorsed by, or an authorised retailer of the brands referenced.
       </p>
     </div>
   );
@@ -1426,7 +1431,7 @@ function Contact() {
             contact channels will be available when the store launches.
           </p>
           <Link to="/about" className="text-link">
-            A little about Shega <ArrowUpRight size={16} />
+            A little about Wolf Shop <ArrowUpRight size={16} />
           </Link>
         </Reveal>
         <Reveal className="contact-form-wrap" delay={0.08}>
@@ -1535,8 +1540,8 @@ function Contact() {
               Are these original brand products? <Plus size={20} />
             </summary>
             <p>
-              No. Shega’s planned collection consists of 1:1 replica styles. We
-              are independent of the referenced brands and do not claim brand
+              No. Wolf Shop’s planned collection consists of 1:1 replica styles.
+              We are independent of the referenced brands and do not claim brand
               authorisation.
             </p>
           </details>
@@ -1580,7 +1585,7 @@ function About() {
       <div className="breadcrumbs">
         <Link to="/">Home</Link>
         <span>/</span>
-        <span>About Shega</span>
+        <span>About Wolf Shop</span>
       </div>
       <Reveal className="page-intro">
         <p className="eyebrow">AN INDIVIDUAL POINT OF VIEW</p>
@@ -1600,29 +1605,30 @@ function About() {
       </Reveal>
       <Reveal className="about-manifesto">
         <img
-          src={asset("/logos/shega-mark.svg")}
+          src={asset("/logos/wolf-ticket-light.svg")}
           alt=""
           width="64"
           height="64"
         />
         <div>
-          <h2>The Shega way.</h2>
+          <h2>The Wolf Shop way.</h2>
           <p>
             Good style starts with the pieces you actually want to wear. The
             hoodie you reach for. The T-shirt that works with everything. A
             wardrobe that feels like you.
           </p>
           <p>
-            Shega brings a focused edit of menswear into one place, with clean
-            silhouettes, understated essentials, and the occasional statement.
+            Wolf Shop brings a focused edit of menswear into one place, with
+            clean silhouettes, understated essentials, and the occasional
+            statement.
           </p>
           <Button to="/shop">Make it your own</Button>
         </div>
       </Reveal>
       <div className="shop-disclosure">
         Our planned collection features 1:1 replica styles. All referenced brand
-        names belong to their respective owners. Shega is an independent store,
-        with no claim of brand affiliation or authorisation.
+        names belong to their respective owners. Wolf Shop is an independent
+        store, with no claim of brand affiliation or authorisation.
       </div>
     </div>
   );
@@ -1668,10 +1674,10 @@ function InfoPage({ privacy = false }) {
                 Customer accounts store a name, email address, password hash and
                 sessions in the local database. Staff accounts also record
                 product and stock activity. Signing in sets an eight-hour
-                session cookie: shega_customer for customers, or shega_staff for
-                staff. Sign out to end your session. Customer and staff access
-                are separate. Email verification and account recovery are not
-                connected in this preview.
+                session cookie for the relevant account. Sign out to end your
+                session. Customer and staff access are separate. Email
+                verification and account recovery are not connected in this
+                preview.
               </p>
             </>
           )}
@@ -1739,10 +1745,10 @@ function Footer() {
       <div className="page-width">
         <div className="footer-top" data-reveal="">
           <div className="footer-brand">
-            <Link to="/" aria-label="Shega home">
+            <Link to="/" aria-label="Wolf Shop home">
               <img
-                src={asset("/logos/shega-dark.svg")}
-                alt="Shega Store"
+                src={asset("/logos/wolf-full-light.svg")}
+                alt="Wolf Shop"
                 width="180"
                 height="63"
               />
@@ -1768,7 +1774,7 @@ function Footer() {
               <CookieSettingsButton />
             </div>
             <div>
-              <h3>THE WORLD OF SHEGA</h3>
+              <h3>THE WORLD OF WOLF</h3>
               <Link to="/about">Our story</Link>
               {import.meta.env.DEV && <Link to="/login">Staff workspace</Link>}
               <Link to="/brands">Explore the brands</Link>
@@ -1776,13 +1782,13 @@ function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} SHEGA STORE</span>
+          <span>© {new Date().getFullYear()} WOLF SHOP</span>
           <span>Independent style. Individual expression.</span>
           <span>EN / EUR €</span>
         </div>
         <p className="footer-disclosure">
           Frontend preview with illustrative products and prices. 1:1 replica
-          styles. Shega is not affiliated with the brands shown.
+          styles. Wolf Shop is not affiliated with the brands shown.
         </p>
       </div>
     </footer>
@@ -1880,7 +1886,7 @@ function Overlay({ type: overlay }) {
               ? "FIND YOUR NEXT PIECE."
               : overlay === "size"
                 ? "FIND YOUR FIT."
-                : "EXPLORE SHEGA."}
+                : "EXPLORE WOLF."}
         </h2>
         <button
           className="icon-button"
@@ -2215,7 +2221,7 @@ function App() {
     const product = location.pathname.startsWith("/product/")
       ? products.find((p) => p.id === location.pathname.split("/")[2])
       : null;
-    document.title = `${product ? `${product.brand} ${product.name}` : titles[location.pathname] || "Discover your style"} | Shega Store`;
+    document.title = `${product ? `${product.brand} ${product.name}` : titles[location.pathname] || "Discover your style"} | Wolf Shop`;
   }, [location.pathname, location.search, products]);
   useEffect(() => {
     setOverlay(null);
@@ -2348,10 +2354,12 @@ function Root() {
 }
 createRoot(document.getElementById("root")).render(
   <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "") || "/"}>
-    <CatalogProvider>
-      <StoreProvider>
-        <Root />
-      </StoreProvider>
-    </CatalogProvider>
+    <ThemeProvider>
+      <CatalogProvider>
+        <StoreProvider>
+          <Root />
+        </StoreProvider>
+      </CatalogProvider>
+    </ThemeProvider>
   </BrowserRouter>,
 );

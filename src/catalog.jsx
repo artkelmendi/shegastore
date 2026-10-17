@@ -45,10 +45,10 @@ export function CatalogProvider({ children }) {
     refresh();
     const update = () => refresh();
     window.addEventListener("focus", update);
-    window.addEventListener("shega-catalog-change", update);
+    window.addEventListener("wolf-catalog-change", update);
     return () => {
       window.removeEventListener("focus", update);
-      window.removeEventListener("shega-catalog-change", update);
+      window.removeEventListener("wolf-catalog-change", update);
     };
   }, [refresh]);
   return (

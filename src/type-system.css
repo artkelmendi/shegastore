@@ -255,13 +255,13 @@ body {
 /* A crisp hover response and press feedback, with no movement lag. */
 :root .red-pointer.is-interactive .pointer-dot {
   transform: scale(1.55);
-  background: #be0d2d1f;
-  border-color: #be0d2d66;
+  background: #ff00331f;
+  border-color: #ff003366;
 }
 :root .red-pointer.is-pressed .pointer-dot {
   transform: scale(0.72);
-  background: #be0d2d55;
-  border-color: #be0d2d99;
+  background: #ff003355;
+  border-color: #ff003399;
 }
 @media (hover: hover) and (pointer: fine) {
   .text-link:hover svg,

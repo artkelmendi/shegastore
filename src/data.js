@@ -1,4 +1,4 @@
-// Original brand photography. Shega's sample replica prices are illustrative.
+// Original brand photography. Wolf Shop's sample replica prices are illustrative.
 export const products = [
   {
     id: "boss-signature-hoodie",

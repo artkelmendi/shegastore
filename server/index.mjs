@@ -17,7 +17,7 @@ const text = (value, label, min = 1, max = 120) => {
     value.trim().length < min ||
     value.trim().length > max
   )
-    fail(422, `${label} must contain ${min}–${max} characters.`);
+    fail(422, `${label} must contain ${min}â€“${max} characters.`);
   return value.trim();
 };
 const integer = (value, label, min = 0, max = 10000000) => {
@@ -239,7 +239,7 @@ export function createApi({
         return res.end(bytes);
       }
       if (method === "GET" && path === "/api/health")
-        return send(res, 200, { ok: true, service: "shega-workspace" });
+        return send(res, 200, { ok: true, service: "wolf-workspace" });
       if (method === "GET" && path === "/api/catalog")
         return send(res, 200, {
           products: db
@@ -269,7 +269,7 @@ export function createApi({
           password.length < 15 ||
           password.length > 128
         )
-          fail(422, "Use a passphrase of 15–128 characters.");
+          fail(422, "Use a passphrase of 15â€“128 characters.");
         if (path.endsWith("/setup")) {
           if (
             !allowSetup ||
@@ -447,7 +447,7 @@ export function createApi({
             user,
             "product.updated",
             p.id,
-            `Updated ${p.name} · ${p.status}`,
+            `Updated ${p.name} Â· ${p.status}`,
           );
         });
         return send(res, 200, {
@@ -502,7 +502,7 @@ export function createApi({
             user,
             "stock.adjusted",
             v.id,
-            `${v.sku}: ${v.on_hand} → ${next} · ${reason}`,
+            `${v.sku}: ${v.on_hand} â†’ ${next} Â· ${reason}`,
           );
         });
         return send(res, 200, { ok: true });
@@ -527,6 +527,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const { server } = createApi();
   const port = Number(process.env.API_PORT || 8787);
   server.listen(port, "127.0.0.1", () =>
-    console.log(`Shega API ready on http://127.0.0.1:${port}`),
+    console.log(`Wolf Shop API ready on http://127.0.0.1:${port}`),
   );
 }

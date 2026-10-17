@@ -1,4 +1,4 @@
-# Shega accounts and staff workspace — local foundation
+# Wolf Shop accounts and staff workspace — local foundation
 
 The backend and real authentication run locally. GitHub Pages publishes the storefront plus a separate, public, read-only admin preview using only the sample catalogue.
 

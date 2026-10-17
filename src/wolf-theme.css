@@ -1,0 +1,560 @@
+/* Wolf Shop: original #FF0033 artwork, calm light surfaces and a real dark palette. */
+:root,
+:root[data-theme="light"] {
+  --red: #ff0033;
+  --red-text: #d9002c;
+  --brand-action: #df002d;
+  --surface: #fbfbfa;
+  --surface-raised: #f0f0ee;
+  --surface-input: #fff;
+  --text: #16171a;
+  --muted: #66676a;
+  --border: #dcdcd9;
+  --inverse: #fbfbfa;
+  --button: #16171a;
+  --veil: rgba(251, 251, 250, 0.997);
+  color: var(--text);
+  background: var(--surface);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --red: #ff0033;
+  --red-text: #ff5776;
+  --brand-action: #df002d;
+  --surface: #101114;
+  --surface-raised: #191b20;
+  --surface-input: #202229;
+  --text: #f3f3ef;
+  --muted: #a9abb2;
+  --border: #34363d;
+  --inverse: #101114;
+  --button: #f3f3ef;
+  --veil: rgba(16, 17, 20, 0.997);
+  color: var(--text);
+  background: var(--surface);
+  color-scheme: dark;
+}
+body {
+  min-width: 0;
+  background: var(--surface);
+  color: var(--text);
+}
+.wolf-artwork {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: currentColor;
+  overflow: visible;
+}
+:root .header-logo {
+  content: url("/logos/wolf-ticket-light.svg");
+  width: 40px;
+  height: 49px;
+  object-fit: contain;
+}
+:root[data-theme="dark"] .header-logo,
+:root[data-theme="dark"] img[src$="wolf-ticket-light.svg"] {
+  content: url("/logos/wolf-ticket-dark.svg");
+}
+:root[data-theme="light"] .footer-brand img,
+:root .opening-logo {
+  content: url("/logos/wolf-full-light.svg");
+}
+:root[data-theme="dark"] .footer-brand img,
+:root[data-theme="dark"] .opening-logo {
+  content: url("/logos/wolf-full-dark.svg");
+}
+.footer-brand img {
+  width: 135px;
+  height: auto;
+}
+.opening-logo {
+  width: 190px;
+  height: auto;
+}
+.theme-toggle {
+  color: inherit;
+}
+:root .favorites-section .product-brand,
+:root .workspace-kicker,
+:root .account-overline,
+:root .account-section-number {
+  color: var(--red-text);
+}
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+:root .hero-signature {
+  width: 112px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.hero-drawn-logo .wolf-ticket-ink > path,
+.hero-drawn-logo .wolf-lettering > * {
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  animation: wolf-draw 1650ms var(--ease-out) both;
+}
+.hero-drawn-logo .wolf-lettering > * {
+  animation-delay: 160ms;
+}
+.hero-drawn-logo .wolf-eye {
+  animation: wolf-eye-ink 850ms var(--ease-out) 500ms both;
+}
+@keyframes wolf-draw {
+  0% {
+    fill-opacity: 0;
+    stroke-dashoffset: 1;
+  }
+  65% {
+    fill-opacity: 0;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes wolf-eye-ink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+:root .brand-band-divider img {
+  content: url("/logos/wolf-ticket-dark.svg");
+  filter: none;
+  width: 24px;
+  height: 29px;
+  object-fit: contain;
+}
+:root .editorial-footnote > img,
+:root .about-manifesto > img {
+  object-fit: contain;
+}
+.workspace-wordmark img,
+.workspace-login-brand img {
+  object-fit: contain;
+  width: 35px;
+  height: 43px;
+}
+.workspace-sidebar {
+  position: sticky;
+}
+.workspace-theme {
+  position: absolute;
+  right: 14px;
+  top: 24px;
+  width: 32px;
+  height: 32px;
+}
+.workspace-wordmark {
+  padding-right: 26px;
+}
+.workspace-wordmark > span {
+  font-size: 20px;
+}
+.workspace-login-brand > .theme-toggle {
+  margin-left: auto;
+}
+:root .workspace-login-brand > .workspace-local {
+  margin-left: 8px;
+}
+:root :is(.workspace-primary, .account-primary) {
+  background: var(--brand-action);
+  border-color: var(--brand-action);
+  color: #fff;
+}
+:root .category-caption {
+  background: var(--red);
+  color: #111217;
+}
+:root .category-caption h2,
+:root .category-caption p,
+:root .category-caption svg {
+  color: #111217;
+}
+:root .category-caption svg {
+  background: transparent;
+  border-color: #11121755;
+}
+:root .category-caption .category-tagline {
+  color: #111217;
+}
+html {
+  scrollbar-color: var(--red) var(--surface);
+}
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--red);
+  border-color: var(--surface);
+}
+:root[data-theme="dark"] :is(.site-header, .header-over-hero) {
+  background: #101114ed;
+  color: var(--text);
+  border-color: var(--border);
+}
+:root[data-theme="dark"]
+  :is(
+    .desktop-nav .sale-link,
+    .hero-description,
+    .page-intro > p,
+    .product-description,
+    .product-color,
+    .contact-aside p,
+    .about-copy p,
+    .about-manifesto p,
+    .footer-brand p,
+    .footer-links a,
+    .footer-bottom,
+    .footer-disclosure,
+    .eyebrow,
+    .shop-disclosure,
+    .breadcrumbs,
+    .detail-services,
+    .bag-item-size,
+    .form-note,
+    .product-detail-brand
+  ) {
+  color: var(--muted);
+}
+:root[data-theme="dark"]
+  :is(
+    .footer,
+    .site-footer,
+    .shop-tabs,
+    .filter-panel,
+    .shop-toolbar,
+    .contact-form-wrap,
+    .empty-state,
+    .page-intro,
+    .faq-list details,
+    .outfit-edit,
+    .info-page,
+    .about-manifesto
+  ) {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+:root[data-theme="dark"]
+  :is(
+    .footer-brand,
+    .footer-links h3,
+    .product-name,
+    .product-price,
+    .product-brand,
+    .product-meta,
+    .section-heading,
+    .product-info,
+    .shop-page h1,
+    .shop-tabs button,
+    .sort-select select,
+    .filter-panel label,
+    .size-heading,
+    .size-guide,
+    .detail-price,
+    .contact-form-wrap h2,
+    .brand-directory,
+    .bag-item,
+    .bag-summary,
+    .popular-searches,
+    .search-results,
+    .mobile-menu
+  ) {
+  color: var(--text);
+}
+:root[data-theme="dark"] :is(input, textarea, select) {
+  background: var(--surface-input);
+  border-color: var(--border);
+  color: var(--text);
+}
+:root[data-theme="dark"]
+  :is(
+    .overlay-dialog,
+    .cookie-panel,
+    .size-guide,
+    .mobile-menu,
+    .search-form,
+    .filter-panel
+  ) {
+  background: var(--surface-raised);
+  border-color: var(--border);
+  color: var(--text);
+}
+:root[data-theme="dark"]
+  :is(
+    .cookie-panel p,
+    .cookie-label,
+    .cookie-details,
+    .cookie-details p,
+    .cookie-details a,
+    .cookie-details-toggle,
+    .cookie-panel h2,
+    .cookie-actions button
+  ) {
+  color: var(--text);
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .cookie-actions button {
+  background: var(--surface-input);
+}
+:root[data-theme="dark"] .cookie-actions button:hover {
+  background: #2a2d35;
+}
+:root[data-theme="dark"]
+  :is(
+    .size-options button,
+    .quantity-control,
+    .circle-button,
+    .bag-summary,
+    .contact-form-wrap,
+    .form-row input,
+    .filter-panel,
+    .brand-directory a,
+    .footer-bottom,
+    .footer-links,
+    .product-info details,
+    .faq-list details,
+    .outfit-links a
+  ) {
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .size-options button.selected {
+  background: var(--text);
+  color: var(--inverse);
+}
+:root[data-theme="dark"] .size-options button {
+  color: var(--text);
+}
+:root[data-theme="dark"] .button {
+  background: var(--button);
+  color: var(--inverse);
+}
+:root[data-theme="dark"] .button-outline {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .bag-count {
+  color: #fff;
+  background: var(--brand-action);
+}
+:root[data-theme="dark"] .hero {
+  background: #101114;
+  color: var(--text);
+}
+:root[data-theme="dark"] .hero-shade {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    #101114 0%,
+    #101114e8 29%,
+    #10111488 53%,
+    #10111418 100%
+  );
+}
+:root[data-theme="dark"] .hero-description {
+  color: #c1c2c6;
+}
+:root[data-theme="dark"] .hero .button {
+  background: var(--brand-action);
+  color: white;
+}
+:root[data-theme="dark"] .hero .button svg {
+  color: #fff;
+}
+:root[data-theme="dark"] .desktop-nav .sale-link {
+  color: var(--red-text);
+}
+:root[data-theme="dark"]
+  :is(
+    .faq-intro,
+    .faq-list details p,
+    .outfit-links p,
+    .catalog-note,
+    .edit-index,
+    .shop-result-count
+  ) {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .contact-form-wrap :is(input, textarea, select):focus {
+  background: var(--surface-input);
+  color: var(--text);
+}
+:root[data-theme="dark"] .hero-pagination {
+  background: #191b20e8;
+  color: var(--text);
+}
+:root[data-theme="dark"] .hero-pagination .circle-button {
+  color: var(--text);
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .hero-dots button:after {
+  background: #f3f3ef55;
+}
+:root[data-theme="dark"] .hero-dots button.active:after {
+  background: var(--red);
+}
+:root[data-theme="dark"] .outfit-links a:hover {
+  background: var(--surface-raised);
+}
+:root[data-theme="dark"]
+  :is(.account-access, .account-settings, .account-unavailable) {
+  color: var(--text);
+}
+:root[data-theme="dark"] .account-message {
+  background: var(--surface-raised);
+}
+:root[data-theme="dark"]
+  :is(
+    .workspace-table th,
+    .workspace-sidebar,
+    .workspace-metrics,
+    .workspace-status,
+    .workspace-secondary
+  ) {
+  background: var(--surface-raised);
+  color: var(--text);
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .workspace-sidebar nav a.active {
+  background: #ff003312;
+  color: var(--red-text);
+}
+:root[data-theme="dark"]
+  :is(
+    .workspace-local,
+    .workspace-table-scroll,
+    .workspace-table td,
+    .workspace-form-section,
+    .workspace-modal,
+    .workspace-attention,
+    .workspace-section-title
+  ) {
+  border-color: var(--border);
+}
+:root[data-theme="dark"]
+  :is(
+    .workspace-kicker,
+    .workspace-status.status-draft,
+    .workspace-unconfirmed,
+    .workspace-error,
+    .account-overline,
+    .account-section-number,
+    .account-error,
+    .account-directory-current
+  ) {
+  color: var(--red-text);
+}
+:root[data-theme="dark"] .workspace-loading {
+  background: var(--surface);
+}
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle:hover {
+    color: var(--red-text);
+  }
+  :root .category-tile:hover .category-caption {
+    background: #ed0030;
+  }
+}
+@media (max-width: 1023px) {
+  :root .hero-signature {
+    width: 98px;
+    margin-bottom: 12px;
+  }
+}
+@media (max-width: 767px) {
+  :root .header-tools {
+    gap: 1px;
+  }
+  :root .header-tools .icon-button {
+    width: 34px;
+    height: 40px;
+  }
+  :root .header-logo {
+    width: 34px;
+    height: 42px;
+  }
+  :root .hero-signature {
+    width: 86px;
+    margin-bottom: 8px;
+  }
+  :root[data-theme="dark"] .hero-shade {
+    background: linear-gradient(
+      180deg,
+      #101114f0 0%,
+      #101114d0 38%,
+      #10111410 100%
+    );
+  }
+  .workspace-theme {
+    right: 55px;
+    top: 21px;
+  }
+  .workspace-sidebar {
+    position: relative;
+  }
+  .workspace-login-brand .workspace-local {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-drawn-logo .wolf-ticket-ink > path,
+  .hero-drawn-logo .wolf-lettering > *,
+  .hero-drawn-logo .wolf-eye {
+    animation: none;
+    stroke: none;
+    opacity: 1;
+  }
+}
+
+/* Keep the primary shopping route directly available on small screens. */
+.mobile-shop-link {
+  display: none;
+}
+@media (max-width: 767px) {
+  :root .header-inner {
+    gap: 10px;
+  }
+  :root .header-brand {
+    flex: 0 0 34px;
+  }
+  .mobile-shop-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-right: auto;
+    position: relative;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .mobile-shop-link::after {
+    content: "";
+    position: absolute;
+    bottom: 9px;
+    left: 0;
+    width: 16px;
+    height: 2px;
+    background: var(--red);
+  }
+  :root .header-tools {
+    flex-shrink: 0;
+  }
+}
+@media (max-width: 359px) {
+  :root .header-tools .icon-button {
+    width: 30px;
+  }
+  :root .header-inner {
+    gap: 8px;
+  }
+}

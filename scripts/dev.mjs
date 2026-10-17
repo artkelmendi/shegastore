@@ -5,14 +5,14 @@ try {
   const response = await fetch(`${apiTarget}/api/health`, {
     signal: AbortSignal.timeout(1500),
   });
-  apiRunning = (await response.json()).service === "shega-workspace";
+  apiRunning = (await response.json()).service === "wolf-workspace";
   if (!apiRunning)
     throw new Error("The API port is occupied by another service.");
 } catch (error) {
   if (error.message.includes("occupied")) throw error;
 }
 const children = [];
-if (apiRunning) console.log(`Using the running Shega API at ${apiTarget}`);
+if (apiRunning) console.log(`Using the running Wolf Shop API at ${apiTarget}`);
 else
   children.push(
     spawn(process.execPath, ["--watch", "server/index.mjs"], {

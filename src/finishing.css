@@ -10,7 +10,7 @@ html {
   background: #f2edee;
 }
 ::-webkit-scrollbar-thumb {
-  background: #be0d2d;
+  background: #ff0033;
   border: 2px solid #f2edee;
   border-radius: 12px;
 }
@@ -272,14 +272,14 @@ html {
   width: 18px;
   height: 18px;
   margin: -9px 0 0 -9px;
-  background: #be0d2d18;
-  border: 1px solid #be0d2d25;
+  background: #ff003318;
+  border: 1px solid #ff003325;
   transition:
     background 160ms ease,
     transform 160ms var(--ease-out);
 }
 .red-pointer.is-interactive .pointer-dot {
-  background: #be0d2d25;
+  background: #ff003325;
   transform: scale(1.15);
 }
 /* Shop: the same type system as the home, with clearer product information. */

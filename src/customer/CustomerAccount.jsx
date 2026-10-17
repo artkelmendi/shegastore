@@ -100,14 +100,14 @@ function AccessForm({ create, onSignedIn }) {
     <section className="account-access">
       <div className="account-photo">
         <img
-          src={`${import.meta.env.BASE_URL}images/real/shega-boss-editorial.webp`}
+          src={`${import.meta.env.BASE_URL}images/real/wolf-boss-editorial.webp`}
           alt="Black and white BOSS pieces arranged on pale stone platforms"
           width="1086"
           height="1448"
         />
         <span className="account-photo-label">
           <span />
-          SHEGA STORE
+          WOLF SHOP
         </span>
       </div>
       <div className="account-access-form">
@@ -279,7 +279,7 @@ function Profile({ customer, onChanged, onSignedOut }) {
     <>
       <div className="account-heading">
         <div>
-          <span className="account-overline">YOUR SHEGA</span>
+          <span className="account-overline">YOUR WOLF</span>
           <h1>Your account.</h1>
           <p>Welcome back, {customer.name}.</p>
         </div>

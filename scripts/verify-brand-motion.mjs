@@ -8,7 +8,7 @@ page.on("pageerror", (error) => errors.push(error.message));
 await mkdir("artifacts/brand-motion", { recursive: true });
 await page.goto("http://localhost:5173/", { waitUntil: "networkidle" });
 await page.locator(".opening").waitFor({ state: "hidden" });
-const replay = page.getByRole("button", { name: "Replay Shega logo drawing" });
+const replay = page.getByRole("button", { name: "Replay Wolf Shop logo drawing" });
 await replay.click();
 await page.waitForTimeout(160);
 const drawing = await page

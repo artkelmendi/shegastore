@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="VECTOR_ARTWORK__x2F__APPROVED_VERSION" x="0px" y="0px" viewBox="0 0 1165 465" enable-background="new 0 0 1165 465" xml:space="preserve">
+<g id="WOLF_SHOP__x2F__text__x2F__white">
+	<g id="WOLF_SHOP_lettering">
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="35,38 161,77 180,189 232,73 305,73 333,173 372,73     465,73 377,287 291,310 257,204 164,398   " />
+		<path id="O" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M512,73h98l60,58v128l-116,86l-116-86V153L512,73z     M554,144l-31,25v54l31,24l32-24v-54L554,144z" />
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="682,73 771,73 771,232 850,244 850,325 682,300   " />
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="864,74 1130,32 1071,116 951,140 951,161 1053,145     1008,226 951,231 951,430 864,327   " />
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="307,361 349,361 358,370 358,381 341,381 341,375     316,375 316,389 349,393 358,402 358,423 349,432 307,432 298,423 298,412 315,412 315,418 341,418 341,404 307,400 298,391     298,370   " />
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="446,361 464,361 464,389 495,389 495,361 513,361     513,432 495,432 495,404 464,404 464,432 446,432   " />
+		<path id="shop-O" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M610,361h46l9,9v53l-9,9h-46l-9-9v-53L610,361z     M619,375v43h28v-43H619z" />
+		<path id="shop-P" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M753,361h54l9,9v31l-9,9h-36v22h-18V361z M771,375    v21h27v-21H771z" />
+	</g>
+</g>
+</svg>

@@ -12,6 +12,7 @@ import { products as samples, money } from "../data";
 import { Overview, Products } from "./AdminApp";
 import { imageUrl } from "../api";
 import "./admin.css";
+import { ThemeToggle } from "../theme";
 
 // This public build uses only the committed sample catalogue, never local records.
 const products = samples.map((p) => ({
@@ -27,7 +28,7 @@ const products = samples.map((p) => ({
     reserved: 0,
   })),
 }));
-const logo = `${import.meta.env.BASE_URL}logos/shega-mark.svg`;
+const logo = `${import.meta.env.BASE_URL}logos/wolf-ticket-light.svg`;
 function StockPreview() {
   const [query, setQuery] = useState("");
   const rows = products
@@ -140,7 +141,7 @@ export default function StaticAdmin() {
   const location = useLocation(),
     path = location.pathname.replace(/\/$/, "");
   useEffect(() => {
-    document.title = "Admin preview | Shega";
+    document.title = "Admin preview | Wolf Shop";
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [path]);
   if (path === "/login")
@@ -148,13 +149,14 @@ export default function StaticAdmin() {
       <main className="workspace-login">
         <div className="workspace-login-brand">
           <Link to="/">
-            <img src={logo} width="43" height="43" alt="Shega" />
+            <img src={logo} width="43" height="43" alt="Wolf Shop" />
           </Link>
-          <span>Shega workspace</span>
+          <span>Wolf Shop workspace</span>
+          <ThemeToggle />
           <span className="workspace-local">Public preview</span>
         </div>
         <section className="workspace-login-intro">
-          <p className="workspace-kicker">SHEGA STORE</p>
+          <p className="workspace-kicker">WOLF SHOP</p>
           <h1>Behind the store.</h1>
           <p>A look at the catalogue and stock workspace.</p>
         </section>
@@ -171,7 +173,7 @@ export default function StaticAdmin() {
           </Link>
         </section>
         <footer>
-          Shega Store<span>Read-only sample catalogue</span>
+          Wolf Shop<span>Read-only sample catalogue</span>
         </footer>
       </main>
     );
@@ -203,11 +205,12 @@ export default function StaticAdmin() {
     <div className="workspace">
       <aside className="workspace-sidebar">
         <Link to="/admin" className="workspace-wordmark">
-          <img src={logo} alt="Shega" width="34" height="34" />
+          <img src={logo} alt="Wolf Shop" width="34" height="34" />
           <span>
-            Shega<span>Workspace preview</span>
+            Wolf Shop<span>Workspace preview</span>
           </span>
         </Link>
+        <ThemeToggle className="workspace-theme" />
         <p className="workspace-local">Public · read only</p>
         <nav aria-label="Workspace navigation">
           {[
@@ -230,7 +233,7 @@ export default function StaticAdmin() {
       </aside>
       <div className="workspace-body">
         <header className="workspace-topbar">
-          <span>Shega Store / Admin preview</span>
+          <span>Wolf Shop / Admin preview</span>
           <span className="workspace-topbar-note">
             Read-only sample catalogue
           </span>
@@ -247,7 +250,7 @@ export default function StaticAdmin() {
           {page}
         </main>
         <footer className="workspace-footer">
-          Shega workspace<span>Static preview</span>
+          Wolf Shop workspace<span>Static preview</span>
         </footer>
       </div>
     </div>

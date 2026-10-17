@@ -22,7 +22,7 @@ for (const width of [1440, 390, 320]) {
   assert.equal(await page.locator(".category-hoodies").count(), 1);
   assert.equal(
     await page.locator(".editorial-photo img").getAttribute("src"),
-    new URL("images/real/shega-boss-editorial.webp", origin).pathname,
+    new URL("images/real/wolf-boss-editorial.webp", origin).pathname,
   );
   assert.equal(
     await page.locator(".hero-title").innerText(),

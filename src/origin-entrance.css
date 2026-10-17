@@ -1,6 +1,14 @@
-/* Coordinated origin entrance. Final geometry, content and typography stay intact. */
-html[data-origin-experiment="pending"] .site-shell {
-  clip-path: none;
+/* White gaze, forward dive, then an overlapping full-page composition. */
+html[data-origin-experiment="pending"],
+html[data-origin-experiment="pending"] body {
+  background: #fff !important;
+}
+html[data-origin-experiment] .hero-enter,
+html[data-origin-experiment] .hero-photography,
+html[data-origin-experiment] .header-logo {
+  animation: none;
+  opacity: 1;
+  transform: none;
 }
 html[data-origin-experiment="pending"] .background-marks,
 html[data-origin-experiment="unfolding"] .background-marks {
@@ -10,89 +18,78 @@ html[data-origin-experiment="pending"] .red-pointer,
 html[data-origin-experiment="unfolding"] .red-pointer {
   visibility: hidden;
 }
-/* Replace the old independent CSS entrances, rather than stacking over them. */
-html[data-origin-experiment] .hero-enter {
-  animation: none;
-  opacity: 1;
-  transform: none;
-}
-html[data-origin-experiment] .hero-photography {
-  animation: none;
-  opacity: 1;
-}
-html[data-origin-experiment] .header-logo {
-  animation: none;
-  opacity: 1;
-  transform: none;
-}
-.origin-entrance {
-  position: fixed;
-  inset: 0;
-  z-index: 70;
-  pointer-events: none;
-}
-.origin-seed {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #be0d2d;
-  transform: translate(-50%, -50%) scale(0.4);
-  will-change: transform, opacity;
-}
-.origin-skip {
-  position: absolute;
-  right: 24px;
-  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-  font: inherit;
-  font-size: 11px;
-  color: #676763;
-  padding: 12px;
-  pointer-events: auto;
-  opacity: 0;
-  transition: opacity 180ms ease;
-}
-.origin-skip:focus-visible,
-.origin-skip:hover {
-  opacity: 1;
-  background: #fbfbfa;
-  outline-offset: 2px;
-}
-@media (prefers-reduced-motion: reduce) {
-  html[data-origin-experiment] .site-shell {
-    clip-path: none !important;
-  }
-  .origin-entrance {
-    display: none;
-  }
-}
 html[data-origin-experiment="pending"] .hero-image,
 html[data-origin-experiment="unfolding"] .hero-image {
   transition: none;
 }
-html[data-origin-experiment] .hero-signature .logo-drawing-fills path {
-  animation-duration: 1260ms;
-  animation-delay: 588ms !important;
-}
-html[data-origin-experiment] .hero-signature .logo-drawing-outlines path {
-  animation-duration: 1260ms;
-  animation-delay: 196ms !important;
-}
-html[data-origin-experiment] .hero-signature .logo-drawing-outlines {
-  animation-duration: 420ms;
-  animation-delay: 1890ms;
-}
-
-/* Alpha 254/255 keeps the scene rasterized while the first frame reads as white. */
-html[data-origin-experiment="pending"] .origin-entrance::before {
-  content: "";
+.origin-entrance {
   position: absolute;
   inset: 0;
-  background: rgba(251, 251, 250, 0.996);
+  z-index: auto;
+  pointer-events: none;
+  color: #16171a;
 }
-.origin-seed,
+.origin-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: #fff;
+}
+.origin-emblem {
+  position: fixed;
+  z-index: 72;
+  top: 50%;
+  left: 50%;
+  width: clamp(360px, 44vw, 680px);
+  transform: translate(-50%, -50%);
+}
+.origin-emblem > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  transform-origin: center;
+  transform: scale(1);
+  will-change: transform, opacity;
+}
+.origin-emblem .wolf-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+@media (max-width: 767px) {
+  .origin-emblem {
+    width: min(68vw, 400px);
+  }
+}
 .origin-skip {
-  z-index: 1;
+  position: fixed;
+  z-index: 73;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  right: 24px;
+  color: #66676a;
+  padding: 12px;
+  font: inherit;
+  font-size: 11px;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+.origin-skip:focus-visible {
+  opacity: 1;
+  background: #fff;
+}
+@media (hover: hover) and (pointer: fine) {
+  .origin-skip:hover {
+    opacity: 1;
+    background: #fff;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .origin-entrance {
+    display: none;
+  }
+  html[data-origin-experiment] .site-shell {
+    clip-path: none !important;
+  }
 }

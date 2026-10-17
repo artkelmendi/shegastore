@@ -178,7 +178,7 @@ let releaseImage;
 const imageGate = new Promise((resolve) => {
   releaseImage = resolve;
 });
-await slow.route("**/shega-boss-hero.webp", async (route) => {
+await slow.route("**/wolf-boss-hero.webp", async (route) => {
   await imageGate;
   await route.continue();
 });

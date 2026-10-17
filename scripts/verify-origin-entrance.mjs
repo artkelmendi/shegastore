@@ -124,7 +124,7 @@ assert.equal(await classic.locator(".origin-entrance").count(), 0);
 await classic.locator(".opening").waitFor({ state: "hidden" });
 await classic.close();
 const slow = await pageFor();
-await slow.route("**/shega-boss-hero.webp", async (route) => {
+await slow.route("**/wolf-boss-hero.webp", async (route) => {
   await new Promise((resolve) => setTimeout(resolve, 2200));
   await route.continue();
 });

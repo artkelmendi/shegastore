@@ -1,4 +1,4 @@
-# Shega Store
+# Wolf Shop
 
 React, Vite, Motion and custom CSS storefront, with local customer accounts and a staff workspace backed by Node and SQLite.
 
@@ -27,9 +27,9 @@ See [the workspace guide](docs/WORKSPACE.md) for database structure, actual feat
 
 Home, shop, individual products, brand directory, saved pieces, bag/checkout preview, contact, FAQ, about, delivery and privacy pages. The local storefront reads published database products; standalone static hosting retains the existing sample catalogue. Contact and checkout remain previews and do not send messages or take payment.
 
-Cabinet Grotesk 800 handles headings, Satoshi handles body text and controls, and Telma is reserved for the hero signature. White surfaces use Shega-red accents. Original Shega assets, published brand marks and real brand photography are hosted locally. `asset-sources.json` and `font-sources.json` record their sources. Supplied hero/editorial images are unchanged.
+Cabinet Grotesk 800 handles headings, Satoshi handles body text and controls, and Telma is reserved for the hero signature. Light and dark surfaces use Wolf red (#FF0033) accents. Original Wolf Shop assets, published brand marks and real brand photography are hosted locally. `asset-sources.json` and `font-sources.json` record their sources. Supplied hero/editorial images are unchanged.
 
-The coordinated origin entrance is the default; `?entrance=classic` retains the original opening. Reduced motion enters directly. The drawn Shega logo, water interaction, faint background marks, restrained scroll details and page transitions respect reduced motion. Mobile product grids show two columns.
+The Wolf-eye entrance is the default: the original eyes open, resolve into the full logo and reveal the page from their centre. `?entrance=classic` keeps a simple logo fallback. Reduced motion enters directly. Light is the default, with a persistent moon/sun switch for dark mode. The Wolf artwork, water interaction, faint background marks, scroll details and page transitions respect reduced motion. Mobile product grids show two columns. See [the rebrand notes](docs/WOLF-REBRAND.md).
 
 Desktop wheel smoothing uses Lenis; mobile retains native scrolling. The red cursor stays attached to the native pointer. Cookie preferences offer equal accept/reject controls; no optional trackers are installed.
 
@@ -55,7 +55,7 @@ npm run test:workspace
 npm run build
 ```
 
-Tests use isolated databases and synthetic staff credentials. Browser screenshots and reports go to ignored `artifacts/`. Public regression scripts are also available under `scripts/`, including `verify-type-system.mjs`, `verify-origin-entrance.mjs`, `verify-finishing.mjs` and `verify-pages.mjs`.
+Tests use isolated databases and synthetic staff credentials. Browser screenshots and reports go to ignored `artifacts/`. `node scripts/verify-wolf.mjs` checks the current identity, both themes, responsive layouts and entrance; earlier motion scripts remain historical checks of the previous choreography.
 
 ## Deployment boundary
 

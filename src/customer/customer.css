@@ -6,8 +6,8 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   max-width: 1180px;
   margin: 28px auto 0;
-  border-block: 1px solid #dedbd8;
-  background: #fafaf8;
+  border-block: 1px solid var(--border);
+  background: var(--surface);
 }
 .account-photo {
   position: relative;
@@ -31,7 +31,7 @@
   align-items: center;
   gap: 13px;
   background: #ffffffea;
-  color: #222;
+  color: var(--text);
   padding: 11px 14px;
   font-size: 9px;
   letter-spacing: 0.16em;
@@ -61,14 +61,14 @@
 }
 .account-access-form > p {
   font-size: 13px;
-  color: #666;
+  color: var(--muted);
   margin-top: 16px;
   line-height: 1.7;
 }
 .account-access-tabs {
   display: flex;
   gap: 28px;
-  border-bottom: 1px solid #dad8d2;
+  border-bottom: 1px solid var(--border);
   margin-block: 28px;
   font-size: 13px;
 }
@@ -76,11 +76,11 @@
   padding: 12px 0;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
-  color: #666;
+  color: var(--muted);
 }
 .account-access-tabs a[aria-current="page"] {
   border-color: var(--red);
-  color: #222;
+  color: var(--text);
   font-weight: 700;
 }
 .account-field {
@@ -97,18 +97,18 @@
   display: block;
   width: 100%;
   min-width: 0;
-  border: 1px solid #d8d6d1;
+  border: 1px solid var(--border);
   border-radius: 0;
-  background: #fff;
-  color: #222;
+  background: var(--surface-input);
+  color: var(--text);
   font-family: var(--font-body);
   font-size: 15px;
   min-height: 46px;
   padding: 12px 14px;
 }
 .account-field input:read-only {
-  color: #666;
-  background: #f2f2ef !important;
+  color: var(--muted);
+  background: var(--surface-raised) !important;
 }
 .account-password {
   position: relative;
@@ -122,7 +122,7 @@
   display: grid;
   place-items: center;
   width: 40px;
-  color: #666;
+  color: var(--muted);
 }
 .account-primary {
   display: inline-flex;
@@ -141,7 +141,7 @@
   width: 100%;
 }
 .account-page .account-hint {
-  color: #6d6d65;
+  color: var(--muted);
   font-size: 11px;
   line-height: 1.7;
   margin-top: -10px;
@@ -152,7 +152,7 @@
 }
 .account-privacy-note {
   font-size: 11px;
-  color: #666;
+  color: var(--muted);
   margin-bottom: 22px;
 }
 .account-privacy-note a {
@@ -161,10 +161,10 @@
 }
 .account-page .account-preview-note {
   font-size: 11px;
-  color: #6d6d65;
+  color: var(--muted);
   line-height: 1.7;
   padding-top: 20px;
-  border-top: 1px solid #dad8d2;
+  border-top: 1px solid var(--border);
   margin-top: 25px;
 }
 .account-staff-link {
@@ -172,7 +172,7 @@
   align-items: center;
   gap: 8px;
   font-size: 10px;
-  color: #666;
+  color: var(--muted);
   margin-top: 20px;
   width: fit-content;
 }
@@ -185,7 +185,7 @@
   gap: 9px;
   padding: 13px 15px;
   border-left: 2px solid var(--red);
-  background: #f1efeb;
+  background: var(--surface-raised);
   font-size: 12px;
   line-height: 1.6;
   margin-bottom: 22px;
@@ -196,7 +196,7 @@
 }
 .account-error {
   color: #a10c28;
-  background: #be0d2d08;
+  background: #ff003308;
 }
 .account-heading {
   display: flex;
@@ -205,7 +205,7 @@
   gap: 25px;
   margin: 40px 0 50px;
   padding-bottom: 35px;
-  border-bottom: 1px solid #dcd9d4;
+  border-bottom: 1px solid var(--border);
 }
 :root .account-heading h1 {
   font-size: clamp(42px, 4.6vw, 67px);
@@ -213,7 +213,7 @@
   letter-spacing: -0.045em;
 }
 .account-heading p {
-  color: #666;
+  color: var(--muted);
   font-size: 14px;
   margin-top: 18px;
   overflow-wrap: anywhere;
@@ -246,7 +246,7 @@
   align-items: center;
   gap: 15px;
   padding: 17px 0;
-  border-bottom: 1px solid #dcd9d4;
+  border-bottom: 1px solid var(--border);
   font-size: 13px;
 }
 .account-directory-current {
@@ -260,7 +260,7 @@
 .account-directory > p {
   font-size: 12px;
   line-height: 1.8;
-  color: #666;
+  color: var(--muted);
   margin-top: 25px;
   max-width: 270px;
 }
@@ -269,7 +269,7 @@
   grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr);
   gap: 30px;
   padding-bottom: 45px;
-  border-bottom: 1px solid #dedbd8;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 45px;
 }
 .account-settings-section:last-child {
@@ -301,7 +301,7 @@
   display: grid;
   place-items: center;
   font-size: 14px;
-  color: #666;
+  color: var(--muted);
 }
 .account-unavailable {
   max-width: 520px;
@@ -314,7 +314,7 @@ body:has(.account-page) {
 }
 @media (hover: hover) and (pointer: fine) {
   .account-primary:hover {
-    background: #a50926;
+    background: #db002c;
   }
   .account-text-button:hover,
   .account-directory a:hover {

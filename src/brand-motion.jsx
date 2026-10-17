@@ -1,51 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
-import { logoPaths } from "./logo-paths";
+import { WolfWordmark } from "./branding";
 
 export function DrawnHeroLogo() {
   const [replay, setReplay] = useState(0);
   return (
     <button
       className="hero-signature"
-      aria-label="Replay Shega logo drawing"
+      aria-label="Replay Wolf Shop logo drawing"
       title="Replay the logo drawing"
       onClick={() => setReplay((value) => value + 1)}
     >
-      <svg
-        key={replay}
-        className="hero-drawn-logo"
-        viewBox="66 317 1316 462"
-        aria-hidden="true"
-      >
-        <g className="logo-drawing-fills">
-          {logoPaths.map((path, i) => (
-            <path
-              key={i}
-              d={path.d}
-              fill={path.fill}
-              fillRule="evenodd"
-              style={{ animationDelay: `${850 + i * 45}ms` }}
-            />
-          ))}
-        </g>
-        <g
-          className="logo-drawing-outlines"
-          fill="none"
-          strokeWidth="8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          {logoPaths.map((path, i) => (
-            <path
-              key={i}
-              d={path.d}
-              stroke={path.fill}
-              pathLength="1"
-              style={{ animationDelay: `${i * 45}ms` }}
-            />
-          ))}
-        </g>
-      </svg>
+      <WolfWordmark key={replay} className="hero-drawn-logo" />
     </button>
   );
 }
@@ -61,7 +27,7 @@ export function BackgroundMarks({ contained = false }) {
     const picture = new Image();
     const texture = document.createElement("canvas");
     texture.width = 345;
-    texture.height = 338;
+    texture.height = 417;
     const warped = document.createElement("canvas");
     warped.width = 256;
     warped.height = 256;
@@ -131,7 +97,7 @@ export function BackgroundMarks({ contained = false }) {
       ripples = ripples.filter((ripple) => now - ripple.born < 2400);
       for (const [nx, ny, base, rotation, phase] of marks) {
         const size = base * (width < 768 ? 0.7 : 1);
-        const h = (size * 338) / 345;
+        const h = (size * 417) / 345;
         const cx =
           width * nx +
           Math.sin(time * 0.075 + phase) * 22 +
@@ -215,10 +181,10 @@ export function BackgroundMarks({ contained = false }) {
               );
               warpContext.drawImage(
                 texture,
-                (col * picture.naturalWidth) / cells,
-                (row * picture.naturalHeight) / cells,
-                picture.naturalWidth / cells,
-                picture.naturalHeight / cells,
+                (col * texture.width) / cells,
+                (row * texture.height) / cells,
+                texture.width / cells,
+                texture.height / cells,
                 a.x,
                 a.y,
                 b.x - a.x + 0.5,
@@ -238,11 +204,16 @@ export function BackgroundMarks({ contained = false }) {
       frame = requestAnimationFrame(tick);
     };
     picture.onload = () => {
-      texture.getContext("2d").drawImage(picture, 0, 0, 345, 338);
+      texture.getContext("2d").drawImage(picture, 0, 0, 345, 417);
       resize();
+      cancelAnimationFrame(frame);
       if (!reduced) frame = requestAnimationFrame(tick);
     };
-    picture.src = `${import.meta.env.BASE_URL}logos/shega-mark.svg`;
+    const loadArtwork = () => {
+      picture.src = `${import.meta.env.BASE_URL}logos/wolf-ticket-${document.documentElement.dataset.theme === "dark" ? "dark" : "light"}.svg`;
+    };
+    loadArtwork();
+    addEventListener("wolf-theme-change", loadArtwork);
     addEventListener("resize", resize);
     if (!reduced) addEventListener("scroll", onScroll, { passive: true });
     const observer = new ResizeObserver(resize);
@@ -254,6 +225,7 @@ export function BackgroundMarks({ contained = false }) {
     return () => {
       disposed = true;
       picture.onload = null;
+      removeEventListener("wolf-theme-change", loadArtwork);
       cancelAnimationFrame(frame);
       observer.disconnect();
       removeEventListener("resize", resize);

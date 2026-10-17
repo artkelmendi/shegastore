@@ -20,6 +20,7 @@ import {
 import { api, imageUrl } from "../api";
 import { useCatalog } from "../catalog";
 import "./admin.css";
+import { ThemeToggle } from "../theme";
 const euro = (cents) =>
   new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR" }).format(
     cents / 100,
@@ -29,7 +30,7 @@ const date = (value) =>
     dateStyle: "medium",
     timeStyle: "short",
   });
-const logo = `${import.meta.env.BASE_URL}logos/shega-mark.svg`;
+const logo = `${import.meta.env.BASE_URL}logos/wolf-ticket-light.svg`;
 const blank = {
   name: "",
   id: "",
@@ -132,10 +133,11 @@ function Login({ session, onSignedIn, onRetry, offline }) {
   return (
     <main className="workspace-login">
       <div className="workspace-login-brand">
-        <Link to="/" aria-label="Back to Shega Store">
-          <img src={logo} width="43" height="43" alt="Shega" />
+        <Link to="/" aria-label="Back to Wolf Shop">
+          <img src={logo} width="43" height="43" alt="Wolf Shop" />
         </Link>
-        <span>Shega workspace</span>
+        <span>Wolf Shop workspace</span>
+        <ThemeToggle />
         <span className="workspace-local">Local workspace</span>
       </div>
       <section className="workspace-login-intro">
@@ -159,7 +161,7 @@ function Login({ session, onSignedIn, onRetry, offline }) {
       </section>
       <section className="workspace-login-form">
         <div className="workspace-login-topline" />
-        <p className="workspace-kicker">SHEGA STORE</p>
+        <p className="workspace-kicker">WOLF SHOP</p>
         <h2>{setup ? "Set up your workspace" : "Sign in"}</h2>
         <p>
           {setup
@@ -257,7 +259,7 @@ function Login({ session, onSignedIn, onRetry, offline }) {
         </p>
       </section>
       <footer>
-        Shega Store <span>Products / Sizes / Stock</span>
+        Wolf Shop <span>Products / Sizes / Stock</span>
       </footer>
     </main>
   );
@@ -1335,7 +1337,7 @@ export default function AdminApp() {
       navigate("/login", { replace: true });
   }, [user?.id, session?.configured]);
   useEffect(() => {
-    document.title = `${location.pathname.includes("/stock") ? "Stock" : location.pathname.includes("/products") ? "Products" : location.pathname.includes("/activity") ? "Activity" : user ? "Workspace" : "Staff sign in"} | Shega`;
+    document.title = `${location.pathname.includes("/stock") ? "Stock" : location.pathname.includes("/products") ? "Products" : location.pathname.includes("/activity") ? "Activity" : user ? "Workspace" : "Staff sign in"} | Wolf Shop`;
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [location.pathname, user]);
   useEffect(() => {
@@ -1347,7 +1349,7 @@ export default function AdminApp() {
     await load({ quiet: true });
     await refresh();
     setNotice("Saved to the local workspace.");
-    window.dispatchEvent(new Event("shega-catalog-change"));
+    window.dispatchEvent(new Event("wolf-catalog-change"));
   }
   if (!session)
     return (
@@ -1398,11 +1400,12 @@ export default function AdminApp() {
     <div className="workspace">
       <aside className="workspace-sidebar">
         <Link to="/admin" className="workspace-wordmark">
-          <img src={logo} alt="Shega" width="34" height="34" />
+          <img src={logo} alt="Wolf Shop" width="34" height="34" />
           <span>
-            Shega<span>Workspace</span>
+            Wolf Shop<span>Workspace</span>
           </span>
         </Link>
+        <ThemeToggle className="workspace-theme" />
         <p className="workspace-local">Local workspace</p>
         <nav aria-label="Workspace navigation">
           {[
@@ -1451,7 +1454,7 @@ export default function AdminApp() {
       <div className="workspace-body">
         <header className="workspace-topbar">
           <span>
-            Shega Store <span>/</span>{" "}
+            Wolf Shop <span>/</span>{" "}
             {path.includes("/stock")
               ? "Stock"
               : path.includes("/activity")
@@ -1479,7 +1482,7 @@ export default function AdminApp() {
           )}
         </main>
         <footer className="workspace-footer">
-          Shega workspace <span>Catalogue & inventory</span>
+          Wolf Shop workspace <span>Catalogue & inventory</span>
         </footer>
       </div>
     </div>

@@ -1,4 +1,4 @@
-name: Deploy Shega to GitHub Pages
+name: Deploy Wolf Shop to GitHub Pages
 on:
   push:
     branches: [main]

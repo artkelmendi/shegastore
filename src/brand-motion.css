@@ -64,11 +64,11 @@
 }
 .category-tile,
 .category-caption {
-  background: #ce304d;
+  background: #ff0033;
 }
 @media (hover: hover) and (pointer: fine) {
   .category-tile:hover .category-caption {
-    background: #bd2643;
+    background: #db002c;
   }
 }
 @media (max-width: 767px) {
@@ -77,7 +77,7 @@
     margin-bottom: 19px;
   }
   .category-caption svg {
-    background: #ce304d;
+    background: #ff0033;
   }
 }
 @media (prefers-reduced-motion: reduce) {

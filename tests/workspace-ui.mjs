@@ -70,6 +70,19 @@ try {
     fullPage: true,
   });
   await page
+    .getByRole("button", { name: "Switch to dark mode", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Switch to light mode", exact: true }),
+  ).toBeVisible();
+  await page.screenshot({
+    path: "artifacts/wolf-admin-dark-1440.png",
+    fullPage: true,
+  });
+  await page
+    .getByRole("button", { name: "Switch to light mode", exact: true })
+    .click();
+  await page
     .getByRole("navigation", { name: "Workspace navigation" })
     .getByRole("link", { name: "Products" })
     .click();

@@ -6,12 +6,36 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content"
     />
+    <meta property="og:site_name" content="Wolf Shop" />
+    <meta property="og:title" content="Wolf Shop | Wear your own statement." />
+    <link rel="canonical" href="https://artkelmendi.github.io/shegastore/" />
     <meta name="theme-color" content="#fbfbfa" />
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("wolf-theme") === "dark" ? "dark" : "light";
+      } catch {}
+      if (
+        !/(?:^|\/)(?:login|admin|account)(?:\/|$)/.test(location.pathname) &&
+        new URLSearchParams(location.search).get("entrance") !== "classic" &&
+        !matchMedia("(prefers-reduced-motion: reduce)").matches
+      )
+        document.documentElement.dataset.originExperiment = "pending";
+    </script>
+    <style>
+      html[data-origin-experiment="pending"],
+      html[data-origin-experiment="pending"] body {
+        background: #fff !important;
+      }
+      html[data-origin-experiment="pending"] .site-shell {
+        visibility: hidden;
+      }
+    </style>
     <meta
       name="description"
-      content="Discover Shega Store. A considered edit of menswear, from everyday essentials to statement pieces."
+      content="Discover Wolf Shop. A considered edit of menswear, from everyday essentials to statement pieces."
     />
-    <link rel="icon" type="image/svg+xml" href="/logos/shega-mark.svg" />
+    <link rel="icon" type="image/svg+xml" href="/logos/wolf-ticket-red.svg" />
     <link
       rel="preload"
       href="/fonts/cabinet-grotesk-800.woff2"
@@ -21,7 +45,7 @@
     />
     <link
       rel="preload"
-      href="/logos/shega-dark.svg"
+      href="/logos/wolf-full-light.svg"
       as="image"
       fetchpriority="high"
     />
@@ -34,7 +58,7 @@
     />
     <link
       rel="preload"
-      href="/images/real/shega-boss-hero.webp"
+      href="/images/real/wolf-boss-hero.webp"
       as="image"
       fetchpriority="high"
     />
@@ -45,7 +69,7 @@
       type="font/woff2"
       crossorigin
     />
-    <title>Shega Store | Wear your own statement.</title>
+    <title>Wolf Shop | Wear your own statement.</title>
   </head>
   <body>
     <div id="root"></div>

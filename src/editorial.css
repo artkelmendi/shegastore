@@ -1,4 +1,4 @@
-/* White editorial surfaces, expressive type, and small Shega-red details. */
+/* White editorial surfaces, expressive type, and small Wolf Shop-red details. */
 @font-face {
   font-family: Satoshi;
   src: url("/fonts/satoshi-400.woff2") format("woff2");
@@ -30,8 +30,8 @@
   --text: #191919;
   --muted: #6c6c67;
   --border: #dcdcd7;
-  --red: #be0d2d;
-  --red-text: #be0d2d;
+  --red: #ff0033;
+  --red-text: #ff0033;
   --inverse: #fbfbfa;
   --button: #191919;
   color-scheme: light;
@@ -44,7 +44,7 @@
   backdrop-filter: blur(16px);
 }
 .header-logo {
-  content: url("/logos/shega-dark.svg");
+  content: url("/logos/wolf-full-light.svg");
 }
 .header-brand {
   transition: none;
@@ -717,7 +717,7 @@
   content: "";
   width: 30px;
   height: 3px;
-  background: #e32140;
+  background: #ff0033;
 }
 .hero-title {
   font-family: var(--font-heading);

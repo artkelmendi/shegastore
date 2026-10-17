@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef } from "react";
+import { WolfEyes } from "./branding";
 import "./origin-entrance.css";
 
-// Keep the original entrance available as a reversible fallback.
 const entryPath =
   location.pathname.slice(import.meta.env.BASE_URL.replace(/\/$/, "").length) ||
   "/";
@@ -9,82 +9,114 @@ export const originEnabled =
   !/^\/(login|admin|account)(\/|$)/.test(entryPath) &&
   new URLSearchParams(location.search).get("entrance") !== "classic" &&
   !matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (originEnabled && !window.__shegaOrigin)
+if (originEnabled)
   document.documentElement.dataset.originExperiment = "pending";
-
-const out = "cubic-bezier(0.23, 1, 0.32, 1)";
-const unfold = "cubic-bezier(0.77, 0, 0.175, 1)";
-// Slow the entire choreography together, preserving overlap and shared origin.
-const pace = 1.4;
+const out = "cubic-bezier(0.23, 1, 0.32, 1)",
+  unfold = "cubic-bezier(0.77, 0, 0.175, 1)";
 
 export function OriginEntrance({ onReveal, onComplete }) {
   const callbacks = useRef({ onReveal, onComplete });
   callbacks.current = { onReveal, onComplete };
-  const seed = useRef(null);
-  const finish = useRef(null);
+  const emblem = useRef(),
+    veil = useRef(),
+    finish = useRef();
   useLayoutEffect(() => {
-    const root = document.documentElement;
-    const shell = document.querySelector(".site-shell");
-    const previousOverflow = document.body.style.overflow;
-    const previousFocus = document.activeElement;
-    const animations = [];
-    const savedStyles = new Map();
-    const timers = new Set();
+    const root = document.documentElement,
+      shell = document.querySelector(".site-shell");
+    const previousOverflow = document.body.style.overflow,
+      originalStyles = new Map(),
+      animations = [],
+      timers = new Set();
     let disposed = false,
-      completed = false;
-    document.body.style.overflow = "hidden";
-    root.dataset.originExperiment = "pending";
+      settled = false;
     const remember = (el) => {
-      if (el && !savedStyles.has(el))
-        savedStyles.set(el, el.getAttribute("style"));
+      if (el && !originalStyles.has(el))
+        originalStyles.set(el, el.getAttribute("style"));
     };
     remember(shell);
-    const initialBox = shell.getBoundingClientRect();
-    // Rasterize only the visible scene, under the almost-opaque preparation veil.
-    // This avoids a first-use full-page mask/texture upload during the reveal.
-    shell.style.maxHeight = `${innerHeight - initialBox.top}px`;
-    shell.style.overflow = "clip";
-    shell.style.willChange = "clip-path";
+    const ox = document.body.clientWidth / 2,
+      oy = innerHeight / 2;
+    // Keep the document at its real height throughout the handoff. A temporary
+    // viewport crop changes scroll measurements and can snap the hero on release.
+    shell.style.opacity = "0";
+    shell.style.willChange = "opacity";
+    // The page and eyes share a white field, but have independent compositing.
+    shell.style.position = "relative";
+    shell.style.zIndex = "71";
+    document.body.style.overflow = "hidden";
+    root.dataset.originExperiment = "pending";
     const restore = () => {
       animations.forEach((animation) => animation.cancel());
-      savedStyles.forEach((value, el) =>
-        value === null
+      originalStyles.forEach((style, el) =>
+        style === null
           ? el.removeAttribute("style")
-          : el.setAttribute("style", value),
+          : el.setAttribute("style", style),
       );
       document.body.style.overflow = previousOverflow;
       root.dataset.originExperiment = "settled";
     };
     const complete = () => {
-      if (completed || disposed) return;
-      completed = true;
+      if (disposed || settled) return;
+      settled = true;
       restore();
+      window.__wolfOrigin.phase = "settled";
       callbacks.current.onComplete();
-      window.__shegaOrigin.phase = "settled";
-      if (
-        previousFocus instanceof HTMLElement &&
-        previousFocus !== document.body
-      )
-        previousFocus.focus({ preventScroll: true });
     };
     finish.current = complete;
-    const abort = (event) => {
+    const escape = (event) => {
       if (event.key === "Escape") complete();
     };
-    addEventListener("keydown", abort);
-    // Resize or an orientation change should settle, never warp a measured scene.
-    addEventListener("resize", complete);
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     const preference = () => {
       if (reduced.matches) complete();
     };
+    addEventListener("keydown", escape);
+    addEventListener("resize", complete);
     reduced.addEventListener("change", preference);
-    window.__shegaOrigin = {
-      phase: "preparing",
+    const clock = document.timeline.currentTime + 40;
+    window.__wolfOrigin = {
+      phase: "eyes",
       animations,
-      origin: null,
-      total: 0,
+      started: clock,
+      origin: [ox, oy],
     };
+    const animate = (
+      el,
+      frames,
+      duration,
+      delay = 0,
+      easing = out,
+      start = clock,
+    ) => {
+      if (!el) return null;
+      const animation = el.animate(frames, {
+        duration,
+        delay,
+        easing,
+        fill: "both",
+      });
+      animation.startTime = start;
+      animations.push(animation);
+      return animation;
+    };
+    const art = emblem.current.querySelector("svg");
+    // The gaze resolves and eases inward without squeezing the eye contours.
+    // Both eyes hold their expression before the shared forward dive.
+    emblem.current.querySelectorAll(".wolf-eye").forEach((eye, index) =>
+      animate(
+        eye,
+        [
+          {
+            opacity: 0,
+            transform: `translateX(${index === 0 ? "-5%" : "5%"}) scale(.97)`,
+          },
+          { opacity: 1, transform: "translateX(0%) scale(1)" },
+        ],
+        1000,
+        80,
+        out,
+      ),
+    );
     const wait = (ms) =>
       new Promise((resolve) => {
         const timer = setTimeout(() => {
@@ -99,151 +131,127 @@ export function OriginEntrance({ onReveal, onComplete }) {
       const image = document.querySelector(".hero-image.is-active");
       await Promise.race([
         Promise.all([document.fonts.ready, image?.decode().catch(() => {})]),
-        wait(1200),
+        wait(1500),
       ]);
-      if (disposed || completed) return;
+      if (disposed || settled) return;
       callbacks.current.onReveal();
       await frame();
       await frame();
-      if (disposed || completed) return;
-      const width = document.body.clientWidth;
-      const height = innerHeight;
-      const ox = width / 2;
-      const oy = height / 2;
-      // One viewport-space origin is converted into each element's own coordinates.
-      const shellBox = shell.getBoundingClientRect();
-      const localX = ox - shellBox.left,
-        localY = oy - shellBox.top;
-      const radius =
-        Math.hypot(Math.max(ox, width - ox), Math.max(oy, height - oy)) + 4;
+      if (disposed || settled) return;
+      const pageClock = Math.max(
+        clock + 1450,
+        document.timeline.currentTime + 32,
+      );
       root.dataset.originExperiment = "unfolding";
-      // Reserve one quiet paint before any timeline motion starts.
-      const clock = document.timeline.currentTime + 100;
-      Object.assign(window.__shegaOrigin, {
-        phase: "unfolding",
-        origin: [ox, oy],
-        started: clock,
-        total: 1840 * pace,
-      });
-      const animate = (el, frames, duration, delay = 0, easing = out) => {
-        if (!el) return null;
-        const animation = el.animate(frames, {
-          duration: duration * pace,
-          delay: delay * pace,
-          easing,
-          fill: "both",
-        });
-        animation.startTime = clock;
-        animations.push(animation);
-        return animation;
-      };
-      remember(shell);
-      shell.style.willChange = "clip-path";
-      const aperture = animate(
-        shell,
+      window.__wolfOrigin.phase = "revealing";
+      // A small intake, then the eyes pass the camera as the page opens beneath.
+      // The approved ticket and wordmark remain hidden for the entire intro.
+      animate(
+        art,
         [
-          { clipPath: `circle(0px at ${localX}px ${localY}px)` },
-          { clipPath: `circle(${radius}px at ${localX}px ${localY}px)` },
+          { transform: "scale(1)", opacity: 1, offset: 0 },
+          { transform: "scale(.94)", opacity: 1, offset: 0.18 },
+          { transform: "scale(1.9)", opacity: 0.9, offset: 0.52 },
+          { transform: "scale(6)", opacity: 0, offset: 1 },
         ],
-        1400,
-        100,
+        1100,
+        0,
         unfold,
+        pageClock,
+      );
+      window.__wolfOrigin.revealStart = pageClock;
+      animate(
+        veil.current,
+        [{ opacity: 1 }, { opacity: 0 }],
+        1050,
+        240,
+        out,
+        pageClock,
       );
       animate(
-        seed.current,
-        [
-          {
-            transform: "translate(-50%, -50%) scale(.4)",
-            opacity: 1,
-            offset: 0,
-          },
-          {
-            transform: "translate(-50%, -50%) scale(1)",
-            opacity: 1,
-            offset: 0.3,
-          },
-          {
-            transform: "translate(-50%, -50%) scale(1.35)",
-            opacity: 0,
-            offset: 1,
-          },
-        ],
-        450,
-        0,
+        shell,
+        [{ opacity: 0 }, { opacity: 1 }],
+        1050,
+        240,
         out,
+        pageClock,
       );
-      const emerge = (selector, scale, delay, duration = 1200) => {
-        const elements =
-          typeof selector === "string"
-            ? document.querySelectorAll(selector)
-            : [selector];
-        elements.forEach((el, i) => {
-          if (!el) return;
-          const r = el.getBoundingClientRect();
-          if (!r.width || !r.height) return;
-          remember(el);
-          el.style.transformOrigin = `${ox - r.left}px ${oy - r.top}px`;
-          el.style.willChange = "transform";
-          animate(
-            el,
-            [{ transform: `scale(${scale})` }, { transform: "scale(1)" }],
-            duration,
-            delay + i * 32,
-            unfold,
-          );
-        });
-      };
-      emerge(".hero-image.is-active", 0.8, 100, 1400);
-      emerge(".header-brand", 0.006, 100, 1400);
-      emerge(".hero-signature", 0.02, 100, 1400);
-      emerge(".hero-title-mask", 0.08, 200, 1400);
-      emerge(".hero-description", 0.12, 260, 1380);
-      emerge(".hero-message > div.hero-enter", 0.14, 300, 1400);
-      emerge(".desktop-nav", 0.05, 180, 1400);
-      emerge(".header-tools", 0.1, 200, 1400);
-      emerge(".hero-pagination", 0.15, 300, 1400);
-      emerge(".brand-marquee", 0.6, 320, 1400);
-      if (!image) {
-        emerge(
-          ".page-intro h1, .info-page > h1, .faq-page > h1",
-          0.32,
-          240,
+      const photography = document.querySelector(".hero-photography");
+      if (photography) {
+        const resting = getComputedStyle(photography).transform;
+        animate(
+          photography,
+          [
+            {
+              opacity: 0.4,
+              transform: `${resting === "none" ? "" : resting} scale(1.035)`,
+            },
+            { opacity: 1, transform: resting },
+          ],
           1250,
-        );
-        emerge(
-          ".shop-tabs, .shop-toolbar, .product-info > h1, .product-zoom",
-          0.7,
-          360,
-          1250,
+          160,
+          out,
+          pageClock,
         );
       }
-      // Transparent margins/background marks join only once the aperture has opened.
+      document
+        .querySelectorAll(
+          ".header-brand,.mobile-shop-link,.desktop-nav,.header-tools,.hero-signature,.hero-title-mask,.hero-description,.hero-message > div.hero-enter,.hero-pagination,.page-intro,.product-detail",
+        )
+        .forEach((el, index) => {
+          const box = el.getBoundingClientRect();
+          if (!box.width || box.top > innerHeight) return;
+          const resting = getComputedStyle(el).transform;
+          animate(
+            el,
+            [
+              {
+                opacity: 0,
+                transform: `${resting === "none" ? "" : resting} translateY(18px)`,
+              },
+              { opacity: 1, transform: resting },
+            ],
+            950,
+            360 + Math.min(index * 45, 300),
+            out,
+            pageClock,
+          );
+        });
       animate(
         document.querySelector(".background-marks"),
         [{ opacity: 0 }, { opacity: 1 }],
-        500,
-        1190,
+        650,
+        850,
+        out,
+        pageClock,
       );
-      const end = animate(seed.current, [], 1840);
-      await end.finished.catch(() => {});
+      // Never discard a child's animation early when its parent has finished.
+      // Wait for the last stagger, then remove only settled animation layers.
+      await Promise.all(
+        animations.map((animation) => animation.finished.catch(() => {})),
+      );
       if (!disposed) complete();
     };
-    run().catch((error) => {
-      console.warn("Entrance recovered safely:", error);
-      complete();
-    });
+    run().catch(() => complete());
     return () => {
       disposed = true;
       timers.forEach(clearTimeout);
       restore();
-      removeEventListener("keydown", abort);
+      removeEventListener("keydown", escape);
       removeEventListener("resize", complete);
       reduced.removeEventListener("change", preference);
     };
   }, []);
   return (
-    <div className="origin-entrance" aria-label="Opening Shega" role="region">
-      <span ref={seed} className="origin-seed" aria-hidden="true" />
+    <div
+      className="origin-entrance"
+      aria-label="Waking Wolf Shop"
+      role="region"
+    >
+      <div ref={veil} className="origin-veil" />
+      <div ref={emblem} className="origin-emblem">
+        <WolfEyes />
+      </div>
       <button className="origin-skip" onClick={() => finish.current?.()}>
         Skip entrance
       </button>

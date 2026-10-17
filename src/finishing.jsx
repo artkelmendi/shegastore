@@ -27,7 +27,7 @@ export function OutfitEdit() {
           the <em>plan?</em>
         </h2>
         <p>A few good pieces. Somewhere to go.</p>
-        <span className="edit-signoff">Wear it your way. — Shega</span>
+        <span className="edit-signoff">Wear it your way. — Wolf Shop</span>
       </div>
       <div className="outfit-links">
         {[
@@ -64,10 +64,13 @@ export function OutfitEdit() {
   );
 }
 
-const consentKey = "shega-consent-v1";
+const consentKey = "wolf-consent-v1";
 function getChoice() {
   try {
-    const choice = JSON.parse(localStorage.getItem(consentKey));
+    const choice = JSON.parse(
+      localStorage.getItem(consentKey) ??
+        localStorage.getItem("shega-consent-v1"),
+    );
     return choice?.version === 1 &&
       typeof choice.optional === "boolean" &&
       Date.now() - choice.time < 180 * 86400000
@@ -94,8 +97,8 @@ export function CookieConsent({ ready }) {
       setOpen(true);
       setDetails(false);
     };
-    window.addEventListener("shega-cookie-settings", reopen);
-    return () => window.removeEventListener("shega-cookie-settings", reopen);
+    window.addEventListener("wolf-cookie-settings", reopen);
+    return () => window.removeEventListener("wolf-cookie-settings", reopen);
   }, []);
   const save = (optional) => {
     const next = { version: 1, optional, time: Date.now() };
@@ -105,7 +108,7 @@ export function CookieConsent({ ready }) {
     setChoice(next);
     setOpen(false);
     window.dispatchEvent(
-      new CustomEvent("shega-consent-change", { detail: next }),
+      new CustomEvent("wolf-consent-change", { detail: next }),
     );
     trigger.current?.focus();
   };
@@ -178,7 +181,7 @@ export function CookieSettingsButton() {
   return (
     <button
       className="cookie-settings-link"
-      onClick={() => window.dispatchEvent(new Event("shega-cookie-settings"))}
+      onClick={() => window.dispatchEvent(new Event("wolf-cookie-settings"))}
     >
       Cookie settings
     </button>

@@ -12,7 +12,7 @@
   --text: #f3f1ed;
   --muted: #a4a29f;
   --border: #30302f;
-  --red: #be0d2d;
+  --red: #ff0033;
   --red-text: #e44b64;
   --inverse: #111;
   --button: #f3f1ed;
@@ -29,7 +29,7 @@
   --text: #191919;
   --muted: #68655f;
   --border: #cecbc5;
-  --red-text: #b0092a;
+  --red-text: #d9002c;
   --inverse: #f2f0ec;
   --button: #171717;
   color: #191919;
@@ -931,7 +931,7 @@ input[type="checkbox"] {
   max-width: 730px;
 }
 :root[data-theme="light"] .footer-brand img {
-  content: url("/logos/shega-dark.svg");
+  content: url("/logos/wolf-full-light.svg");
 }
 
 .inner-page {
@@ -1853,7 +1853,7 @@ details > p {
     border-color: var(--red);
   }
   .hero .button:hover {
-    background: #be0d2d;
+    background: #ff0033;
     color: #f3f1ed;
   }
   .text-link:hover,

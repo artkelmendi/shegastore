@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="VECTOR_ARTWORK__x2F__APPROVED_VERSION" x="0px" y="0px" viewBox="0 0 1165 970" enable-background="new 0 0 1165 970" xml:space="preserve">
+<g id="WOLF_SHOP__x2F__full__x2F__white-red-eyes">
+	<g id="Complete_symmetrical_ticket">
+		<defs>
+			<path id="Transparent_clearance_behind_O" d="M-45-100h1254v1254H-45V-100z M505,560h112l71,68v146l-134,96l-134-96V650L505,560z     " clip-rule="evenodd" />
+		</defs>
+		<clipPath id="Transparent_clearance_behind_O_00000153688741072998272290000017391019960794495646_" clip-rule="evenodd">
+			<use xlink:href="#Transparent_clearance_behind_O" overflow="visible" clip-rule="evenodd" />
+		</clipPath>
+		
+			<path id="Symmetrical_complete_ticket" clip-path="url(#Transparent_clearance_behind_O_00000153688741072998272290000017391019960794495646_)" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="    M640.70837,137.5l112.58325,65l27.4519,102.4519l-175,303.10889l-242.48709-140L538.25647,164.9519L640.70837,137.5z     M684,192.51666c13.87054,8.00815,18.62286,25.74422,10.61475,39.61473c-8.00818,13.87053-25.7442,18.62289-39.61475,10.61475    s-18.62286-25.74422-10.61475-39.61475C652.39343,189.26088,670.12946,184.50851,684,192.51666z" />
+		
+			<polygon clip-path="url(#Transparent_clearance_behind_O_00000153688741072998272290000017391019960794495646_)" fill-rule="evenodd" clip-rule="evenodd" fill="#FF0033" points="    480.00516,321.8461 534.18909,381.99673 517.84937,430.298 476.55771,371.81723   " />
+		
+			<polygon clip-path="url(#Transparent_clearance_behind_O_00000153688741072998272290000017391019960794495646_)" fill-rule="evenodd" clip-rule="evenodd" fill="#FF0033" points="    673.99487,433.8461 594.81091,416.99673 561.15063,455.298 632.44226,461.81723   " />
+		
+			<path clip-path="url(#Transparent_clearance_behind_O_00000153688741072998272290000017391019960794495646_)" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="    M663,205c23-23,40-79,66-120c28-43,60-52,82-40c49,29,5,91-71,137c-11,6-21-9-9-17c51-34,81-66,81-89c0-29-26-12-43,5    c-35,37-54,98-87,136C671,230,657,217,663,205z" />
+	</g>
+	<g id="WOLF_SHOP_lettering">
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="35,543 161,582 180,694 232,578 305,578 333,678     372,578 465,578 377,792 291,815 257,709 164,903   " />
+		<path id="O" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M512,578h98l60,58v128l-116,86l-116-86V658L512,578z     M554,649l-31,25v54l31,24l32-24v-54L554,649z" />
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="682,578 771,578 771,737 850,749 850,830 682,805   " />
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="864,579 1130,537 1071,621 951,645 951,666 1053,650     1008,731 951,736 951,935 864,832   " />
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="307,866 349,866 358,875 358,886 341,886 341,880     316,880 316,894 349,898 358,907 358,928 349,937 307,937 298,928 298,917 315,917 315,923 341,923 341,909 307,905 298,896     298,875   " />
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="446,866 464,866 464,894 495,894 495,866 513,866     513,937 495,937 495,909 464,909 464,937 446,937   " />
+		<path id="shop-O" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M610,866h46l9,9v53l-9,9h-46l-9-9v-53L610,866z     M619,880v43h28v-43H619z" />
+		<path id="shop-P" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M753,866h54l9,9v31l-9,9h-36v22h-18V866z M771,880    v21h27v-21H771z" />
+	</g>
+</g>
+</svg>

@@ -13,12 +13,12 @@
   display: grid;
   grid-template-columns: 100px minmax(0, 1fr);
   gap: 15px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border);
   padding-block: 14px;
   font-size: 13px;
 }
 .static-product-details dt {
-  color: #666;
+  color: var(--muted);
 }
 .static-product-details dd {
   margin: 0;
@@ -28,8 +28,8 @@
 .workspace-login,
 .workspace-loading {
   font-family: var(--font-body);
-  color: #202020;
-  background: #f8f8f6;
+  color: var(--text);
+  background: var(--surface);
 }
 body:has(.workspace, .workspace-login, .workspace-loading) {
   min-width: 0;
@@ -83,8 +83,8 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
     transform 120ms var(--ease-out);
 }
 .workspace-secondary {
-  background: white;
-  color: #333;
+  background: var(--surface-input);
+  color: var(--text);
   border-color: #d7d7d3;
 }
 .workspace-primary:active,
@@ -110,7 +110,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   line-height: 1.5;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #666;
+  color: var(--muted);
   border: 1px solid #dddcd6;
   padding: 4px 8px;
   border-radius: 2px;
@@ -145,7 +145,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-login-intro > p:last-of-type {
   font-size: 15px;
-  color: #777;
+  color: var(--muted);
   line-height: 1.8;
 }
 .workspace-login-note {
@@ -190,7 +190,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-login-form > p:not(.workspace-kicker) {
   font-size: 13px;
-  color: #777;
+  color: var(--muted);
   line-height: 1.7;
 }
 .workspace-login-form form {
@@ -216,13 +216,13 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   font-family: var(--font-body);
   font-size: 14px;
   line-height: 1.5;
-  background: #fff;
-  border: 1px solid #d8d8d3;
+  background: var(--surface-input);
+  border: 1px solid var(--border);
   border-radius: 2px;
   min-height: 43px;
   padding: 11px 12px;
   width: 100%;
-  color: #222;
+  color: var(--text);
   transition: border-color 160ms ease;
 }
 :root
@@ -243,7 +243,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   position: absolute;
   right: 8px;
   padding: 8px;
-  color: #777;
+  color: var(--muted);
   display: grid;
   place-items: center;
 }
@@ -272,8 +272,8 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   position: sticky;
   top: 0;
   height: 100svh;
-  background: #f0f0ed;
-  border-right: 1px solid #deded9;
+  background: var(--surface-raised);
+  border-right: 1px solid var(--border);
   padding: 30px 20px;
   display: flex;
   flex-direction: column;
@@ -297,7 +297,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   font-size: 10px;
   letter-spacing: 0.02em;
   margin-top: 7px;
-  color: #777;
+  color: var(--muted);
 }
 .workspace-sidebar > .workspace-local {
   margin: 25px 8px 20px;
@@ -314,7 +314,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   gap: 12px;
   padding: 12px 13px;
   font-size: 13px;
-  color: #777;
+  color: var(--muted);
   border-left: 2px solid transparent;
 }
 .workspace-sidebar nav a.active {
@@ -331,9 +331,9 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   justify-content: space-between;
   align-items: center;
   font-size: 11px;
-  color: #777;
+  color: var(--muted);
   padding: 18px 8px;
-  border-bottom: 1px solid #deded9;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 17px;
 }
 .workspace-sidebar-bottom > a svg {
@@ -367,13 +367,13 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 .workspace-staff small {
   display: block;
   font-size: 10px;
-  color: #6d6d65;
+  color: var(--muted);
   margin-top: 4px;
 }
 .workspace-staff button {
   margin-left: auto;
   padding: 8px;
-  color: #777;
+  color: var(--muted);
 }
 .workspace-body {
   min-width: 0;
@@ -386,10 +386,10 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   justify-content: space-between;
   align-items: center;
   padding: 0 40px;
-  border-bottom: 1px solid #e1e1db;
-  background: #fbfbfa;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
   font-size: 11px;
-  color: #777;
+  color: var(--muted);
 }
 .workspace-topbar > span:first-child > span {
   margin: 0 11px;
@@ -397,7 +397,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-topbar-note {
   font-size: 10px;
-  color: #6d6d65;
+  color: var(--muted);
 }
 .workspace-content {
   padding: 38px 40px 60px;
@@ -418,27 +418,27 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-page-heading p:not(.workspace-kicker) {
   font-size: 13px;
-  color: #666;
+  color: var(--muted);
   line-height: 1.7;
   margin-top: 12px;
 }
 .workspace-metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-block: 1px solid #dbdbd5;
+  border-block: 1px solid var(--border);
   margin-bottom: 38px;
-  background: #fbfbfa;
+  background: var(--surface);
 }
 .workspace-metrics > div {
   padding: 22px;
-  border-right: 1px solid #e0e0da;
+  border-right: 1px solid var(--border);
 }
 .workspace-metrics > div:last-child {
   border: 0;
 }
 .workspace-metrics span {
   font-size: 11px;
-  color: #777;
+  color: var(--muted);
 }
 .workspace-metrics strong {
   display: block;
@@ -452,7 +452,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 .workspace-metrics small {
   display: block;
   font-size: 10px;
-  color: #6d6d65;
+  color: var(--muted);
   line-height: 1.6;
 }
 .workspace-attention {
@@ -469,7 +469,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-attention p:not(.workspace-kicker) {
   font-size: 12px;
-  color: #666;
+  color: var(--muted);
   margin-top: 10px;
   max-width: 500px;
 }
@@ -485,7 +485,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   align-items: center;
   gap: 8px;
   font-size: 11px;
-  color: #777;
+  color: var(--muted);
 }
 .workspace-section-title a svg {
   color: var(--red);
@@ -494,8 +494,8 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   position: relative;
   width: 100%;
   overflow: auto;
-  border-block: 1px solid #ddddd7;
-  background: #fcfcfb;
+  border-block: 1px solid var(--border);
+  background: var(--surface);
 }
 .workspace-table {
   width: 100%;
@@ -509,16 +509,16 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   font-size: 10px;
   letter-spacing: 0.025em;
   text-transform: none;
-  color: #8b8b83;
+  color: var(--muted);
   font-weight: 500;
   text-align: left;
-  background: #f2f2ef;
+  background: var(--surface-raised);
   white-space: nowrap;
-  border-bottom: 1px solid #ddddd7;
+  border-bottom: 1px solid var(--border);
 }
 .workspace-table td {
   padding: 17px 16px;
-  border-bottom: 1px solid #e6e6e1;
+  border-bottom: 1px solid var(--border);
   font-size: 13px;
   vertical-align: middle;
   line-height: 1.55;
@@ -533,7 +533,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 .workspace-table small {
   display: block;
   font-size: 11px;
-  color: #6d6d65;
+  color: var(--muted);
   margin-top: 5px;
   line-height: 1.5;
 }
@@ -617,13 +617,13 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   margin: 0;
   flex: 1;
   max-width: 420px;
-  background: #fff;
-  border: 1px solid #d8d8d3;
+  background: var(--surface-input);
+  border: 1px solid var(--border);
   padding-left: 12px;
   border-radius: 2px;
 }
 .workspace-search svg {
-  color: #6d6d65;
+  color: var(--muted);
   flex-shrink: 0;
 }
 .workspace .workspace-search input {
@@ -639,21 +639,21 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-toolbar > span {
   font-size: 10px;
-  color: #6d6d65;
+  color: var(--muted);
   margin-left: auto;
   white-space: nowrap;
 }
 .workspace-empty {
   padding: 45px 24px;
   text-align: center;
-  background: #fbfbfa;
+  background: var(--surface);
 }
 .workspace-empty h3 {
   font-size: 22px;
 }
 .workspace-empty p {
   font-size: 12px;
-  color: #666;
+  color: var(--muted);
   margin-top: 12px;
 }
 .workspace-empty a {
@@ -670,8 +670,8 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-form-section {
   padding: 26px;
-  background: #fcfcfb;
-  border: 1px solid #deded9;
+  background: var(--surface);
+  border: 1px solid var(--border);
   margin-bottom: 24px;
   border-radius: 2px;
   min-width: 0;
@@ -696,7 +696,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   display: block;
   font-size: 12px;
   font-weight: 400;
-  color: #6d6d65;
+  color: var(--muted);
   line-height: 1.7;
 }
 .workspace-field-note {
@@ -730,14 +730,14 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-unsaved {
   font-size: 11px;
-  color: #6d6d65;
+  color: var(--muted);
 }
 .workspace-back {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 11px;
-  color: #666;
+  color: var(--muted);
   padding: 0;
   margin-bottom: 14px;
 }
@@ -748,7 +748,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   margin-bottom: 20px;
 }
 .workspace-size-picker button {
-  border: 1px solid #d8d8d3;
+  border: 1px solid var(--border);
   min-width: 43px;
   height: 40px;
   font-size: 12px;
@@ -757,7 +757,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 .workspace-size-picker .selected {
   border-color: var(--red);
   color: var(--red);
-  background: #be0d2d05;
+  background: #ff003305;
 }
 .workspace-size-list {
   display: flex;
@@ -766,14 +766,14 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-size-list > span {
   font-size: 13px;
-  border: 1px solid #ddddd7;
+  border: 1px solid var(--border);
   padding: 11px 15px;
   min-width: 80px;
 }
 .workspace-size-list small {
   display: block;
   font-size: 9px;
-  color: #6d6d65;
+  color: var(--muted);
   margin-top: 6px;
 }
 .workspace-main-photo {
@@ -785,12 +785,12 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   margin-bottom: 16px;
 }
 .workspace-photo-empty {
-  background: #f1f1ed;
+  background: var(--surface-raised);
   min-height: 180px;
   display: grid;
   place-items: center;
   font-size: 12px;
-  color: #6d6d65;
+  color: var(--muted);
   margin-bottom: 16px;
 }
 .workspace-upload {
@@ -843,12 +843,12 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   position: absolute;
   bottom: 3px;
   right: 3px;
-  background: #fff;
+  background: var(--surface-input);
   color: var(--red);
 }
 .workspace-editor-save {
   grid-column: 1/-1;
-  border-top: 1px solid #deded9;
+  border-top: 1px solid var(--border);
   padding-top: 22px;
   display: flex;
   align-items: center;
@@ -867,7 +867,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   padding: 12px 14px;
   border: 1px solid #e8c6cd;
   border-left: 2px solid var(--red);
-  background: #be0d2d04;
+  background: #ff003304;
   font-size: 12px !important;
   line-height: 1.6 !important;
   color: var(--red) !important;
@@ -881,11 +881,11 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 16px;
   margin-bottom: 24px;
   font-size: 12px;
-  color: #666;
+  color: var(--muted);
 }
 .workspace-saved svg {
   color: var(--red);
@@ -894,14 +894,14 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-block: 1px solid #deded9;
+  border-block: 1px solid var(--border);
 }
 .workspace-activity li {
   display: flex;
   align-items: flex-start;
   gap: 15px;
   padding: 20px 10px;
-  border-bottom: 1px solid #e4e4dd;
+  border-bottom: 1px solid var(--border);
 }
 .workspace-activity li:last-child {
   border: 0;
@@ -925,7 +925,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 .workspace-activity p {
   font-size: 10px;
-  color: #6d6d65;
+  color: var(--muted);
   line-height: 1.7;
   margin-top: 6px;
 }
@@ -935,7 +935,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 .workspace-activity-type {
   margin-left: auto;
   font-size: 9px;
-  color: #6d6d65;
+  color: var(--muted);
   padding: 3px 6px;
   border: 1px solid #deded7;
   border-radius: 2px;
@@ -946,7 +946,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   align-items: center;
   justify-content: space-between;
   padding: 20px 40px;
-  border-top: 1px solid #e1e1db;
+  border-top: 1px solid var(--border);
   font-size: 10px;
   color: #aaa;
   line-height: 1.5;
@@ -958,16 +958,16 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   justify-content: center;
   gap: 16px;
   font-size: 13px;
-  color: #666;
+  color: var(--muted);
 }
 .workspace-modal {
   border: 1px solid #d8d8d0;
   max-width: 540px;
   width: calc(100vw - 32px);
   padding: 28px;
-  background: #fbfbfa;
+  background: var(--surface);
   border-radius: 2px;
-  color: #222;
+  color: var(--text);
   max-height: calc(100svh - 50px);
   overflow: auto;
 }
@@ -1022,7 +1022,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 .workspace-adjust-product span {
   display: block;
   font-size: 12px;
-  color: #666;
+  color: var(--muted);
   margin-top: 5px;
 }
 .workspace-adjust-product small {
@@ -1031,10 +1031,10 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
 }
 @media (hover: hover) and (pointer: fine) {
   .workspace-primary:hover {
-    background: #a50926;
+    background: #db002c;
   }
   .workspace-secondary:hover {
-    background: #f2f2ef;
+    background: var(--surface-raised);
   }
   .workspace-row-edit:hover,
   .workspace-text-link:hover,
@@ -1045,7 +1045,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
     color: var(--red);
   }
   .workspace-table tbody tr:hover {
-    background: #f7f7f3;
+    background: var(--surface-raised);
   }
 }
 @media (max-width: 1100px) {
@@ -1090,7 +1090,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
     width: 100%;
     padding: 18px 17px 0;
     border-right: 0;
-    border-bottom: 1px solid #deded9;
+    border-bottom: 1px solid var(--border);
   }
   .workspace-wordmark {
     padding: 0;
@@ -1165,7 +1165,7 @@ body:has(.workspace, .workspace-login, .workspace-loading) {
   }
   .workspace-metrics > div {
     padding: 18px;
-    border-bottom: 1px solid #deded9;
+    border-bottom: 1px solid var(--border);
   }
   .workspace-metrics > div:nth-child(2) {
     border-right: 0;
