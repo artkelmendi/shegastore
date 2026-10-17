@@ -68,4 +68,10 @@ Cookie preferences appear after the opening animation. Accept and reject have eq
 
 Verify with `node scripts/verify-finishing.mjs`; `SHEGA_PREVIEW_URL` can target a production-style preview.
 
-The shop now uses Cabinet Grotesk headings and category tabs, with Satoshi product details and controls. `scripts/verify-shop-refresh.mjs` checks typography, responsive grids, filters, sorting and empty states.
+The shop now uses Cabinet Grotesk headings, with Satoshi category tabs, product details and controls. `scripts/verify-shop-refresh.mjs` checks typography, responsive grids, filters, sorting and empty states.
+
+## Final type system
+
+`src/type-system.css` provides the shared type scale, control fonts, red details and spacing. Cabinet Grotesk 800 is used for headings; Satoshi 400/500/700 is used for readable text and interface controls. Telma is reserved for the hero signature. Legacy Clash Display, Panchang and Chillax font declarations and the obsolete preload have been removed.
+
+`node scripts/verify-type-system.mjs` audits rendered text fonts and overflow on 10 pages at 1440, 768, 390 and 320px, and verifies pointer hover/press feedback. Existing Motion reveals are supplemented with a reduced-motion-aware entrance for the FAQ, information pages, outfit edit and footer. The pointer remains attached to the native cursor without lag.

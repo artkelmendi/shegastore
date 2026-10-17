@@ -1,0 +1,363 @@
+/* Shared type and rhythm. Only the hero uses signature lettering. */
+:root {
+  --font-body: Satoshi, Arial, sans-serif;
+  --font-heading: "Cabinet Grotesk", Satoshi, sans-serif;
+  --section-space: clamp(64px, 7vw, 108px);
+  font-family: var(--font-body);
+}
+body {
+  font-family: var(--font-body);
+}
+:root :is(h1, h2, h3) {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+:root :is(p, input, textarea, select, label, summary) {
+  font-family: var(--font-body);
+}
+:root .desktop-nav,
+:root .mobile-menu > a,
+:root .shop-tabs button,
+:root .footer-brand p {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+:root .shop-tabs button {
+  font-size: 16px;
+  font-weight: 700;
+}
+:root .footer-links h3 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+  color: var(--red);
+}
+:root .brand-band-heading h2 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+:root .page-intro h1,
+:root .info-page > h1,
+:root .faq-page h1 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(44px, 6vw, 86px);
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+  max-width: 1100px;
+  text-transform: none;
+}
+:root .page-intro {
+  padding-bottom: 40px;
+}
+:root .page-intro > .eyebrow,
+:root .faq-page > .eyebrow {
+  color: var(--red);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  margin-bottom: 20px;
+}
+:root .page-intro > p:last-child:not(.eyebrow) {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-top: 18px;
+  max-width: 58ch;
+}
+:root .section-heading {
+  align-items: center;
+  gap: 24px;
+}
+:root .section-heading h2 {
+  font-size: clamp(29px, 3.1vw, 46px);
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+:root .category-caption h2 {
+  font-size: clamp(22px, 2.2vw, 34px);
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+:root .outfit-intro h2 em {
+  font-family: var(--font-heading);
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: inherit;
+}
+:root .outfit-links h3 {
+  font-size: clamp(25px, 2.5vw, 36px);
+}
+:root .cookie-panel h2 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 27px;
+  line-height: 1.1;
+}
+:root .product-name,
+:root .product-meta,
+:root .product-color,
+:root .product-brand {
+  font-family: var(--font-body);
+}
+:root .product-meta {
+  font-variant-numeric: tabular-nums;
+  align-items: flex-start;
+}
+:root .product-name {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  min-height: 3em;
+}
+:root .product-brand {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+}
+:root .product-color {
+  font-size: 11px;
+  line-height: 1.6;
+}
+:root .product-grid {
+  align-items: start;
+  row-gap: 40px;
+}
+:root .contact-form-wrap h2 {
+  font-size: 27px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+:root .contact-layout {
+  align-items: start;
+}
+:root .contact-form-wrap {
+  border-top: 2px solid var(--red);
+  padding-top: 25px;
+}
+:root .contact-form-wrap :is(input, select, textarea) {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+:root .contact-form-wrap :is(input, select, textarea):focus {
+  border-color: var(--red);
+  background: #fff;
+}
+:root .contact-form-wrap :is(form > label, .form-row > label) {
+  font-size: 12px;
+  line-height: 1.5;
+}
+:root .form-note,
+:root .contact-form-wrap .checkbox-label {
+  font-size: 11px;
+  line-height: 1.7;
+}
+:root .contact-aside p,
+:root .info-page p,
+:root .about-manifesto p {
+  font-size: 14px;
+  line-height: 1.85;
+  max-width: 65ch;
+}
+:root .info-page h2 {
+  font-size: 25px;
+  line-height: 1.2;
+  border-left: 2px solid var(--red);
+  padding-left: 16px;
+}
+:root .info-page > h1 {
+  margin-bottom: 40px;
+}
+:root .empty-state {
+  border-top: 1px solid #dfcbd0;
+  border-bottom: 1px solid #dfcbd0;
+}
+:root .empty-state > svg {
+  color: var(--red);
+}
+:root .empty-state h2 {
+  font-size: clamp(28px, 3vw, 42px);
+}
+:root .faq-list summary {
+  font-size: 19px;
+  line-height: 1.45;
+  align-items: center;
+}
+:root .faq-list summary svg {
+  transition: transform 180ms var(--ease-out);
+}
+:root .faq-list details[open] summary svg {
+  transform: rotate(45deg);
+}
+:root .faq-list details[open] {
+  border-bottom-color: var(--red);
+}
+:root .faq-grid details[open] summary {
+  color: var(--red);
+}
+:root .dialog-heading {
+  border-bottom: 1px solid #dfcbd0;
+  padding-bottom: 20px;
+}
+:root .dialog-heading h2 {
+  font-size: clamp(25px, 3vw, 35px);
+  line-height: 1.1;
+}
+:root .breadcrumbs {
+  font-size: 11px;
+  line-height: 1.5;
+  gap: 10px;
+}
+:root .footer-links :is(a, button) {
+  font-size: 12px;
+  line-height: 1.6;
+}
+:root .footer-brand p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+:root .button {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  font-size: 11px;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 160ms var(--ease-out);
+}
+:root .button:active {
+  transform: translateY(1px);
+}
+:root .text-link {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  gap: 10px;
+}
+:root .text-link svg,
+:root .brand-directory a > svg {
+  color: var(--red);
+  transition: transform 180ms var(--ease-out);
+}
+/* A crisp hover response and press feedback, with no movement lag. */
+:root .red-pointer.is-interactive .pointer-dot {
+  transform: scale(1.55);
+  background: #be0d2d1f;
+  border-color: #be0d2d66;
+}
+:root .red-pointer.is-pressed .pointer-dot {
+  transform: scale(0.72);
+  background: #be0d2d55;
+  border-color: #be0d2d99;
+}
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover svg,
+  .brand-directory a:hover > svg {
+    transform: translate(3px, -3px);
+  }
+  :root .footer-links :is(a, button):hover {
+    color: var(--red);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  :root .button:hover {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+  :root .product-name:hover {
+    color: var(--red);
+  }
+}
+@media (max-width: 767px) {
+  :root .page-intro h1,
+  :root .info-page > h1,
+  :root .faq-page h1 {
+    font-size: clamp(40px, 10vw, 64px);
+  }
+  :root .page-intro {
+    padding-bottom: 28px;
+  }
+  :root .page-intro > p:last-child:not(.eyebrow) {
+    font-size: 13px;
+    margin-top: 16px;
+  }
+  :root .section-heading {
+    gap: 14px;
+    align-items: start;
+  }
+  :root .section-heading h2 {
+    font-size: 30px;
+  }
+  :root .category-caption h2 {
+    font-size: clamp(17px, 4.7vw, 24px);
+  }
+  :root .product-name {
+    font-size: 13px;
+    min-height: 3em;
+  }
+  :root .product-brand {
+    font-size: 10px;
+  }
+  :root .product-color {
+    font-size: 10px;
+  }
+  :root .product-meta {
+    font-size: 12px;
+    gap: 4px;
+  }
+  :root .product-grid {
+    row-gap: 30px;
+  }
+  :root .contact-form-wrap {
+    margin-top: 8px;
+    padding-top: 22px;
+  }
+  :root .faq-list summary {
+    font-size: 17px;
+    gap: 12px;
+  }
+  :root .faq-list details p {
+    margin-left: 0;
+    font-size: 13px;
+  }
+  :root .info-page h2 {
+    font-size: 23px;
+  }
+  :root .footer-links {
+    gap: 28px 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root .text-link svg,
+  :root .brand-directory a > svg,
+  :root .button,
+  :root .faq-list summary svg {
+    transition: none;
+  }
+  :root .text-link:hover svg,
+  :root .brand-directory a:hover > svg,
+  :root .button:active {
+    transform: none;
+  }
+}
+/* Preserve the approved hero's special typesetting. */
+:root .hero-title {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+}

@@ -174,7 +174,7 @@
   min-height: 75vh;
 }
 .faq-page h1 {
-  font-family: "Clash Display", sans-serif;
+  font-family: var(--font-heading);
   font-size: clamp(40px, 6vw, 80px);
   line-height: 1.05;
   letter-spacing: -0.045em;

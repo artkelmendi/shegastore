@@ -112,7 +112,7 @@ p {
 }
 h1,
 h2 {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 600;
   letter-spacing: -0.018em;
   line-height: 0.97;
@@ -513,7 +513,7 @@ input[type="checkbox"] {
   text-align: center;
   line-height: 0.9;
   color: var(--text);
-  font-family: Arial, sans-serif;
+  font-family: var(--font-body);
   font-size: 30px;
   font-weight: 600;
   letter-spacing: -0.065em;
@@ -521,13 +521,13 @@ input[type="checkbox"] {
   transition: opacity 250ms ease;
 }
 .brand-diesel {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 600;
   font-size: 30px;
   letter-spacing: -0.01em;
 }
 .brand-emporio {
-  font-family: Georgia, serif;
+  font-family: var(--font-body);
   font-size: 17px;
   font-weight: 400;
   letter-spacing: -0.04em;
@@ -1422,7 +1422,7 @@ details > p {
   gap: 25px;
 }
 .form-success h2 {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-size: 54px;
   margin: 0;
 }
@@ -1728,7 +1728,7 @@ details > p {
   flex-direction: column;
 }
 .mobile-menu > a {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-size: 32px;
   display: flex;
   justify-content: space-between;

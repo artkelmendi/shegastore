@@ -56,10 +56,12 @@ import {
   CookieSettingsButton,
   SmoothExperience,
   RedPointer,
+  DetailReveals,
 } from "./finishing";
 import "./styles.css";
 import "./editorial.css";
 import "./brand-motion.css";
+import "./type-system.css";
 
 const Store = createContext();
 const ease = [0.23, 1, 0.32, 1];
@@ -739,7 +741,7 @@ function FAQ() {
     ],
   ];
   return (
-    <section className="faq-page section page-width">
+    <section className="faq-page section page-width" data-reveal="">
       <p className="eyebrow">A LITTLE CLARITY</p>
       <h1>
         Common questions<span className="accent">.</span>
@@ -1230,7 +1232,7 @@ function Brands() {
       </div>
       <Reveal className="page-intro">
         <p className="eyebrow">THE NAMES. THE ATTITUDE.</p>
-        <h1>FIND YOUR SIGNATURE.</h1>
+        <h1>The labels</h1>
         <p>Explore the styles that speak your language.</p>
       </Reveal>
       <div className="brands-layout">
@@ -1287,7 +1289,7 @@ function Saved() {
         <span>Saved pieces</span>
       </div>
       <Reveal className="page-intro">
-        <h1>GOOD TASTE. SAVED.</h1>
+        <h1>Saved pieces</h1>
         <p>Your personal edit. Ready when you are.</p>
       </Reveal>
       {saved.length ? (
@@ -1321,7 +1323,7 @@ function Contact() {
       </div>
       <Reveal className="page-intro">
         <p className="eyebrow">A LITTLE CONVERSATION</p>
-        <h1>LET’S TALK.</h1>
+        <h1>Get in touch</h1>
         <p>A question about a piece, a size, or your next look? We’re here.</p>
       </Reveal>
       <div className="contact-layout">
@@ -1332,7 +1334,7 @@ function Contact() {
             height="680"
             alt="The details of an ivory menswear hoodie"
           />
-          <h2>THE PERSONAL TOUCH.</h2>
+          <h2>Here to help</h2>
           <p>
             Questions about fit or the collection? Leave a message below. Our
             contact channels will be available when the store launches.
@@ -1497,9 +1499,9 @@ function About() {
       <Reveal className="page-intro">
         <p className="eyebrow">AN INDIVIDUAL POINT OF VIEW</p>
         <h1>
-          STYLE IS PERSONAL.
+          Style is personal.
           <br />
-          <span className="accent">KEEP IT THAT WAY.</span>
+          <span className="accent">Keep it that way.</span>
         </h1>
       </Reveal>
       <Reveal className="about-image">
@@ -1518,7 +1520,7 @@ function About() {
           height="64"
         />
         <div>
-          <h2>THE SHEGA WAY.</h2>
+          <h2>The Shega way.</h2>
           <p>
             Good style starts with the pieces you actually want to wear. The
             hoodie you reach for. The T-shirt that works with everything. A
@@ -1542,13 +1544,13 @@ function About() {
 
 function InfoPage({ privacy = false }) {
   return (
-    <div className="inner-page page-width info-page">
+    <div className="inner-page page-width info-page" data-reveal="">
       <div className="breadcrumbs">
         <Link to="/">Home</Link>
         <span>/</span>
         <span>{privacy ? "Privacy information" : "Delivery & returns"}</span>
       </div>
-      <h1>{privacy ? "YOUR PRIVACY." : "THE DETAILS."}</h1>
+      <h1>{privacy ? "Privacy information" : "Delivery & returns"}</h1>
       {privacy ? (
         <>
           <h2>What this preview stores</h2>
@@ -1634,7 +1636,7 @@ function Footer() {
   return (
     <footer className="site-footer">
       <div className="page-width">
-        <div className="footer-top">
+        <div className="footer-top" data-reveal="">
           <div className="footer-brand">
             <Link to="/" aria-label="Shega home">
               <img
@@ -2120,6 +2122,7 @@ function App() {
       <BackgroundMarks />
       <SmoothExperience blocked={opening !== "complete" || Boolean(overlay)} />
       <RedPointer />
+      <DetailReveals route={location.pathname} />
       <div
         className="site-shell"
         data-opening={opening}

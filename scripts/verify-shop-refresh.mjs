@@ -25,7 +25,7 @@ for (const width of [1440, 768, 390, 320]) {
       .locator(".shop-tabs button")
       .first()
       .evaluate((el) => getComputedStyle(el).fontFamily),
-    /Cabinet/,
+    /Satoshi/,
   );
   assert.match(
     await page

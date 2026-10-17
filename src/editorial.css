@@ -1,33 +1,5 @@
 /* White editorial surfaces, expressive type, and small Shega-red details. */
 @font-face {
-  font-family: Panchang;
-  src: url("/fonts/panchang-700.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: Chillax;
-  src: url("/fonts/chillax-600.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Clash Display";
-  src: url("/fonts/clash-display-500.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Clash Display";
-  src: url("/fonts/clash-display-600.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 600 900;
-  font-display: swap;
-}
-@font-face {
   font-family: Satoshi;
   src: url("/fonts/satoshi-400.woff2") format("woff2");
   font-style: normal;
@@ -201,7 +173,7 @@
   font-size: 9px;
 }
 .category-caption h2 {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 500;
   font-size: 24px;
   letter-spacing: -0.04em;
@@ -214,7 +186,7 @@
   padding-block: 100px;
 }
 .section-heading h2 {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 500;
   font-size: clamp(28px, 2.9vw, 44px);
   letter-spacing: -0.03em;
@@ -284,7 +256,7 @@
   gap: 65px;
 }
 .editorial-copy h2 {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 500;
   font-size: clamp(40px, 4.5vw, 67px);
   letter-spacing: -0.03em;
@@ -299,7 +271,7 @@
   padding-block: 95px;
 }
 .newsletter-section h2 {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 500;
   font-size: clamp(50px, 5.7vw, 86px);
   letter-spacing: -0.035em;
@@ -314,14 +286,14 @@
 }
 .page-intro h1,
 .info-page > h1 {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-size: clamp(42px, 5.3vw, 80px);
   font-weight: 500;
   letter-spacing: -0.03em;
   line-height: 1.09;
 }
 .product-info h1 {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 500;
   text-transform: none;
   font-size: clamp(30px, 3vw, 47px);
@@ -658,7 +630,7 @@
   }
 }
 .desktop-nav {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.005em;
@@ -748,7 +720,7 @@
   background: #e32140;
 }
 .hero-title {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 500;
   font-size: clamp(60px, 6.15vw, 108px);
   line-height: 0.98;
@@ -883,7 +855,7 @@
   color: var(--red);
 }
 .footer-brand p {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-size: 17px;
   letter-spacing: -0.01em;
 }
@@ -896,7 +868,7 @@
   font-size: 10px;
 }
 .mobile-menu > a {
-  font-family: "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 500;
   letter-spacing: -0.025em;
 }
@@ -1415,9 +1387,9 @@ html {
   }
 }
 
-/* Selected option 05: wide Panchang lettering and a Shega-red label ribbon. */
+/* Red label ribbon. Shared heading type is defined in type-system.css. */
 .hero-title {
-  font-family: Panchang, "Clash Display", Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 700;
   font-size: clamp(42px, 4.2vw, 72px);
   font-feature-settings: normal;
@@ -1449,7 +1421,7 @@ html {
   margin-bottom: 16px;
 }
 .brand-band-heading h2 {
-  font-family: Chillax, Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 600;
   font-size: 21px;
   letter-spacing: -0.04em;

@@ -16,6 +16,7 @@ export function OutfitEdit() {
   return (
     <section
       className="outfit-edit page-width"
+      data-reveal=""
       aria-labelledby="outfit-heading"
     >
       <div className="outfit-intro">
@@ -211,6 +212,51 @@ export function SmoothExperience({ blocked }) {
   return null;
 }
 
+export function DetailReveals({ route }) {
+  const reduced = useReducedMotion();
+  useEffect(() => {
+    if (reduced) return;
+    const observers = new Set();
+    const observer = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.animate(
+            [
+              { opacity: 0, transform: "translateY(16px)" },
+              { opacity: 1, transform: "translateY(0px)" },
+            ],
+            {
+              duration: 500,
+              easing: "cubic-bezier(.23,1,.32,1)",
+              fill: "none",
+            },
+          );
+          observer.unobserve(entry.target);
+        }),
+      { threshold: 0.08 },
+    );
+    const scan = () =>
+      document.querySelectorAll("[data-reveal]").forEach((el) => {
+        if (!observers.has(el)) {
+          observers.add(el);
+          observer.observe(el);
+        }
+      });
+    scan();
+    const mutations = new MutationObserver(scan);
+    mutations.observe(document.getElementById("main").parentElement, {
+      childList: true,
+      subtree: true,
+    });
+    return () => {
+      observer.disconnect();
+      mutations.disconnect();
+    };
+  }, [reduced, route]);
+  return null;
+}
+
 export function RedPointer() {
   const reduce = useReducedMotion();
   const x = useMotionValue(-100),
@@ -218,6 +264,7 @@ export function RedPointer() {
   const dotTransform = useMotionTemplate`translate3d(${x}px, ${y}px, 0)`;
   const [visible, setVisible] = useState(false);
   const [interactive, setInteractive] = useState(false);
+  const [pressed, setPressed] = useState(false);
   useEffect(() => {
     if (reduce || !matchMedia("(hover: hover) and (pointer: fine)").matches)
       return;
@@ -228,14 +275,25 @@ export function RedPointer() {
     };
     const over = (e) =>
       setInteractive(!!e.target.closest("a,button,input,select,summary"));
-    const leave = () => setVisible(false);
+    const down = () => setPressed(true);
+    const up = () => setPressed(false);
+    const leave = () => {
+      setVisible(false);
+      setPressed(false);
+    };
     window.addEventListener("pointermove", move, { passive: true });
     window.addEventListener("pointerover", over, { passive: true });
+    window.addEventListener("pointerdown", down, { passive: true });
+    window.addEventListener("pointerup", up, { passive: true });
+    window.addEventListener("pointercancel", up, { passive: true });
     document.documentElement.addEventListener("pointerleave", leave);
     window.addEventListener("blur", leave);
     return () => {
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerover", over);
+      window.removeEventListener("pointerdown", down);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
       document.documentElement.removeEventListener("pointerleave", leave);
       window.removeEventListener("blur", leave);
     };
@@ -243,7 +301,7 @@ export function RedPointer() {
   if (reduce) return null;
   return (
     <div
-      className={`red-pointer ${visible ? "is-visible" : ""} ${interactive ? "is-interactive" : ""}`}
+      className={`red-pointer ${visible ? "is-visible" : ""} ${interactive ? "is-interactive" : ""} ${pressed ? "is-pressed" : ""}`}
       aria-hidden="true"
     >
       <motion.span
