@@ -23,5 +23,10 @@
     "url": "https://cdn.fontshare.com/wf/LAFFD4SDUCDVQEXFPDC7C53EQ4ZELWQI/PXCT3G6LO6ICM5I3NTYENYPWJAECAWDD/GHM6WVH6MILNYOOCXHXB5GTSGNTMGXZR.woff2",
     "family_page": "https://www.fontshare.com/fonts/satoshi",
     "css_api": "https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap"
+  },
+  "chillax-600.woff2": {
+    "url": "https://cdn.fontshare.com/wf/2T24MWUOKZU65SZJ33GPRGNOKE4KPOBX/T6LIXZJIPB23UDPMTIKURYWSZLXZBJ3A/THF5L6EHVL4N4NNE3GYDZNZSHABL5CH5.woff2",
+    "family_page": "https://www.fontshare.com/fonts/chillax",
+    "css_api": "https://api.fontshare.com/v2/css?f[]=chillax@600&display=swap"
   }
 }

@@ -341,7 +341,7 @@ function Header() {
 
 const heroSlides = [
   {
-    title: ["DRESS LIKE", "YOURSELF."],
+    title: ["dress like", "yourself."],
     copy: "Distinctive pieces. Iconic names. A wardrobe with a point of view.",
     image: "shega-boss-hero",
     alt: "Stacked black and white BOSS polo shirts with contrasting collars and a patterned Porsche BOSS layer",
@@ -349,7 +349,7 @@ const heroSlides = [
     link: "/shop",
   },
   {
-    title: ["MAKE IT", "PERSONAL."],
+    title: ["make it", "personal."],
     copy: "Considered details. Individual style. A new perspective on your everyday wardrobe.",
     image: "shega-armani-hero",
     alt: "Stacked black and white Emporio Armani polo shirts with striped collars and eagle embroidery",
@@ -361,7 +361,14 @@ const heroSlides = [
 function BrandMarquee() {
   const [paused, setPaused] = useState(false);
   return (
-    <div className="brand-marquee page-width" aria-label="Explore the brands">
+    <section
+      className="brand-marquee page-width"
+      aria-label="Explore the brands"
+    >
+      <div className="brand-band-heading">
+        <h2>In good company.</h2>
+        <p>ICONIC LABELS. YOUR OWN WAY.</p>
+      </div>
       <div className="brand-marquee-window">
         <div className={`brand-marquee-track ${paused ? "is-paused" : ""}`}>
           {[0, 1].map((copy) => (
@@ -371,20 +378,29 @@ function BrandMarquee() {
               aria-hidden={copy === 1 ? true : undefined}
             >
               {brands.map((brand) => (
-                <Link
-                  key={brand}
-                  to={`/shop?brand=${encodeURIComponent(brand)}`}
-                  className={`official-brand brand-${brand.split(" ")[0].toLowerCase()}`}
-                  tabIndex={copy ? -1 : undefined}
-                  aria-label={`Shop ${brand}`}
-                >
-                  <img
-                    src={brandLogos[brand]}
-                    alt={brand}
-                    width="160"
-                    height="50"
-                  />
-                </Link>
+                <React.Fragment key={brand}>
+                  <Link
+                    to={`/shop?brand=${encodeURIComponent(brand)}`}
+                    className={`official-brand brand-${brand.split(" ")[0].toLowerCase()}`}
+                    tabIndex={copy ? -1 : undefined}
+                    aria-label={`Shop ${brand}`}
+                  >
+                    <img
+                      src={brandLogos[brand]}
+                      alt={brand}
+                      width="160"
+                      height="50"
+                    />
+                  </Link>
+                  <span className="brand-band-divider" aria-hidden="true">
+                    <img
+                      src="/logos/shega-mark.svg"
+                      alt=""
+                      width="22"
+                      height="22"
+                    />
+                  </span>
+                </React.Fragment>
               ))}
             </div>
           ))}
@@ -398,7 +414,7 @@ function BrandMarquee() {
       >
         {paused ? <Play size={13} /> : <Pause size={13} />}
       </button>
-    </div>
+    </section>
   );
 }
 

@@ -1,5 +1,12 @@
 /* White editorial surfaces, expressive type, and small Shega-red details. */
 @font-face {
+  font-family: Chillax;
+  src: url("/fonts/chillax-600.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
   font-family: "Clash Display";
   src: url("/fonts/clash-display-500.woff2") format("woff2");
   font-style: normal;
@@ -1398,5 +1405,137 @@ html {
     animation: none;
     transform: none;
     opacity: 1;
+  }
+}
+
+/* Softer hero lettering and a Shega-red label ribbon. */
+.hero-title {
+  font-family: Chillax, "Clash Display", Arial, sans-serif;
+  font-weight: 600;
+  font-size: clamp(64px, 6.4vw, 110px);
+  font-feature-settings: "ss01" 1;
+  letter-spacing: -0.06em;
+  line-height: 1.03;
+}
+.hero-title-mask {
+  padding-block: 0.065em;
+}
+.hero-title .accent {
+  color: var(--red);
+}
+.brand-marquee {
+  width: calc(100% - 32px);
+  max-width: 1708px;
+  margin: 18px auto 0;
+  padding: 21px 0 24px;
+  background: var(--red);
+  color: #fff;
+  border: 0;
+  isolation: isolate;
+}
+.brand-band-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 92px 0 42px;
+  margin-bottom: 16px;
+}
+.brand-band-heading h2 {
+  font-family: Chillax, Arial, sans-serif;
+  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: -0.04em;
+  line-height: 1.3;
+}
+.brand-band-heading p {
+  font-size: 9px;
+  letter-spacing: 0.17em;
+  color: #ffffffbb;
+}
+.brand-marquee-window {
+  margin-right: 0;
+  mix-blend-mode: screen;
+}
+.brand-marquee-group {
+  width: max(1100px, calc(100vw - 32px));
+  padding-inline: 38px;
+  gap: 0;
+  height: 76px;
+}
+.brand-marquee .official-brand img {
+  filter: brightness(0) invert(1);
+}
+.brand-marquee .official-brand.brand-diesel img {
+  filter: grayscale(1) contrast(8);
+  mix-blend-mode: normal;
+}
+.brand-band-divider {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  opacity: 0.55;
+}
+.brand-band-divider img {
+  width: 100%;
+  height: 100%;
+  filter: brightness(0) invert(1);
+}
+.brand-marquee .marquee-control {
+  top: 18px;
+  right: 30px;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #ffffff66;
+  border-radius: 50%;
+}
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .hero-title {
+    font-size: 57px;
+  }
+}
+@media (max-width: 1023px) {
+  .hero-title {
+    font-size: clamp(46px, 8.8vw, 82px);
+  }
+}
+@media (max-width: 767px) {
+  .hero-title {
+    font-size: clamp(40px, 12.6vw, 74px);
+  }
+  .brand-marquee {
+    width: calc(100% - 24px);
+    margin-top: 12px;
+    padding-block: 18px 20px;
+  }
+  .brand-band-heading {
+    padding-inline: 24px 70px;
+    margin-bottom: 15px;
+  }
+  .brand-band-heading h2 {
+    font-size: 18px;
+  }
+  .brand-band-heading p {
+    display: none;
+  }
+  .brand-marquee-group {
+    width: 860px;
+    height: 56px;
+    padding-inline: 24px;
+  }
+  .brand-band-divider {
+    width: 17px;
+    height: 17px;
+  }
+  .brand-marquee .marquee-control {
+    top: 14px;
+    right: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-marquee-group {
+    width: auto;
+    gap: 28px;
   }
 }

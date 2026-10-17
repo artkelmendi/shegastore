@@ -21,11 +21,11 @@ Open the Local URL printed by Vite. `npm run build` creates a portable `dist` fo
 - Persistent browser-local bag and saved items; bag quantities, removal, subtotal, and a checkout preview.
 - Native modal dialogs with focus management, Escape dismissal, and focus restoration.
 - A white editorial design, responsive layouts, touch-specific styling, and reduced-motion support.
-- A continuous strip of the original BOSS, Diesel, Emporio Armani, and HUGO logos with pause controls and keyboard/reduced-motion support.
+- A Shega-red ribbon of the original BOSS, Diesel, Emporio Armani, and HUGO logos in white, separated by Shega marks, with pause controls and keyboard/reduced-motion support.
 
 ## Motion direction
 
-White editorial styling with design variance 7, motion intensity 7, and visual density 3. The original red-G / black-lettering SVG is the primary logo. White surfaces and black type are accented with Shega-red rules, arrows, active states, and small details. Locally hosted Clash Display gives headings and navigation their character; Satoshi handles body text and controls. Fontshare source URLs are recorded in `font-sources.json`. The editorial layer is in `src/editorial.css`.
+White editorial styling with design variance 7, motion intensity 7, and visual density 3. The original red-G / black-lettering SVG is the primary logo. White surfaces and black type are accented with Shega-red rules, arrows, active states, and a red brand ribbon. Locally hosted Chillax with its rounded alternate letterforms gives the lowercase hero a more playful character; the second line is Shega red. Clash Display handles the other headings and navigation, while Satoshi handles body text and controls. Fontshare source URLs are recorded in `font-sources.json`. The editorial layer is in `src/editorial.css`.
 
 Each fresh document opens on a soft white surface. The logo fades upward over 1.1 seconds, followed by a 650 ms dissolve into the composed page. The handoff waits for fonts and the first hero image, with a bounded fallback for slow assets. A native dialog manages focus, Enter store and Escape skip the opening, and scrolling is released on completion. The intro does not use an old session flag and does not replay during in-app navigation. Reduced-motion visitors enter directly.
 

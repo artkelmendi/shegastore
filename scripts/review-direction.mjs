@@ -21,7 +21,7 @@ assert.notEqual(
 await page.evaluate(() => document.fonts.ready);
 await page.locator(".hero-image.is-active").evaluate((img) => img.decode());
 assert.equal(
-  await page.evaluate(() => document.fonts.check('500 24px "Clash Display"')),
+  await page.evaluate(() => document.fonts.check("600 24px Chillax")),
   true,
 );
 assert.equal(
@@ -43,6 +43,26 @@ assert.equal(
 );
 
 assert.equal(await page.locator(".hero-image").count(), 2);
+assert.match(
+  await page
+    .locator(".hero-title")
+    .evaluate((el) => getComputedStyle(el).fontFamily),
+  /Chillax/,
+);
+assert.equal(
+  await page
+    .locator(".brand-marquee")
+    .evaluate((el) => getComputedStyle(el).backgroundColor),
+  "rgb(190, 13, 45)",
+);
+await page.getByRole("button", { name: "Pause brand animation" }).click();
+assert.equal(
+  await page
+    .locator(".brand-marquee-track")
+    .evaluate((el) => getComputedStyle(el).animationPlayState),
+  "paused",
+);
+await page.getByRole("button", { name: "Play brand animation" }).click();
 assert.equal(await page.locator('.hero img[src*="campaign-"]').count(), 0);
 for (const width of [1440, 1024, 768, 390, 320]) {
   await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
@@ -99,7 +119,8 @@ const result = {
   checks: [
     "Opening releases the background and scrolling",
     "Stable hero position after initial load",
-    "New locally hosted fonts loaded",
+    "Locally hosted Chillax hero font loaded",
+    "Red brand ribbon and pause/play controls",
     "Removed hoodie uniform tile",
     "Both supplied hero images replace the previous campaign photos",
     "Both hero slides visible at five screen widths",

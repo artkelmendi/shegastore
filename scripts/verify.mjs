@@ -42,15 +42,15 @@ assert.notEqual(
 await page.evaluate(() => document.fonts.ready);
 await page.waitForTimeout(1200);
 await screenshot("desktop-home.png");
-assert.equal(await page.locator("h1").innerText(), "DRESS LIKE\nYOURSELF.");
+assert.equal(await page.locator("h1").innerText(), "dress like\nyourself.");
 await page
   .getByRole("button", { name: "Next collection", exact: true })
   .click();
-await page.getByRole("heading", { name: "MAKE IT PERSONAL." }).waitFor();
+await page.getByRole("heading", { name: "make it personal." }).waitFor();
 await page
   .getByRole("button", { name: "Previous collection", exact: true })
   .click();
-await page.getByRole("heading", { name: "DRESS LIKE YOURSELF." }).waitFor();
+await page.getByRole("heading", { name: "dress like yourself." }).waitFor();
 
 await page
   .getByRole("button", { name: "Search the store", exact: true })
