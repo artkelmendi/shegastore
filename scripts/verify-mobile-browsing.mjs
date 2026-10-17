@@ -33,7 +33,9 @@ try {
       );
       if (width < 768) {
         const favorites = await page.locator(".favorites-window").boundingBox();
-        assert.ok(favorites.y < 650, "Home products appear early");
+        const categories = await page.locator(".category-section").boundingBox();
+        assert.ok(categories.y < 650, "Categories appear directly after the compact hero");
+        assert.ok(categories.y < favorites.y, "Categories precede favorites");
         const cards = await page
           .locator(".favorites-group")
           .first()

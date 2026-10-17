@@ -612,7 +612,6 @@ function Home({ ready = true }) {
         </div>
       </section>
       <BrandMarquee />
-      <FavoritesCarousel />
       <section
         className="category-section page-width"
         aria-label="Shop by category"
@@ -670,6 +669,7 @@ function Home({ ready = true }) {
           ))}
         </div>
       </section>
+      <FavoritesCarousel />
       <section className="editorial-section page-width">
         <Reveal className="editorial-photo">
           <img
