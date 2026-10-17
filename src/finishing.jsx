@@ -95,25 +95,12 @@ export function CookieConsent({ ready }) {
         <motion.section
           className="cookie-panel"
           aria-label="Cookie preferences"
-          initial={{
-            opacity: 0,
-            transform: reduce ? "none" : "translateY(16px) scale(.97)",
-          }}
-          animate={{
-            opacity: 1,
-            transform: reduce ? "none" : "translateY(0px) scale(1)",
-          }}
-          exit={{
-            opacity: 0,
-            transform: reduce ? "none" : "translateY(10px) scale(.985)",
-            transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{
-            opacity: { duration: reduce ? 0.15 : 0.24 },
-            transform: {
-              duration: reduce ? 0 : 0.44,
-              ease: [0.23, 1, 0.32, 1],
-            },
+            duration: reduce ? 0.15 : 0.24,
+            ease: [0.23, 1, 0.32, 1],
           }}
         >
           <div className="cookie-heading">
