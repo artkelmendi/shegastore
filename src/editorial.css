@@ -1,5 +1,12 @@
 /* White editorial surfaces, expressive type, and small Shega-red details. */
 @font-face {
+  font-family: Panchang;
+  src: url("/fonts/panchang-700.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
   font-family: Chillax;
   src: url("/fonts/chillax-600.woff2") format("woff2");
   font-style: normal;
@@ -1408,14 +1415,14 @@ html {
   }
 }
 
-/* Softer hero lettering and a Shega-red label ribbon. */
+/* Selected option 05: wide Panchang lettering and a Shega-red label ribbon. */
 .hero-title {
-  font-family: Chillax, "Clash Display", Arial, sans-serif;
-  font-weight: 600;
-  font-size: clamp(64px, 6.4vw, 110px);
-  font-feature-settings: "ss01" 1;
-  letter-spacing: -0.06em;
-  line-height: 1.03;
+  font-family: Panchang, "Clash Display", Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(42px, 4.2vw, 72px);
+  font-feature-settings: normal;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
 }
 .hero-title-mask {
   padding-block: 0.065em;
@@ -1492,17 +1499,17 @@ html {
 }
 @media (max-width: 1199px) and (min-width: 1024px) {
   .hero-title {
-    font-size: 57px;
+    font-size: 43px;
   }
 }
 @media (max-width: 1023px) {
   .hero-title {
-    font-size: clamp(46px, 8.8vw, 82px);
+    font-size: clamp(40px, 6.1vw, 64px);
   }
 }
 @media (max-width: 767px) {
   .hero-title {
-    font-size: clamp(40px, 12.6vw, 74px);
+    font-size: clamp(28px, 9.1vw, 50px);
   }
   .brand-marquee {
     width: calc(100% - 24px);
@@ -1537,5 +1544,90 @@ html {
   .brand-marquee-group {
     width: auto;
     gap: 28px;
+  }
+}
+
+/* Red collection labels keep the product photography clean and true to color. */
+.category-tile {
+  padding-bottom: 0;
+  background: var(--red);
+}
+.category-caption {
+  position: relative;
+  inset: auto;
+  padding: 20px 22px 22px;
+  min-height: 112px;
+  background: var(--red);
+  color: #fff;
+  transition: background-color 200ms ease;
+}
+.category-caption > span {
+  color: #ffffffc9;
+  font-size: 11px;
+}
+.category-caption > div {
+  gap: 16px;
+  margin-top: 10px;
+}
+.category-caption h2 {
+  color: #fff;
+  font-size: clamp(21px, 2vw, 31px);
+  letter-spacing: -0.035em;
+}
+.category-caption svg {
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  border: 1px solid #ffffff77;
+  border-radius: 50%;
+}
+.category-tile:focus-visible {
+  outline: 3px solid #191919;
+  outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .category-tile:hover .category-caption {
+    background: #a90a26;
+  }
+}
+@media (max-width: 1023px) and (min-width: 768px) {
+  .category-caption {
+    padding-inline: 15px;
+  }
+  .category-caption h2 {
+    font-size: 20px;
+  }
+  .category-caption > span {
+    font-size: 9px;
+  }
+  .category-caption > div {
+    gap: 7px;
+  }
+  .category-caption svg {
+    width: 28px;
+    height: 28px;
+    padding: 6px;
+  }
+}
+@media (max-width: 767px) {
+  .category-caption {
+    padding: 14px 12px 17px;
+    min-height: 88px;
+  }
+  .category-caption > span {
+    font-size: 9px;
+  }
+  .category-caption h2 {
+    font-size: clamp(13px, 3.8vw, 19px);
+  }
+  .category-caption svg {
+    position: absolute;
+    right: 12px;
+    top: -44px;
+    width: 32px;
+    height: 32px;
+    padding: 7px;
+    background: var(--red);
   }
 }

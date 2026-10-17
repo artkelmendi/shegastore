@@ -21,7 +21,7 @@ assert.notEqual(
 await page.evaluate(() => document.fonts.ready);
 await page.locator(".hero-image.is-active").evaluate((img) => img.decode());
 assert.equal(
-  await page.evaluate(() => document.fonts.check("600 24px Chillax")),
+  await page.evaluate(() => document.fonts.check("700 24px Panchang")),
   true,
 );
 assert.equal(
@@ -47,7 +47,7 @@ assert.match(
   await page
     .locator(".hero-title")
     .evaluate((el) => getComputedStyle(el).fontFamily),
-  /Chillax/,
+  /Panchang/,
 );
 assert.equal(
   await page
@@ -106,6 +106,25 @@ for (const width of [1440, 1024, 768, 390, 320]) {
   }
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await page.waitForTimeout(900);
+  assert.equal(
+    await page
+      .locator(".category-caption")
+      .evaluateAll((elements) =>
+        elements.every(
+          (el) => getComputedStyle(el).backgroundColor === "rgb(190, 13, 45)",
+        ),
+      ),
+    true,
+  );
+  assert.equal(
+    await page
+      .locator(".category-caption h2")
+      .evaluateAll((elements) =>
+        elements.some((el) => el.scrollWidth > el.clientWidth),
+      ),
+    false,
+    `Category title overflow at ${width}px`,
+  );
   await page.screenshot({
     path: fileURLToPath(
       new URL(`../artifacts/campaign-full-${width}.png`, import.meta.url),
@@ -119,7 +138,8 @@ const result = {
   checks: [
     "Opening releases the background and scrolling",
     "Stable hero position after initial load",
-    "Locally hosted Chillax hero font loaded",
+    "Selected Panchang hero font loaded",
+    "Red category labels with no title overflow",
     "Red brand ribbon and pause/play controls",
     "Removed hoodie uniform tile",
     "Both supplied hero images replace the previous campaign photos",
