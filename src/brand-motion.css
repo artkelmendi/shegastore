@@ -319,3 +319,15 @@
 .hero-title .accent {
   line-height: 1.04;
 }
+.header-brand .header-mark {
+  content: normal;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+@media (max-width: 767px) {
+  .header-brand .header-mark {
+    width: 39px;
+    height: 39px;
+  }
+}

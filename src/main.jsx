@@ -282,8 +282,8 @@ function Header() {
         <div className="header-inner">
           <Link to="/" aria-label="Shega Store home" className="header-brand">
             <img
-              className="header-logo"
-              src={asset("/logos/shega-dark.svg")}
+              className="header-logo header-mark"
+              src={asset("/logos/shega-mark.svg")}
               alt="Shega Store"
               width="134"
               height="47"
