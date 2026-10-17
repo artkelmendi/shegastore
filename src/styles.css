@@ -1,28 +1,6 @@
-@font-face {
-  font-family: Manrope;
-  src: url("/fonts/manrope-latin-400-normal.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: Manrope;
-  src: url("/fonts/manrope-latin-600-normal.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 500 800;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Barlow Condensed";
-  src: url("/fonts/barlow-condensed-latin-800-normal.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-}
-
-/* A custom editorial system. Layers: header 20, notice 40, native dialogs top layer, intro 60. */
+/* A custom editorial system. Layers: header 20, notice 40, native dialogs top layer. */
 :root {
-  font-family: Manrope, Arial, sans-serif;
+  font-family: Satoshi, Arial, sans-serif;
   color: #f3f1ed;
   background: #101010;
   font-synthesis: none;
@@ -134,8 +112,8 @@ p {
 }
 h1,
 h2 {
-  font-family: "Barlow Condensed", Impact, "Arial Narrow", sans-serif;
-  font-weight: 800;
+  font-family: "Clash Display", Arial, sans-serif;
+  font-weight: 600;
   letter-spacing: -0.018em;
   line-height: 0.97;
 }
@@ -333,9 +311,6 @@ input[type="checkbox"] {
   width: 134px;
   height: auto;
 }
-.intro-hidden {
-  opacity: 0;
-}
 .desktop-nav {
   display: flex;
   justify-content: center;
@@ -400,57 +375,6 @@ input[type="checkbox"] {
 }
 .route-content {
   min-height: 60svh;
-  animation: route-in 0.35s var(--ease-out);
-}
-@keyframes route-in {
-  from {
-    opacity: 0.5;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.intro {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  display: grid;
-  place-items: center;
-  isolation: isolate;
-  color: #f3f1ed;
-}
-.intro-backdrop {
-  position: absolute;
-  inset: 0;
-  background: #101010;
-  z-index: -1;
-}
-.intro-logo-mask {
-  overflow: hidden;
-  line-height: 0;
-}
-.intro-logo-mask img {
-  width: 300px;
-  transform: translateY(110%);
-}
-.intro-skip {
-  position: absolute;
-  right: var(--page-gutter);
-  bottom: 40px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-.intro-caption {
-  position: absolute;
-  bottom: 40px;
-  left: var(--page-gutter);
-  font-size: 10px;
-  color: #a4a29f;
 }
 .hero {
   position: relative;
@@ -534,10 +458,6 @@ input[type="checkbox"] {
   opacity: 1;
   transform: translateY(0);
 }
-.hero-waiting .hero-enter {
-  opacity: 0;
-  transform: translateY(70px);
-}
 .hero-pagination {
   position: absolute;
   right: var(--page-gutter);
@@ -595,14 +515,14 @@ input[type="checkbox"] {
   color: var(--text);
   font-family: Arial, sans-serif;
   font-size: 30px;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.065em;
   white-space: nowrap;
   transition: opacity 250ms ease;
 }
 .brand-diesel {
-  font-family: Impact, "Barlow Condensed", sans-serif;
-  font-weight: 800;
+  font-family: "Clash Display", Arial, sans-serif;
+  font-weight: 600;
   font-size: 30px;
   letter-spacing: -0.01em;
 }
@@ -1442,7 +1362,7 @@ details > p {
   margin-block: 20px 25px;
 }
 .contact-form-wrap h2 {
-  font-family: Manrope, Arial, sans-serif;
+  font-family: Satoshi, Arial, sans-serif;
   font-size: 21px;
   font-weight: 500;
   letter-spacing: -0.03em;
@@ -1502,7 +1422,7 @@ details > p {
   gap: 25px;
 }
 .form-success h2 {
-  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-family: "Clash Display", Arial, sans-serif;
   font-size: 54px;
   margin: 0;
 }
@@ -1808,7 +1728,7 @@ details > p {
   flex-direction: column;
 }
 .mobile-menu > a {
-  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-family: "Clash Display", Arial, sans-serif;
   font-size: 32px;
   display: flex;
   justify-content: space-between;
@@ -1821,7 +1741,7 @@ details > p {
   color: var(--red-text);
 }
 .mobile-menu .mobile-saved {
-  font-family: Manrope, Arial, sans-serif;
+  font-family: Satoshi, Arial, sans-serif;
   font-size: 12px;
   justify-content: flex-start;
   gap: 12px;
@@ -2844,20 +2764,6 @@ details > p {
   .bag-item-size {
     font-size: 8px;
   }
-  .intro-logo-mask img {
-    width: 230px;
-  }
-  .intro-caption {
-    font-size: 8px;
-    bottom: 35px;
-    max-width: 140px;
-    line-height: 1.8;
-  }
-  .intro-skip {
-    font-size: 8px;
-    bottom: 35px;
-    gap: 10px;
-  }
   .notice {
     bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     padding: 14px;
@@ -3006,8 +2912,7 @@ details > p {
     transition-duration: 0.15s !important;
     transition-delay: 0ms !important;
   }
-  .hero-enter,
-  .hero-waiting .hero-enter {
+  .hero-enter {
     transform: none;
     opacity: 1;
   }
@@ -3015,9 +2920,6 @@ details > p {
   .category-tile img,
   .product-zoom img {
     transition: none;
-  }
-  .intro {
-    display: none;
   }
   .route-content {
     animation: none;

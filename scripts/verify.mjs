@@ -28,7 +28,12 @@ const screenshot = async (name) => {
 };
 
 await page.goto(origin, { waitUntil: "networkidle" });
-await page.locator(".intro").waitFor({ state: "hidden", timeout: 6000 });
+assert.equal(await page.locator(".intro").count(), 0);
+assert.equal(await page.locator("#main").evaluate((el) => el.inert), false);
+assert.notEqual(
+  await page.evaluate(() => getComputedStyle(document.body).overflow),
+  "hidden",
+);
 await page.evaluate(() => document.fonts.ready);
 await page.waitForTimeout(1200);
 await screenshot("desktop-home.png");
@@ -36,7 +41,7 @@ assert.equal(await page.locator("h1").innerText(), "DRESS LIKE\nYOURSELF.");
 await page
   .getByRole("button", { name: "Next collection", exact: true })
   .click();
-await page.getByRole("heading", { name: "OFF DUTY. ON POINT." }).waitFor();
+await page.getByRole("heading", { name: "THE CITY IS YOURS." }).waitFor();
 await page
   .getByRole("button", { name: "Previous collection", exact: true })
   .click();
@@ -240,7 +245,7 @@ assert.deepEqual(failedRequests, [], "Failed HTTP responses");
 const result = {
   passed: true,
   checks: [
-    "Logo introduction",
+    "First visit opens without an overlay or scroll lock",
     "Hero carousel",
     "Search to product",
     "Required size validation",

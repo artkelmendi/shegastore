@@ -44,8 +44,6 @@ import {
   ArrowCounterClockwise,
   Ruler,
   Trash,
-  Sun,
-  Moon,
   Pause,
   Play,
 } from "@phosphor-icons/react";
@@ -204,124 +202,7 @@ function Button({ to, children, className = "", ...props }) {
   );
 }
 
-function Intro({ onComplete }) {
-  const logo = useRef();
-  const backdrop = useRef();
-  const reduced = useReducedMotion();
-  useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const background = [
-      ...document.querySelectorAll(
-        "#main, .site-header, .site-footer, .skip-link",
-      ),
-    ].map((element) => [element, element.inert]);
-    background.forEach(([element]) => {
-      element.inert = true;
-    });
-    let timers = [];
-    let animations = [];
-    if (reduced) {
-      onComplete();
-      return () => {
-        document.body.style.overflow = originalOverflow;
-        background.forEach(([element, previous]) => {
-          element.inert = previous;
-        });
-      };
-    }
-    const introLogo = logo.current;
-    animations.push(
-      introLogo.animate(
-        [{ transform: "translateY(110%)" }, { transform: "translateY(0)" }],
-        {
-          duration: 850,
-          easing: "cubic-bezier(0.23, 1, 0.32, 1)",
-          fill: "forwards",
-        },
-      ),
-    );
-    timers.push(
-      setTimeout(() => {
-        const target = document.querySelector(".header-logo");
-        if (!target || !introLogo) {
-          onComplete();
-          return;
-        }
-        const a = introLogo.getBoundingClientRect();
-        const b = target.getBoundingClientRect();
-        const dx = b.left + b.width / 2 - (a.left + a.width / 2);
-        const dy = b.top + b.height / 2 - (a.top + a.height / 2);
-        introLogo.parentElement.style.overflow = "visible";
-        animations.push(
-          introLogo.animate(
-            [
-              { transform: "translate(0, 0) scale(1)" },
-              {
-                transform: `translate(${dx}px, ${dy}px) scale(${b.width / a.width})`,
-              },
-            ],
-            {
-              duration: 750,
-              easing: "cubic-bezier(0.77, 0, 0.175, 1)",
-              fill: "forwards",
-            },
-          ),
-        );
-        animations.push(
-          backdrop.current.animate(
-            [
-              { transform: "translateY(0)" },
-              { transform: "translateY(-100%)" },
-            ],
-            {
-              duration: 800,
-              easing: "cubic-bezier(0.77, 0, 0.175, 1)",
-              fill: "forwards",
-            },
-          ),
-        );
-      }, 900),
-    );
-    timers.push(setTimeout(onComplete, 1720));
-    return () => {
-      timers.forEach(clearTimeout);
-      animations.forEach((a) => a.cancel());
-      document.body.style.overflow = originalOverflow;
-      background.forEach(([element, previous]) => {
-        element.inert = previous;
-      });
-    };
-  }, [onComplete, reduced]);
-  return (
-    <div
-      className="intro"
-      role="dialog"
-      aria-label="Welcome to Shega"
-      aria-modal="true"
-      onKeyDown={(event) => {
-        if (event.key === "Escape") onComplete();
-      }}
-    >
-      <div ref={backdrop} className="intro-backdrop" />
-      <div className="intro-logo-mask">
-        <img
-          ref={logo}
-          src="/logos/shega-dark.svg"
-          alt="Shega Store"
-          width="300"
-          height="105"
-        />
-      </div>
-      <button className="intro-skip" onClick={onComplete} autoFocus>
-        Enter store <ArrowRight size={16} />
-      </button>
-      <span className="intro-caption">A different kind of statement.</span>
-    </div>
-  );
-}
-
-function Header({ introActive }) {
+function Header() {
   const { bag, setOverlay, saved } = useContext(Store);
   const location = useLocation();
   const isHome = location.pathname === "/";
@@ -342,11 +223,7 @@ function Header({ introActive }) {
         className={`site-header ${isHome && atTop ? "header-over-hero" : ""}`}
       >
         <div className="header-inner">
-          <Link
-            to="/"
-            aria-label="Shega Store home"
-            className={`header-brand ${introActive ? "intro-hidden" : ""}`}
-          >
+          <Link to="/" aria-label="Shega Store home" className="header-brand">
             <img
               className="header-logo"
               src="/logos/shega-dark.svg"
@@ -413,23 +290,26 @@ const heroSlides = [
   {
     title: ["DRESS LIKE", "YOURSELF."],
     copy: "Distinctive pieces. Iconic names. A wardrobe with a point of view.",
-    image: "hero",
+    image: "campaign-country",
+    alt: "David Beckham in layered BOSS outerwear beside a vintage convertible, with a country house and trees behind him",
     label: "The signature edit",
     link: "/shop",
   },
   {
-    title: ["OFF DUTY.", "ON POINT."],
-    copy: "Relaxed silhouettes. Refined details. Find your next everyday layer.",
-    image: "editorial",
-    label: "The off-duty edit",
-    link: "/shop?category=Hoodies",
+    title: ["THE CITY", "IS YOURS."],
+    copy: "From the first coffee to the last light. Make an entrance, every day.",
+    image: "campaign-city",
+    alt: "Aaron Pierre wearing a beige coat over a blue BOSS suit on a city street outside a storefront",
+    label: "The city edit",
+    link: "/shop?edit=new",
   },
   {
-    title: ["A LITTLE", "ATTITUDE."],
-    copy: "Graphic finishes, washed textures, and pieces that do the talking.",
-    image: "flatlay",
-    label: "The essentials edit",
-    link: "/shop?category=T-Shirts",
+    title: ["MAKE IT", "PERSONAL."],
+    copy: "Considered details. Individual style. A new perspective on your everyday wardrobe.",
+    image: "campaign-tailoring",
+    alt: "Aaron Pierre in dark BOSS tailoring beside architectural columns and a car on a city street",
+    label: "The personal edit",
+    link: "/shop",
   },
 ];
 
@@ -477,7 +357,7 @@ function BrandMarquee() {
   );
 }
 
-function Home({ introActive }) {
+function Home() {
   const [slide, setSlide] = useState(0);
   const [direction, setDirection] = useState(1);
   const hero = useRef();
@@ -501,7 +381,7 @@ function Home({ introActive }) {
   return (
     <>
       <section
-        className={`hero ${introActive ? "hero-waiting" : "hero-ready"}`}
+        className={`hero hero-${current.image}`}
         ref={hero}
         aria-label="Shega seasonal collection"
       >
@@ -509,36 +389,26 @@ function Home({ introActive }) {
           className="hero-photography"
           style={{ transform: reduced ? "none" : transform }}
         >
-          <AnimatePresence initial={false}>
-            <motion.img
-              key={current.image}
-              className={`hero-image hero-image-${current.image}`}
-              src={image(current.image)}
-              alt={
-                slide === 0
-                  ? "Original BOSS photography: model wearing a textured black hoodie"
-                  : slide === 1
-                    ? "Original BOSS by Beckham campaign photography"
-                    : "Original Diesel model photography showing a distressed graphic sweatshirt"
-              }
-              width="1672"
-              height="941"
-              fetchPriority="high"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: reduced ? 0.15 : 0.8 }}
+          {heroSlides.map((item, index) => (
+            <img
+              key={item.image}
+              className={`hero-image hero-image-${item.image} ${index === slide ? "is-active" : ""}`}
+              src={image(item.image)}
+              alt={item.alt}
+              aria-hidden={index !== slide}
+              width={index === 0 ? 2400 : 1280}
+              height={index === 0 ? 1100 : 853}
+              fetchPriority={index === 0 ? "high" : "low"}
+              decoding="async"
             />
-          </AnimatePresence>
+          ))}
         </motion.div>
         <div className="hero-shade" />
         <div className="hero-content page-width">
-          <p className="eyebrow hero-enter" style={{ "--delay": "0ms" }}>
-            A NEW POINT OF VIEW
-          </p>
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={slide}
+              className="hero-message"
               initial={{
                 opacity: 0,
                 transform: reduced ? "none" : `translateY(${direction * 14}px)`,
@@ -552,6 +422,7 @@ function Home({ introActive }) {
               }}
               transition={{ duration: 0.28, ease }}
             >
+              <p className="eyebrow hero-enter">A NEW POINT OF VIEW</p>
               <h1 className="hero-title" aria-label={current.title.join(" ")}>
                 <span className="hero-title-mask">
                   <span className="hero-enter" style={{ "--delay": "70ms" }}>
@@ -579,6 +450,9 @@ function Home({ introActive }) {
             </motion.div>
           </AnimatePresence>
         </div>
+        <span className="hero-photo-note">
+          THE SHEGA PERSPECTIVE <span>—</span> VOL. 01
+        </span>
         <div className="hero-pagination">
           <span className="hero-slide-name">{current.label}</span>
           <div className="hero-dots" aria-label="Hero slides">
@@ -626,13 +500,6 @@ function Home({ introActive }) {
               link: "/shop?category=T-Shirts",
               sub: "The everyday essentials",
               className: "category-tees",
-            },
-            {
-              name: "HOODIES",
-              image: "editorial",
-              link: "/shop?category=Hoodies",
-              sub: "Your off-duty uniform",
-              className: "category-hoodies",
             },
             {
               name: "SWEATSHIRTS",
@@ -1627,7 +1494,7 @@ function Newsletter() {
   );
 }
 
-function Footer({ replayIntro }) {
+function Footer() {
   return (
     <footer className="site-footer">
       <div className="page-width">
@@ -1663,9 +1530,6 @@ function Footer({ replayIntro }) {
               <h3>THE WORLD OF SHEGA</h3>
               <Link to="/about">Our story</Link>
               <Link to="/brands">Explore the brands</Link>
-              <button onClick={replayIntro}>
-                Replay the introduction <ArrowUpRight size={12} />
-              </button>
             </div>
           </div>
         </div>
@@ -2040,25 +1904,6 @@ function Overlay({ type: overlay }) {
 function App() {
   const location = useLocation();
   const { overlay, notice, setOverlay, dismissNotice } = useContext(Store);
-  const [introActive, setIntroActive] = useState(() => {
-    try {
-      return (
-        location.pathname === "/" && !sessionStorage.getItem("shega-intro")
-      );
-    } catch {
-      return false;
-    }
-  });
-  const completeIntro = React.useCallback(() => {
-    setIntroActive(false);
-    try {
-      sessionStorage.setItem("shega-intro", "seen");
-    } catch {}
-  }, []);
-  const replay = () => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-    setIntroActive(true);
-  };
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
     const titles = {
@@ -2080,7 +1925,7 @@ function App() {
     setOverlay(null);
   }, [location.pathname, location.search]);
   let page;
-  if (location.pathname === "/") page = <Home introActive={introActive} />;
+  if (location.pathname === "/") page = <Home />;
   else if (location.pathname === "/shop") page = <Shop />;
   else if (location.pathname.startsWith("/product/"))
     page = <Product id={location.pathname.split("/")[2]} />;
@@ -2096,11 +1941,11 @@ function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <Header introActive={introActive} />
+      <Header />
       <main id="main" key={location.pathname} className="route-content">
         {page}
       </main>
-      <Footer replayIntro={replay} />
+      <Footer />
       <AnimatePresence>
         {overlay && <Overlay key={overlay} type={overlay} />}
       </AnimatePresence>
@@ -2123,7 +1968,6 @@ function App() {
           </>
         )}
       </div>
-      {introActive && <Intro onComplete={completeIntro} />}
     </MotionConfig>
   );
 }
