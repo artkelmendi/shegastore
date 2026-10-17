@@ -1,12 +1,23 @@
-/* Product-card hierarchy follows the supplied Nike reference.
- * Helvetica Now is commercial and is not bundled: use an installed copy,
- * then Helvetica/Arial until licensed webfont files are supplied.
+/* Supplied Helvetica Now Display Regular/Medium, scoped to product cards.
+ * The user's archive contains Display, rather than Nike's Text optical cut.
  */
+@font-face {
+  font-family: "Wolf Product Helvetica";
+  src: url("/fonts/HelveticaNowDisplay.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Wolf Product Helvetica";
+  src: url("/fonts/HelveticaNowDisplayMedium.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
 :root {
-  --product-font: "Helvetica Now Text", Helvetica, Arial, sans-serif;
-  --product-font-medium:
-    "Helvetica Now Text Medium", "Helvetica Now Text", Helvetica, Arial,
-    sans-serif;
+  --product-font: "Wolf Product Helvetica", Helvetica, Arial, sans-serif;
+  --product-font-medium: "Wolf Product Helvetica", Helvetica, Arial, sans-serif;
 }
 :root :is(.shop-products, .favorites-group) .product-card {
   display: flex;
@@ -32,7 +43,7 @@
 :root :is(.shop-products, .favorites-group) .product-brand {
   order: 1;
   font-family: var(--product-font-medium);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text);
   margin: 0;
 }
@@ -47,7 +58,7 @@
 :root :is(.shop-products, .favorites-group) .product-meta > span:last-child {
   order: 3;
   font-family: var(--product-font-medium);
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text);
   margin-top: 4px;
 }
