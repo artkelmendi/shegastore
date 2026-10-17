@@ -71,6 +71,7 @@ import { originEnabled, OriginEntrance } from "./origin-entrance";
 import { ScrollDetails } from "./scroll-details";
 import "./wolf-theme.css";
 import "./mobile-shop.css";
+import "./product-type.css";
 
 const Store = createContext();
 const ease = [0.23, 1, 0.32, 1];
