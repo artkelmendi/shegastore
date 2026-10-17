@@ -2,6 +2,7 @@ import React, {
   createContext,
   useContext,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -202,6 +203,58 @@ function Button({ to, children, className = "", ...props }) {
   );
 }
 
+function Opening({ phase, onComplete }) {
+  const dialog = useRef();
+  useLayoutEffect(() => {
+    const element = dialog.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    element.showModal();
+    element.focus({ preventScroll: true });
+    return () => {
+      element.close();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+  return (
+    <dialog
+      ref={dialog}
+      className={`opening ${phase === "departing" ? "opening-is-leaving" : ""}`}
+      aria-label="Welcome to Shega"
+      tabIndex={-1}
+      onCancel={(event) => {
+        event.preventDefault();
+        onComplete();
+      }}
+      onTransitionEnd={(event) => {
+        if (
+          event.target === event.currentTarget &&
+          event.propertyName === "opacity" &&
+          phase === "departing"
+        )
+          onComplete();
+      }}
+    >
+      <div className="opening-brand">
+        <div className="opening-logo-mask">
+          <img
+            className="opening-logo"
+            src="/logos/shega-dark.svg"
+            alt="Shega Store"
+            width="300"
+            height="105"
+            fetchPriority="high"
+          />
+        </div>
+        <p className="opening-caption">Wear your own statement.</p>
+      </div>
+      <button className="opening-skip" onClick={onComplete}>
+        Enter store <ArrowRight size={16} />
+      </button>
+    </dialog>
+  );
+}
+
 function Header() {
   const { bag, setOverlay, saved } = useContext(Store);
   const location = useLocation();
@@ -349,8 +402,9 @@ function BrandMarquee() {
   );
 }
 
-function Home() {
+function Home({ ready = true }) {
   const [slide, setSlide] = useState(0);
+  const [loadedImages, setLoadedImages] = useState({});
   const [direction, setDirection] = useState(1);
   const hero = useRef();
   const reduced = useReducedMotion();
@@ -373,7 +427,7 @@ function Home() {
   return (
     <>
       <section
-        className={`hero hero-${current.image}`}
+        className={`hero hero-${current.image} ${ready ? "hero-is-ready" : "hero-is-waiting"}`}
         ref={hero}
         aria-label="Shega seasonal collection"
       >
@@ -384,7 +438,7 @@ function Home() {
           {heroSlides.map((item, index) => (
             <img
               key={item.image}
-              className={`hero-image hero-image-${item.image} ${index === slide ? "is-active" : ""}`}
+              className={`hero-image hero-image-${item.image} ${index === slide ? "is-active" : ""} ${loadedImages[item.image] ? "is-loaded" : ""}`}
               src={image(item.image)}
               alt={item.alt}
               aria-hidden={index !== slide}
@@ -392,6 +446,16 @@ function Home() {
               height="941"
               fetchPriority={index === 0 ? "high" : "low"}
               decoding="async"
+              onLoad={async (event) => {
+                const element = event.currentTarget;
+                try {
+                  await element.decode();
+                } catch {}
+                setLoadedImages((previous) => ({
+                  ...previous,
+                  [item.image]: true,
+                }));
+              }}
             />
           ))}
         </motion.div>
@@ -1893,8 +1957,48 @@ function Overlay({ type: overlay }) {
 function App() {
   const location = useLocation();
   const { overlay, notice, setOverlay, dismissNotice } = useContext(Store);
+  const reduced = useReducedMotion();
+  // A fresh document always gets the opening; in-app navigation never replays it.
+  const [opening, setOpening] = useState(() =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "complete"
+      : "arriving",
+  );
+  const previousPath = useRef(location.pathname);
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    if (reduced) {
+      setOpening("complete");
+      return;
+    }
+    const timers = [];
+    const wait = (ms) =>
+      new Promise((resolve) => timers.push(setTimeout(resolve, ms)));
+    let cancelled = false;
+    if (opening === "arriving") {
+      const images = [
+        ...document.querySelectorAll(".opening-logo, .hero-image.is-active"),
+      ];
+      const assets = Promise.all([
+        document.fonts.ready,
+        ...images.map((img) => img.decode().catch(() => {})),
+      ]);
+      Promise.all([wait(1450), Promise.race([assets, wait(2300)])]).then(() => {
+        if (!cancelled) setOpening("departing");
+      });
+    } else if (opening === "departing") {
+      // CSS transitionend is primary; the timer also releases a backgrounded tab.
+      timers.push(setTimeout(() => setOpening("complete"), 750));
+    }
+    return () => {
+      cancelled = true;
+      timers.forEach(clearTimeout);
+    };
+  }, [opening, reduced]);
+  useEffect(() => {
+    // A different page resets after its exit; filters reset without a page transition.
+    if (previousPath.current === location.pathname)
+      window.scrollTo({ top: 0, behavior: "instant" });
+    previousPath.current = location.pathname;
     const titles = {
       "/": "Wear your own statement.",
       "/shop": "The collection",
@@ -1914,7 +2018,7 @@ function App() {
     setOverlay(null);
   }, [location.pathname, location.search]);
   let page;
-  if (location.pathname === "/") page = <Home />;
+  if (location.pathname === "/") page = <Home ready={opening !== "arriving"} />;
   else if (location.pathname === "/shop") page = <Shop />;
   else if (location.pathname.startsWith("/product/"))
     page = <Product id={location.pathname.split("/")[2]} />;
@@ -1927,36 +2031,69 @@ function App() {
   else page = <NotFound />;
   return (
     <MotionConfig reducedMotion="user">
-      <a className="skip-link" href="#main">
-        Skip to content
-      </a>
-      <Header />
-      <main id="main" key={location.pathname} className="route-content">
-        {page}
-      </main>
-      <Footer />
-      <AnimatePresence>
-        {overlay && <Overlay key={overlay} type={overlay} />}
-      </AnimatePresence>
       <div
-        className={`notice ${notice ? "notice-visible" : ""}`}
-        role="status"
-        aria-live="polite"
+        className="site-shell"
+        data-opening={opening}
+        inert={opening !== "complete"}
       >
-        {notice && (
-          <>
-            <CheckCircle size={22} />
-            <p>{notice}</p>
-            <button
-              className="icon-button"
-              aria-label="Dismiss notification"
-              onClick={dismissNotice}
-            >
-              <X size={16} />
-            </button>
-          </>
-        )}
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <Header />
+        <AnimatePresence
+          initial={false}
+          mode="wait"
+          onExitComplete={() =>
+            window.scrollTo({ top: 0, behavior: "instant" })
+          }
+        >
+          <motion.main
+            id="main"
+            key={location.pathname}
+            className="route-content"
+            tabIndex={-1}
+            initial={{
+              opacity: reduced ? 1 : 0,
+              transform: reduced ? "none" : "translateY(12px)",
+            }}
+            animate={{ opacity: 1, transform: "translateY(0px)" }}
+            exit={{
+              opacity: reduced ? 1 : 0,
+              transform: reduced ? "none" : "translateY(-8px)",
+              transition: { duration: reduced ? 0 : 0.14, ease },
+            }}
+            transition={{ duration: reduced ? 0 : 0.28, ease }}
+          >
+            {page}
+          </motion.main>
+        </AnimatePresence>
+        <Footer />
+        <AnimatePresence>
+          {overlay && <Overlay key={overlay} type={overlay} />}
+        </AnimatePresence>
+        <div
+          className={`notice ${notice ? "notice-visible" : ""}`}
+          role="status"
+          aria-live="polite"
+        >
+          {notice && (
+            <>
+              <CheckCircle size={22} />
+              <p>{notice}</p>
+              <button
+                className="icon-button"
+                aria-label="Dismiss notification"
+                onClick={dismissNotice}
+              >
+                <X size={16} />
+              </button>
+            </>
+          )}
+        </div>
       </div>
+      {opening !== "complete" && (
+        <Opening phase={opening} onComplete={() => setOpening("complete")} />
+      )}
     </MotionConfig>
   );
 }

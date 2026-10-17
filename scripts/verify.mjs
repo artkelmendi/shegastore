@@ -1,4 +1,4 @@
-import { chromium } from "@playwright/test";
+import { chromium, expect } from "@playwright/test";
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
@@ -26,8 +26,13 @@ const screenshot = async (name) => {
     fullPage: false,
   });
 };
+const visit = async (url, options) => {
+  const response = await page.goto(url, options);
+  await page.locator(".opening").waitFor({ state: "hidden", timeout: 6000 });
+  return response;
+};
 
-await page.goto(origin, { waitUntil: "networkidle" });
+await visit(origin, { waitUntil: "networkidle" });
 assert.equal(await page.locator(".intro").count(), 0);
 assert.equal(await page.locator("#main").evaluate((el) => el.inert), false);
 assert.notEqual(
@@ -76,6 +81,7 @@ await page.keyboard.press("Escape");
 await page.getByRole("dialog").waitFor({ state: "hidden" });
 await screenshot("desktop-product.png");
 await page.reload({ waitUntil: "networkidle" });
+await page.locator(".opening").waitFor({ state: "hidden", timeout: 6000 });
 await page.getByRole("button", { name: "Open shopping bag (2 items)" }).click();
 await page.getByRole("heading", { name: "YOUR BAG (2)" }).waitFor();
 await screenshot("desktop-bag.png");
@@ -87,27 +93,27 @@ await page.getByRole("dialog").waitFor({ state: "hidden" });
 await page
   .getByRole("button", { name: "Add to saved items", exact: true })
   .click();
-await page.goto(`${origin}/saved`, { waitUntil: "networkidle" });
-assert.equal(await page.locator(".product-card").count(), 1);
+await visit(`${origin}/saved`, { waitUntil: "networkidle" });
+await expect(page.locator(".product-card")).toHaveCount(1);
 
-await page.goto(`${origin}/shop`, { waitUntil: "networkidle" });
-assert.equal(await page.locator(".product-card").count(), 8);
+await visit(`${origin}/shop`, { waitUntil: "networkidle" });
+await expect(page.locator(".product-card")).toHaveCount(8);
 await page.getByRole("button", { name: "Hoodies", exact: true }).click();
-assert.equal(await page.locator(".product-card").count(), 3);
+await expect(page.locator(".product-card")).toHaveCount(3);
 await page.getByRole("button", { name: "Filters", exact: true }).click();
 await page.getByLabel("Brand", { exact: true }).selectOption("DIESEL");
 await page.getByRole("heading", { name: "NOTHING HERE. YET." }).waitFor();
 await page
   .getByRole("button", { name: "View all pieces", exact: true })
   .click();
-assert.equal(await page.locator(".product-card").count(), 8);
+await expect(page.locator(".product-card")).toHaveCount(8);
 await page
   .getByRole("combobox", { name: "Sort products" })
   .selectOption("price-asc");
 assert.match(await page.locator(".product-card").first().innerText(), /DIESEL/);
 await screenshot("desktop-shop.png");
 
-await page.goto(`${origin}/contact`, { waitUntil: "networkidle" });
+await visit(`${origin}/contact`, { waitUntil: "networkidle" });
 await page.getByLabel("First name", { exact: true }).fill("Test");
 await page.getByLabel("Last name", { exact: true }).fill("Customer");
 await page
@@ -141,7 +147,7 @@ for (const route of [
   "/saved",
   "/not-a-real-page",
 ]) {
-  await page.goto(origin + route, { waitUntil: "networkidle" });
+  await visit(origin + route, { waitUntil: "networkidle" });
   assert.equal(
     (await page.locator("h1,h2").count()) > 0,
     true,
@@ -165,7 +171,7 @@ for (const route of [
   );
 }
 
-await page.goto(origin, { waitUntil: "networkidle" });
+await visit(origin, { waitUntil: "networkidle" });
 assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
 const track = page.locator(".brand-marquee-track");
 assert.equal(
@@ -194,7 +200,7 @@ for (const route of [
   "/delivery",
   "/saved",
 ]) {
-  await page.goto(origin + route, { waitUntil: "networkidle" });
+  await visit(origin + route, { waitUntil: "networkidle" });
   assert.equal(
     await page.evaluate(
       () => document.documentElement.scrollWidth > window.innerWidth,
@@ -207,7 +213,7 @@ for (const route of [
   if (route === "/product/boss-signature-hoodie")
     await screenshot("mobile-product.png");
 }
-await page.goto(origin, { waitUntil: "networkidle" });
+await visit(origin, { waitUntil: "networkidle" });
 await page
   .getByRole("button", { name: "Open navigation menu", exact: true })
   .click();
@@ -225,7 +231,7 @@ const reducedContext = await browser.newContext({
 });
 const reduced = await reducedContext.newPage();
 await reduced.goto(origin, { waitUntil: "networkidle" });
-await reduced.locator(".intro").waitFor({ state: "hidden" });
+await reduced.locator(".opening").waitFor({ state: "hidden" });
 assert.equal(
   await reduced
     .locator(".hero-enter")
@@ -245,7 +251,7 @@ assert.deepEqual(failedRequests, [], "Failed HTTP responses");
 const result = {
   passed: true,
   checks: [
-    "First visit opens without an overlay or scroll lock",
+    "White opening completes and releases scrolling",
     "Hero carousel",
     "Search to product",
     "Required size validation",

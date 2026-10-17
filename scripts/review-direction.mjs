@@ -11,7 +11,8 @@ const page = await context.newPage();
 const errors = [];
 page.on("pageerror", (error) => errors.push(error.message));
 await page.goto("http://localhost:5173/", { waitUntil: "domcontentloaded" });
-assert.equal(await page.locator(".intro").count(), 0);
+await page.locator(".opening").waitFor({ state: "hidden", timeout: 6000 });
+await page.waitForTimeout(1100);
 assert.equal(await page.locator("[inert]").count(), 0);
 assert.notEqual(
   await page.evaluate(() => getComputedStyle(document.body).overflow),
@@ -46,6 +47,7 @@ assert.equal(await page.locator('.hero img[src*="campaign-"]').count(), 0);
 for (const width of [1440, 1024, 768, 390, 320]) {
   await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
   await page.goto("http://localhost:5173/", { waitUntil: "networkidle" });
+  await page.locator(".opening").waitFor({ state: "hidden", timeout: 6000 });
   for (let slide = 0; slide < 2; slide++) {
     await page.waitForTimeout(1000);
     const active = page.locator(".hero-image.is-active");
@@ -95,7 +97,7 @@ assert.deepEqual(errors, []);
 const result = {
   passed: true,
   checks: [
-    "No first-visit overlay, inert background, or scroll lock",
+    "Opening releases the background and scrolling",
     "Stable hero position after initial load",
     "New locally hosted fonts loaded",
     "Removed hoodie uniform tile",

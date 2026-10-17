@@ -7,7 +7,7 @@ page.setDefaultTimeout(10000);
 const errors = [];
 page.on("pageerror", (error) => errors.push(error.message));
 await page.goto("http://localhost:5173/", { waitUntil: "networkidle" });
-await page.locator(".intro").waitFor({ state: "hidden" });
+await page.locator(".opening").waitFor({ state: "hidden" });
 await page.waitForTimeout(700);
 await page.screenshot({
   path: fileURLToPath(
@@ -17,14 +17,12 @@ await page.screenshot({
 console.log("hero", await page.locator(".hero-title").innerText());
 console.log(
   "logos",
-  await page
-    .locator(".brand-marquee img")
-    .evaluateAll((imgs) =>
-      imgs.map((img) => ({
-        src: img.getAttribute("src"),
-        loaded: img.naturalWidth > 0,
-      })),
-    ),
+  await page.locator(".brand-marquee img").evaluateAll((imgs) =>
+    imgs.map((img) => ({
+      src: img.getAttribute("src"),
+      loaded: img.naturalWidth > 0,
+    })),
+  ),
 );
 for (const width of [320, 375, 390, 768, 1024, 1440]) {
   await page.setViewportSize({ width, height: 900 });
@@ -37,6 +35,7 @@ for (const width of [320, 375, 390, 768, 1024, 1440]) {
     await page.goto("http://localhost:5173" + route, {
       waitUntil: "networkidle",
     });
+    await page.locator(".opening").waitFor({ state: "hidden", timeout: 6000 });
     assert.equal(
       await page.evaluate(
         () => document.documentElement.scrollWidth > window.innerWidth,
