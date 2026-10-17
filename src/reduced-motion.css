@@ -1,0 +1,26 @@
+/* This layer only applies to the OS accessibility preference. Default motion
+   keeps its existing curves, timing and composition. */
+@media (prefers-reduced-motion: reduce) {
+  :root .favorites-window {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  :root .favorites-group[aria-hidden="true"] {
+    display: none;
+  }
+  :root .favorites-track,
+  :root .brand-marquee-track {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+  :root .product-image-link:hover > img,
+  :root .category-tile:hover img,
+  :root .product-zoom:hover img,
+  :root .editorial-photo:hover img {
+    transform: none;
+  }
+  :root .hero-photography {
+    transform: none !important;
+  }
+}

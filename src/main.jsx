@@ -1,3 +1,4 @@
+import { useReducedMotion } from "./motion-preference";
 import React, {
   createContext,
   useContext,
@@ -19,7 +20,6 @@ import {
   AnimatePresence,
   motion,
   MotionConfig,
-  useReducedMotion,
   useScroll,
   useTransform,
 } from "motion/react";
@@ -71,6 +71,7 @@ import "./wolf-theme.css";
 import "./mobile-shop.css";
 import "./product-type.css";
 import "./brand-strip.css";
+import "./reduced-motion.css";
 
 const Store = createContext();
 const ease = [0.23, 1, 0.32, 1];
@@ -216,8 +217,14 @@ function Reveal({ children, className = "", delay = 0 }) {
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, transform: reduced ? "none" : "translateY(30px)" }}
-      whileInView={{ opacity: 1, transform: "translateY(0px)" }}
+      initial={{
+        opacity: reduced ? 1 : 0,
+        transform: reduced ? "none" : "translateY(30px)",
+      }}
+      whileInView={{
+        opacity: 1,
+        transform: reduced ? "none" : "translateY(0px)",
+      }}
       viewport={{ once: true, amount: 0.08 }}
       transition={{
         duration: reduced ? 0.15 : 0.75,
@@ -516,7 +523,10 @@ function Home({ ready = true }) {
                 opacity: 0,
                 transform: reduced ? "none" : `translateY(${direction * 14}px)`,
               }}
-              animate={{ opacity: 1, transform: "translateY(0px)" }}
+              animate={{
+                opacity: 1,
+                transform: reduced ? "none" : "translateY(0px)",
+              }}
               exit={{
                 opacity: 0,
                 transform: reduced
@@ -1866,7 +1876,10 @@ function Overlay({ type: overlay }) {
               ? "translateY(16px)"
               : "translateX(100%)",
       }}
-      animate={{ opacity: 1, transform: "translate(0px, 0px)" }}
+      animate={{
+        opacity: 1,
+        transform: reduced ? "none" : "translate(0px, 0px)",
+      }}
       exit={{
         opacity: 0,
         transform: reduced
@@ -2287,7 +2300,10 @@ function App() {
               opacity: reduced ? 1 : 0,
               transform: reduced ? "none" : "translateY(12px)",
             }}
-            animate={{ opacity: 1, transform: "translateY(0px)" }}
+            animate={{
+              opacity: 1,
+              transform: reduced ? "none" : "translateY(0px)",
+            }}
             exit={{
               opacity: reduced ? 1 : 0,
               transform: reduced ? "none" : "translateY(-8px)",

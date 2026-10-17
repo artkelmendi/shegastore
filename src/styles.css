@@ -2907,8 +2907,9 @@ details > p {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+    animation: none !important;
+    transition-property:
+      opacity, color, background-color, border-color !important;
     transition-duration: 0.15s !important;
     transition-delay: 0ms !important;
   }

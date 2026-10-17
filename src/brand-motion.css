@@ -275,7 +275,9 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .favorites-track {
-    animation-duration: 180s;
+    animation: none;
+    transform: none;
+    will-change: auto;
   }
 }
 /* Keep the favorites title together on compact screens. */

@@ -39,3 +39,5 @@ For a production-style preview, build with the existing `/shegastore/` base and 
 ## Mobile and browsing polish
 
 Height-only viewport changes from Safari browser bars do not cancel the entrance. Catalogue refreshes on window focus preserve scroll position, and unchanged product data keeps its existing reference. Helvetica Now Text is limited to sale-product cards; the rest of the site retains the original typography. Safari/WebKit checks emulate a 440 × 956, 3× mobile screen; actual iPhone hardware remains a separate check.
+
+Reduced-motion consistency: storefront components use a live `matchMedia` subscription rather than a mount-only preference snapshot. The reduced CSS disables keyframes instead of fast-forwarding them to their final frame. Favorites become a static, horizontally scrollable row with the duplicate hidden; the default looping marquee is unchanged. Active detail-reveal animations are canceled when the preference changes. Verify cold loads and live OS preference changes with `node scripts/verify-motion-preference.mjs` (WebKit phone and desktop).

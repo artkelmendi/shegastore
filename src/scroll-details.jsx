@@ -1,5 +1,5 @@
+import { useReducedMotion } from "./motion-preference";
 import { useEffect } from "react";
-import { useReducedMotion } from "motion/react";
 
 // Scroll motion belongs to the small decorative marks, not the reading surface.
 export function ScrollDetails({ ready, route }) {

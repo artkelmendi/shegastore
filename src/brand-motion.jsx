@@ -1,5 +1,6 @@
+import { useReducedMotion } from "./motion-preference";
 import React, { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
+
 import { WolfWordmark } from "./branding";
 
 export function DrawnHeroLogo() {

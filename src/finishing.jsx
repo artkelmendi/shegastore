@@ -1,3 +1,4 @@
+import { useReducedMotion } from "./motion-preference";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -5,7 +6,6 @@ import {
   motion,
   useMotionValue,
   useMotionTemplate,
-  useReducedMotion,
 } from "motion/react";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
@@ -196,12 +196,13 @@ export function DetailReveals({ route }) {
   const reduced = useReducedMotion();
   useEffect(() => {
     if (reduced) return;
+    const animations = new Set();
     const observers = new Set();
     const observer = new IntersectionObserver(
       (entries) =>
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          entry.target.animate(
+          const animation = entry.target.animate(
             [
               { opacity: 0, transform: "translateY(16px)" },
               { opacity: 1, transform: "translateY(0px)" },
@@ -212,6 +213,10 @@ export function DetailReveals({ route }) {
               fill: "none",
             },
           );
+          animations.add(animation);
+          animation.finished
+            .catch(() => {})
+            .finally(() => animations.delete(animation));
           observer.unobserve(entry.target);
         }),
       { threshold: 0.08 },
@@ -232,6 +237,7 @@ export function DetailReveals({ route }) {
     return () => {
       observer.disconnect();
       mutations.disconnect();
+      animations.forEach((animation) => animation.cancel());
     };
   }, [reduced, route]);
   return null;
