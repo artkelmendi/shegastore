@@ -49,8 +49,10 @@ import {
   Play,
 } from "@phosphor-icons/react";
 import { products, brands, brandLogos, categories, money } from "./data";
+import { DrawnHeroLogo } from "./brand-motion";
 import "./styles.css";
 import "./editorial.css";
+import "./brand-motion.css";
 
 const Store = createContext();
 const ease = [0.23, 1, 0.32, 1];
@@ -62,7 +64,9 @@ const editorialImages = {
   sweatshirt: "diesel-sweat-14",
   hoodie: "armani-sweat-5",
 };
-const image = (name) => `/images/real/${editorialImages[name] || name}.webp`;
+const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+const image = (name) =>
+  asset(`/images/real/${editorialImages[name] || name}.webp`);
 
 function readSaved(key, fallback, validate) {
   try {
@@ -239,7 +243,7 @@ function Opening({ phase, onComplete }) {
         <div className="opening-logo-mask">
           <img
             className="opening-logo"
-            src="/logos/shega-dark.svg"
+            src={asset("/logos/shega-dark.svg")}
             alt="Shega Store"
             width="300"
             height="105"
@@ -279,26 +283,19 @@ function Header() {
           <Link to="/" aria-label="Shega Store home" className="header-brand">
             <img
               className="header-logo"
-              src="/logos/shega-dark.svg"
+              src={asset("/logos/shega-dark.svg")}
               alt="Shega Store"
               width="134"
               height="47"
             />
           </Link>
           <nav className="desktop-nav" aria-label="Main navigation">
-            <NavLink to="/shop">
-              Shop <CaretDown size={10} />
-            </NavLink>
-            <NavLink to="/brands">
-              Brands <CaretDown size={10} />
-            </NavLink>
-            <Link to="/shop?edit=new">New in</Link>
-            <Link to="/shop?category=Hoodies">Hoodies</Link>
-            <Link to="/shop?category=T-Shirts">T-shirts</Link>
-            <Link to="/shop?category=Sweatshirts">Sweatshirts</Link>
+            <NavLink to="/shop">Shop</NavLink>
             <Link className="sale-link" to="/shop?edit=sale">
               Sale
             </Link>
+            <NavLink to="/contact">Contact us</NavLink>
+            <NavLink to="/faq">Common questions</NavLink>
           </nav>
           <div className="header-tools">
             <button
@@ -341,7 +338,7 @@ function Header() {
 
 const heroSlides = [
   {
-    title: ["dress like", "yourself."],
+    title: ["Dress Like", "yourself."],
     copy: "Distinctive pieces. Iconic names. A wardrobe with a point of view.",
     image: "shega-boss-hero",
     alt: "Stacked black and white BOSS polo shirts with contrasting collars and a patterned Porsche BOSS layer",
@@ -349,7 +346,7 @@ const heroSlides = [
     link: "/shop",
   },
   {
-    title: ["make it", "personal."],
+    title: ["Make It", "personal."],
     copy: "Considered details. Individual style. A new perspective on your everyday wardrobe.",
     image: "shega-armani-hero",
     alt: "Stacked black and white Emporio Armani polo shirts with striped collars and eagle embroidery",
@@ -394,7 +391,7 @@ function BrandMarquee() {
                   </Link>
                   <span className="brand-band-divider" aria-hidden="true">
                     <img
-                      src="/logos/shega-mark.svg"
+                      src={asset("/logos/shega-mark.svg")}
                       alt=""
                       width="22"
                       height="22"
@@ -476,7 +473,9 @@ function Home({ ready = true }) {
           ))}
         </motion.div>
         <div className="hero-shade" />
+
         <div className="hero-content page-width">
+          <DrawnHeroLogo />
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={slide}
@@ -578,11 +577,11 @@ function Home({ ready = true }) {
               className: "category-sweats",
             },
             {
-              name: "THE NEW EDIT",
-              image: "flatlay",
-              link: "/shop?edit=new",
-              sub: "Just landed at Shega",
-              className: "category-new",
+              name: "HOODIES",
+              image: "hoodie",
+              link: "/shop?category=Hoodies",
+              sub: "Your everyday layer",
+              className: "category-hoodies",
             },
           ].map((category, i) => (
             <Reveal key={category.name} delay={i * 0.06}>
@@ -614,33 +613,14 @@ function Home({ ready = true }) {
           ))}
         </div>
       </section>
-      <section className="section page-width">
-        <Reveal className="section-heading">
-          <h2>
-            THE CURRENT ROTATION<span className="accent">.</span>
-          </h2>
-          <Link to="/shop" className="text-link">
-            Shop all pieces <ArrowUpRight size={18} />
-          </Link>
-        </Reveal>
-        <div className="product-grid">
-          {products.slice(0, 4).map((product, i) => (
-            <Reveal key={product.id} delay={i * 0.06}>
-              <ProductCard product={product} />
-            </Reveal>
-          ))}
-        </div>
-        <p className="catalog-note">
-          A preview of the Shega selection. Sample styles and prices.
-        </p>
-      </section>
+      <FavoritesCarousel />
       <section className="editorial-section page-width">
         <Reveal className="editorial-photo">
           <img
-            src={image("editorial")}
-            alt="Original BOSS by Beckham menswear campaign photography"
-            width="1000"
-            height="1100"
+            src={image("shega-boss-editorial")}
+            alt="Black and white BOSS polo shirts and sweatshirt displayed on white plinths"
+            width="1086"
+            height="1448"
             loading="lazy"
           />
         </Reveal>
@@ -663,7 +643,12 @@ function Home({ ready = true }) {
           <Reveal className="editorial-footnote">
             <span>CONSIDERED PIECES.</span>
             <span>INDIVIDUAL STYLE.</span>
-            <img src="/logos/shega-mark.svg" alt="" width="36" height="36" />
+            <img
+              src={asset("/logos/shega-mark.svg")}
+              alt=""
+              width="36"
+              height="36"
+            />
           </Reveal>
         </div>
       </section>
@@ -686,7 +671,113 @@ function Home({ ready = true }) {
   );
 }
 
-function ProductCard({ product }) {
+function FavoritesCarousel() {
+  const [selection] = useState(() => {
+    const shuffled = [...products];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  });
+  return (
+    <section
+      className="favorites-section section page-width"
+      aria-label="Our favorites"
+    >
+      <Reveal className="section-heading">
+        <div>
+          <p className="eyebrow">THE SHEGA SELECTION</p>
+          <h2>
+            Our favorites<span className="accent">.</span>
+          </h2>
+        </div>
+        <Link to="/shop" className="text-link">
+          Shop all pieces <ArrowUpRight size={18} />
+        </Link>
+      </Reveal>
+      <div className="favorites-window">
+        <div className="favorites-track">
+          {[0, 1].map((copy) => (
+            <div
+              className="favorites-group"
+              key={copy}
+              aria-hidden={copy === 1 ? true : undefined}
+            >
+              {selection.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  duplicate={copy === 1}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <p className="catalog-note">
+        A changing point of view. Sample styles and prices.
+      </p>
+    </section>
+  );
+}
+
+function FAQ() {
+  const questions = [
+    [
+      "What does Shega sell?",
+      "Shega's selection is presented as 1:1 replica clothing. These are not authentic products from, or an official partnership with, the featured brands. Product photographs illustrate the styles; confirm the actual item before ordering.",
+    ],
+    [
+      "How do I choose my size?",
+      "Open a product and use its size guide. Compare the measurements with a garment you already own. Available sizes are shown on each product; confirm fit and stock before placing an order.",
+    ],
+    [
+      "Can I order through this website?",
+      "This is a frontend preview. You can explore styles, save favorites and build a bag, but no payment or order is processed here.",
+    ],
+    [
+      "What about delivery and returns?",
+      "Delivery areas, costs, timeframes and return terms must be confirmed with Shega before an order. The preview does not calculate shipping or promise a delivery date.",
+    ],
+    [
+      "Are prices and stock final?",
+      "The selection and prices are illustrative. Confirm the price, available colors and stock with Shega before purchasing.",
+    ],
+    [
+      "Where are my saved pieces kept?",
+      "Your bag and saved pieces are stored in this browser on this device. Clearing browser storage removes them.",
+    ],
+  ];
+  return (
+    <section className="faq-page section page-width">
+      <p className="eyebrow">A LITTLE CLARITY</p>
+      <h1>
+        Common questions<span className="accent">.</span>
+      </h1>
+      <p className="faq-intro">
+        The details, before you find your next favorite.
+      </p>
+      <div className="faq-list">
+        {questions.map(([question, answer], i) => (
+          <details key={question}>
+            <summary>
+              <span className="faq-number">0{i + 1}</span>
+              {question}
+              <Plus size={20} />
+            </summary>
+            <p>{answer}</p>
+          </details>
+        ))}
+      </div>
+      <Button to="/contact" className="button-outline">
+        Contact us
+      </Button>
+    </section>
+  );
+}
+
+function ProductCard({ product, duplicate = false }) {
   const { saved, toggleSaved } = useContext(Store);
   const isSaved = saved.includes(product.id);
   return (
@@ -696,6 +787,7 @@ function ProductCard({ product }) {
     >
       <div className="product-image-wrap">
         <Link
+          tabIndex={duplicate ? -1 : undefined}
           to={`/product/${product.id}`}
           className="product-image-link"
           aria-label={`View ${product.brand} ${product.name}`}
@@ -722,6 +814,7 @@ function ProductCard({ product }) {
           </span>
         </Link>
         <button
+          tabIndex={duplicate ? -1 : undefined}
           className={`product-save icon-button ${isSaved ? "is-saved" : ""}`}
           aria-label={`${isSaved ? "Remove" : "Save"} ${product.name}${isSaved ? " from saved items" : ""}`}
           aria-pressed={isSaved}
@@ -743,7 +836,11 @@ function ProductCard({ product }) {
           )}
         </span>
       </div>
-      <Link to={`/product/${product.id}`} className="product-name">
+      <Link
+        tabIndex={duplicate ? -1 : undefined}
+        to={`/product/${product.id}`}
+        className="product-name"
+      >
         {product.name}
       </Link>
       <div className="product-color">
@@ -1424,7 +1521,12 @@ function About() {
         />
       </Reveal>
       <Reveal className="about-manifesto">
-        <img src="/logos/shega-mark.svg" alt="" width="64" height="64" />
+        <img
+          src={asset("/logos/shega-mark.svg")}
+          alt=""
+          width="64"
+          height="64"
+        />
         <div>
           <h2>THE SHEGA WAY.</h2>
           <p>
@@ -1571,7 +1673,7 @@ function Footer() {
           <div className="footer-brand">
             <Link to="/" aria-label="Shega home">
               <img
-                src="/logos/shega-dark.svg"
+                src={asset("/logos/shega-dark.svg")}
                 alt="Shega Store"
                 width="180"
                 height="63"
@@ -1591,6 +1693,7 @@ function Footer() {
             <div>
               <h3>HERE TO HELP</h3>
               <Link to="/contact">Contact us</Link>
+              <Link to="/faq">Common questions</Link>
               <Link to="/delivery">Delivery & returns</Link>
               <Link to="/saved">Saved pieces</Link>
               <Link to="/privacy">Privacy information</Link>
@@ -1898,15 +2001,10 @@ function Overlay({ type: overlay }) {
       {overlay === "menu" && (
         <nav className="mobile-menu" aria-label="Mobile navigation">
           {[
-            ["Shop all", "/shop"],
-            ["New arrivals", "/shop?edit=new"],
-            ["T-shirts", "/shop?category=T-Shirts"],
-            ["Hoodies", "/shop?category=Hoodies"],
-            ["Sweatshirts", "/shop?category=Sweatshirts"],
-            ["Brands", "/brands"],
+            ["Shop", "/shop"],
             ["Sale", "/shop?edit=sale"],
-            ["Our story", "/about"],
             ["Contact us", "/contact"],
+            ["Common questions", "/faq"],
           ].map(([label, url]) => (
             <Link key={label} to={url} onClick={close}>
               {label}
@@ -1971,7 +2069,11 @@ function Overlay({ type: overlay }) {
 }
 
 function App() {
-  const location = useLocation();
+  const rawLocation = useLocation();
+  const location = {
+    ...rawLocation,
+    pathname: rawLocation.pathname.replace(/\/+$/, "") || "/",
+  };
   const { overlay, notice, setOverlay, dismissNotice } = useContext(Store);
   const reduced = useReducedMotion();
   // A fresh document always gets the opening; in-app navigation never replays it.
@@ -2020,6 +2122,7 @@ function App() {
       "/shop": "The collection",
       "/brands": "Explore the brands",
       "/contact": "Contact us",
+      "/faq": "Common questions",
       "/about": "Our story",
       "/saved": "Your saved pieces",
       "/delivery": "Delivery & returns",
@@ -2041,6 +2144,7 @@ function App() {
   else if (location.pathname === "/brands") page = <Brands />;
   else if (location.pathname === "/saved") page = <Saved />;
   else if (location.pathname === "/contact") page = <Contact />;
+  else if (location.pathname === "/faq") page = <FAQ />;
   else if (location.pathname === "/about") page = <About />;
   else if (location.pathname === "/privacy") page = <InfoPage privacy />;
   else if (location.pathname === "/delivery") page = <InfoPage />;
@@ -2115,7 +2219,7 @@ function App() {
 }
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
+  <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "") || "/"}>
     <StoreProvider>
       <App />
     </StoreProvider>

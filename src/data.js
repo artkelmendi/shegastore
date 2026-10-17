@@ -144,10 +144,23 @@ export const products = [
 
 export const brands = ["BOSS", "DIESEL", "EMPORIO ARMANI", "HUGO"];
 export const brandLogos = {
-  BOSS: "/logos/brands/boss.png",
-  DIESEL: "/logos/brands/diesel.svg",
-  "EMPORIO ARMANI": "/logos/brands/armani.svg",
-  HUGO: "/logos/brands/hugo.png",
+  BOSS: `${import.meta.env?.BASE_URL || "/"}/logos/brands/boss.png`.replace(
+    /\/\/+/g,
+    "/",
+  ),
+  DIESEL: `${import.meta.env?.BASE_URL || "/"}/logos/brands/diesel.svg`.replace(
+    /\/\/+/g,
+    "/",
+  ),
+  "EMPORIO ARMANI":
+    `${import.meta.env?.BASE_URL || "/"}/logos/brands/armani.svg`.replace(
+      /\/\/+/g,
+      "/",
+    ),
+  HUGO: `${import.meta.env?.BASE_URL || "/"}/logos/brands/hugo.png`.replace(
+    /\/\/+/g,
+    "/",
+  ),
 };
 export const categories = ["All pieces", "T-Shirts", "Hoodies", "Sweatshirts"];
 export const money = (number) =>

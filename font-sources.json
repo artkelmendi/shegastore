@@ -33,5 +33,13 @@
     "url": "https://cdn.fontshare.com/wf/47WQXPVBB5FZSBSKG7EM3GTGOVFM5BBT/ODED7M7ROA7KYKTD3MYSN4KKO6JVXBQE/EE3DYKUPHF3W5SWXFO53CRP5KMNTTNTH.woff2",
     "family_page": "https://www.fontshare.com/fonts/panchang",
     "css_api": "https://api.fontshare.com/v2/css?f[]=panchang@700&display=swap"
+  },
+  "cabinet-grotesk-800.woff2": {
+    "url": "https://cdn.fontshare.com/wf/ZX6AQLSFYVDPN2URWO2MQFGTYYOHIS64/TPYPKOYWFQVNJHLLRXD4KFYX4LUOUW4Z/6QH2ALVTTK7IRVO5MYOQQ3OZNXW5SSS3.woff2",
+    "family_page": "https://www.fontshare.com/fonts/cabinet-grotesk"
+  },
+  "telma-700.woff2": {
+    "url": "https://cdn.fontshare.com/wf/NKBYZM3FLGWOHDM7WOIMZMHCI5D2TUUS/X3ZSFROUQWHD465VZRJEVARXK2DNN4JW/AI3UKUGMCTKRJM6W6ADNUKZAB4SUTBHO.woff2",
+    "family_page": "https://www.fontshare.com/fonts/telma"
   }
 }

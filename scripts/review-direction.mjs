@@ -111,7 +111,7 @@ for (const width of [1440, 1024, 768, 390, 320]) {
       .locator(".category-caption")
       .evaluateAll((elements) =>
         elements.every(
-          (el) => getComputedStyle(el).backgroundColor === "rgb(190, 13, 45)",
+          (el) => getComputedStyle(el).backgroundColor === "rgb(206, 48, 77)",
         ),
       ),
     true,
