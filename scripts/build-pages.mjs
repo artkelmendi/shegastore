@@ -4,6 +4,15 @@ import { products } from "../src/data.js";
 // Preserve direct links on static hosts, including hosts without SPA rewrites.
 const routes = [
   "shop",
+  "login",
+  "account",
+  "account/sign-in",
+  "account/create",
+  "admin",
+  "admin/products",
+  "admin/products/new",
+  "admin/stock",
+  "admin/activity",
   "faq",
   "brands",
   "contact",

@@ -4,10 +4,14 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
+    "dev": "node scripts/dev.mjs",
     "build": "vite build",
     "postbuild": "node scripts/build-pages.mjs",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "dev:store": "vite --host 127.0.0.1",
+    "api": "node --watch server/index.mjs",
+    "test:api": "node --test tests/api.test.mjs tests/customers.test.mjs",
+    "test:workspace": "node tests/workspace-ui.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
@@ -25,5 +29,8 @@
     "lighthouse": "^13.5.0",
     "prettier": "^3.9.10",
     "vite": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=22.16"
   }
 }

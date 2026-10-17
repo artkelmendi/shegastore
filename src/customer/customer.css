@@ -1,0 +1,425 @@
+.account-page {
+  padding-bottom: 90px;
+}
+.account-access {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  max-width: 1180px;
+  margin: 28px auto 0;
+  border-block: 1px solid #dedbd8;
+  background: #fafaf8;
+}
+.account-photo {
+  position: relative;
+  min-height: 680px;
+  overflow: hidden;
+  background: #e9e9e6;
+}
+.account-photo > img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: center;
+}
+.account-photo-label {
+  position: absolute;
+  bottom: 28px;
+  left: 28px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  background: #ffffffea;
+  color: #222;
+  padding: 11px 14px;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+.account-photo-label > span {
+  background: var(--red);
+  width: 20px;
+  height: 2px;
+}
+.account-access-form {
+  align-self: center;
+  width: 100%;
+  padding: 55px clamp(28px, 4.5vw, 68px);
+}
+.account-overline {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  color: var(--red);
+}
+:root .account-access h1 {
+  font-size: clamp(37px, 3.4vw, 49px);
+  letter-spacing: -0.045em;
+  line-height: 1.06;
+  margin-top: 16px;
+  text-wrap: pretty;
+}
+.account-access-form > p {
+  font-size: 13px;
+  color: #666;
+  margin-top: 16px;
+  line-height: 1.7;
+}
+.account-access-tabs {
+  display: flex;
+  gap: 28px;
+  border-bottom: 1px solid #dad8d2;
+  margin-block: 28px;
+  font-size: 13px;
+}
+.account-access-tabs a {
+  padding: 12px 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: #666;
+}
+.account-access-tabs a[aria-current="page"] {
+  border-color: var(--red);
+  color: #222;
+  font-weight: 700;
+}
+.account-field {
+  margin-bottom: 21px;
+  min-width: 0;
+}
+.account-field > label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 9px;
+}
+:root .account-page .account-field input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #d8d6d1;
+  border-radius: 0;
+  background: #fff;
+  color: #222;
+  font-family: var(--font-body);
+  font-size: 15px;
+  min-height: 46px;
+  padding: 12px 14px;
+}
+.account-field input:read-only {
+  color: #666;
+  background: #f2f2ef !important;
+}
+.account-password {
+  position: relative;
+}
+:root .account-password input {
+  padding-right: 48px !important;
+}
+.account-password button {
+  position: absolute;
+  inset: 0 5px 0 auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  color: #666;
+}
+.account-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  background: var(--red);
+  color: white;
+  padding: 15px 20px;
+  min-height: 47px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 160ms ease;
+}
+.account-access-form .account-primary {
+  width: 100%;
+}
+.account-page .account-hint {
+  color: #6d6d65;
+  font-size: 11px;
+  line-height: 1.7;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+.account-field > .account-hint {
+  margin: 10px 0 0;
+}
+.account-privacy-note {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 22px;
+}
+.account-privacy-note a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.account-page .account-preview-note {
+  font-size: 11px;
+  color: #6d6d65;
+  line-height: 1.7;
+  padding-top: 20px;
+  border-top: 1px solid #dad8d2;
+  margin-top: 25px;
+}
+.account-staff-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: #666;
+  margin-top: 20px;
+  width: fit-content;
+}
+.account-staff-link svg {
+  color: var(--red);
+}
+.account-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 13px 15px;
+  border-left: 2px solid var(--red);
+  background: #f1efeb;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+.account-message svg {
+  color: var(--red);
+  margin-top: 1px;
+}
+.account-error {
+  color: #a10c28;
+  background: #be0d2d08;
+}
+.account-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px;
+  margin: 40px 0 50px;
+  padding-bottom: 35px;
+  border-bottom: 1px solid #dcd9d4;
+}
+:root .account-heading h1 {
+  font-size: clamp(42px, 4.6vw, 67px);
+  margin-top: 14px;
+  letter-spacing: -0.045em;
+}
+.account-heading p {
+  color: #666;
+  font-size: 14px;
+  margin-top: 18px;
+  overflow-wrap: anywhere;
+}
+.account-text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.account-text-button svg {
+  color: var(--red);
+}
+.account-profile {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(0, 2fr);
+  gap: clamp(40px, 8vw, 130px);
+}
+.account-directory {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.account-directory > a,
+.account-directory-current {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 17px 0;
+  border-bottom: 1px solid #dcd9d4;
+  font-size: 13px;
+}
+.account-directory-current {
+  font-weight: 700;
+  color: var(--red);
+  border-bottom-color: var(--red);
+}
+.account-directory > a svg {
+  color: var(--red);
+}
+.account-directory > p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #666;
+  margin-top: 25px;
+  max-width: 270px;
+}
+.account-settings-section {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr);
+  gap: 30px;
+  padding-bottom: 45px;
+  border-bottom: 1px solid #dedbd8;
+  margin-bottom: 45px;
+}
+.account-settings-section:last-child {
+  margin-bottom: 0;
+}
+.account-section-number {
+  color: var(--red);
+  font-size: 10px;
+  font-weight: 700;
+}
+:root .account-settings-section h2 {
+  font-size: 28px;
+  margin-top: 12px;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+.account-settings form {
+  min-width: 0;
+}
+.account-settings .account-primary {
+  width: 100%;
+}
+.account-loading,
+.account-unavailable {
+  min-height: 50svh;
+  padding-block: 55px;
+}
+.account-loading {
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  color: #666;
+}
+.account-unavailable {
+  max-width: 520px;
+}
+.account-unavailable h1 {
+  margin-block: 18px 30px;
+}
+body:has(.account-page) {
+  min-width: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .account-primary:hover {
+    background: #a50926;
+  }
+  .account-text-button:hover,
+  .account-directory a:hover {
+    color: var(--red);
+  }
+}
+@media (max-width: 1000px) {
+  .account-access-form {
+    padding-inline: 30px;
+  }
+  .account-settings-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 25px;
+  }
+  .account-profile {
+    grid-template-columns: minmax(150px, 0.6fr) minmax(0, 1fr);
+    gap: 45px;
+  }
+}
+@media (max-width: 767px) {
+  .account-page {
+    padding-bottom: 55px;
+  }
+  .account-access {
+    display: block;
+    margin-top: 20px;
+    background: transparent;
+  }
+  .account-photo {
+    display: none;
+  }
+  .account-access-form {
+    padding: 32px 0 0;
+    max-width: 440px;
+    margin-inline: auto;
+  }
+  :root .account-access h1 {
+    font-size: 42px;
+  }
+  :root .account-page .account-field input {
+    font-size: 16px;
+  }
+  .account-heading {
+    margin: 28px 0 30px;
+    padding-bottom: 25px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .account-heading > div {
+    min-width: 0;
+    flex: 1;
+  }
+  .account-heading h1 {
+    white-space: nowrap;
+  }
+  .account-heading .account-text-button {
+    font-size: 11px;
+    gap: 7px;
+  }
+  .account-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+  }
+  .account-directory {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+  }
+  .account-directory-current {
+    display: none;
+  }
+  .account-directory > a {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .account-directory > p {
+    grid-column: 1/-1;
+    max-width: none;
+    margin-top: 17px;
+  }
+  .account-settings-section {
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+  }
+  :root .account-settings-section h2 {
+    font-size: 28px;
+  }
+}
+@media (max-width: 390px) {
+  :root .account-access h1 {
+    font-size: 38px;
+  }
+  :root .account-heading h1 {
+    font-size: 37px;
+  }
+  .account-heading {
+    align-items: flex-start;
+  }
+  .account-heading > div {
+    flex-basis: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-page * {
+    transition: none !important;
+  }
+}

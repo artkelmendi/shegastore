@@ -47,8 +47,11 @@ import {
   Trash,
   Pause,
   Play,
+  UserCircle,
 } from "@phosphor-icons/react";
-import { products, brands, brandLogos, categories, money } from "./data";
+import { brands, brandLogos, categories, money } from "./data";
+import { CatalogProvider, useCatalog } from "./catalog";
+import { staticPreview } from "./api";
 import { BackgroundMarks, DrawnHeroLogo } from "./brand-motion";
 import {
   OutfitEdit,
@@ -78,7 +81,9 @@ const editorialImages = {
 };
 const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 const image = (name) =>
-  asset(`/images/real/${editorialImages[name] || name}.webp`);
+  name?.startsWith("/api/media/")
+    ? name
+    : asset(`/images/real/${editorialImages[name] || name}.webp`);
 
 function readSaved(key, fallback, validate) {
   try {
@@ -90,6 +95,7 @@ function readSaved(key, fallback, validate) {
 }
 
 function StoreProvider({ children }) {
+  const { products, source } = useCatalog();
   const [bag, setBag] = useState(() =>
     readSaved(
       "shega-bag",
@@ -98,7 +104,8 @@ function StoreProvider({ children }) {
         Array.isArray(v) &&
         v.every(
           (i) =>
-            products.some((p) => p.id === i.id && p.sizes.includes(i.size)) &&
+            typeof i.id === "string" &&
+            typeof i.size === "string" &&
             Number.isInteger(i.quantity) &&
             i.quantity > 0 &&
             i.quantity <= 10,
@@ -109,14 +116,30 @@ function StoreProvider({ children }) {
     readSaved(
       "shega-saved",
       [],
-      (v) =>
-        Array.isArray(v) && v.every((id) => products.some((p) => p.id === id)),
+      (v) => Array.isArray(v) && v.every((id) => typeof id === "string"),
     ),
   );
   const [overlay, setOverlay] = useState(null);
   const [notice, setNotice] = useState("");
   const [theme, setTheme] = useState("light");
   const noticeTimeout = useRef();
+  useEffect(() => {
+    if (source !== "database") return;
+    setBag((previous) =>
+      previous.flatMap((item) => {
+        const product = products.find((p) => p.id === item.id);
+        if (!product?.sizes.includes(item.size)) return [];
+        const stock = product.stock?.[item.size];
+        const quantity = stock?.tracked
+          ? Math.min(item.quantity, stock.available)
+          : item.quantity;
+        return quantity > 0 ? [{ ...item, quantity }] : [];
+      }),
+    );
+    setSaved((previous) =>
+      previous.filter((id) => products.some((p) => p.id === id)),
+    );
+  }, [products, source]);
   useEffect(() => {
     try {
       localStorage.setItem("shega-bag", JSON.stringify(bag));
@@ -143,6 +166,12 @@ function StoreProvider({ children }) {
         : [...previous, id],
     );
   const addToBag = (id, size) => {
+    const stock = products.find((p) => p.id === id)?.stock?.[size];
+    const limit = stock?.tracked ? Math.min(10, stock.available) : 10;
+    if (limit < 1) {
+      notify("That size is currently out of stock.");
+      return;
+    }
     setBag((previous) => {
       const existing = previous.find(
         (item) => item.id === id && item.size === size,
@@ -150,7 +179,7 @@ function StoreProvider({ children }) {
       return existing
         ? previous.map((item) =>
             item === existing
-              ? { ...item, quantity: Math.min(item.quantity + 1, 10) }
+              ? { ...item, quantity: Math.min(item.quantity + 1, limit) }
               : item,
           )
         : [...previous, { id, size, quantity: 1 }];
@@ -314,6 +343,13 @@ function Header() {
             >
               <MagnifyingGlass />
             </button>
+            <Link
+              aria-label="Your account"
+              className="icon-button account-nav"
+              to="/account"
+            >
+              <UserCircle />
+            </Link>
             <Link
               aria-label={`Saved items${saved.length ? ` (${saved.length})` : ""}`}
               className="icon-button saved-nav"
@@ -666,14 +702,15 @@ function Home({ ready = true }) {
 }
 
 function FavoritesCarousel() {
-  const [selection] = useState(() => {
+  const { products } = useCatalog();
+  const selection = React.useMemo(() => {
     const shuffled = [...products];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
-  });
+  }, [products]);
   return (
     <section
       className="favorites-section section page-width"
@@ -847,6 +884,7 @@ function ProductCard({ product, duplicate = false }) {
 }
 
 function Shop() {
+  const { products } = useCatalog();
   const [params, setParams] = useSearchParams();
   const category = params.get("category") || "All pieces";
   const brand = params.get("brand") || "All brands";
@@ -1025,6 +1063,7 @@ function Shop() {
 }
 
 function Product({ id }) {
+  const { products, loading } = useCatalog();
   const p = products.find((item) => item.id === id);
   const { saved, toggleSaved, addToBag, setOverlay } = useContext(Store);
   const [size, setSize] = useState("");
@@ -1038,7 +1077,14 @@ function Product({ id }) {
     setZoom(false);
     setPhoto(0);
   }, [id]);
-  if (!p) return <NotFound />;
+  if (!p)
+    return loading ? (
+      <div className="inner-page page-width" role="status">
+        Loading piece…
+      </div>
+    ) : (
+      <NotFound />
+    );
   return (
     <div className="inner-page page-width product-page">
       <div className="breadcrumbs">
@@ -1060,7 +1106,7 @@ function Product({ id }) {
           >
             <img
               src={image(p.gallery?.[photo] || p.image)}
-              alt={`${p.brand} ${p.name}, ${photo === 0 ? "worn by a model" : "alternate view"} in ${p.color.toLowerCase()}`}
+              alt={`${p.brand} ${p.name} in ${p.color.toLowerCase()}, photo ${photo + 1}`}
               width="800"
               height="1000"
             />
@@ -1128,6 +1174,12 @@ function Product({ id }) {
                 key={s}
                 className={size === s ? "selected" : ""}
                 aria-pressed={size === s}
+                disabled={!!p.stock?.[s]?.tracked && p.stock[s].available < 1}
+                title={
+                  p.stock?.[s]?.tracked && p.stock[s].available < 1
+                    ? "Out of stock"
+                    : undefined
+                }
                 onClick={() => {
                   setSize(s);
                   setError("");
@@ -1142,16 +1194,45 @@ function Product({ id }) {
               {error}
             </p>
           )}
+          {p.stock && (
+            <p className="product-availability" aria-live="polite">
+              {p.sizes.every(
+                (s) => p.stock[s]?.tracked && p.stock[s].available < 1,
+              )
+                ? "This piece is currently out of stock."
+                : size
+                  ? p.stock[size]?.tracked
+                    ? p.stock[size].available > 0
+                      ? `${p.stock[size].available} available in size ${size}`
+                      : "This size is currently out of stock."
+                    : "Availability for this size has not been confirmed."
+                  : "Choose a size to check availability."}
+            </p>
+          )}
           <div className="add-to-bag">
             <Button
+              disabled={
+                p.sizes.every(
+                  (s) => p.stock?.[s]?.tracked && p.stock[s].available < 1,
+                ) ||
+                (!!size &&
+                  !!p.stock?.[size]?.tracked &&
+                  p.stock[size].available < 1)
+              }
               onClick={() => {
                 if (!size) {
                   setError("Please choose your size.");
-                  sizeGroup.current?.querySelector("button")?.focus();
+                  sizeGroup.current
+                    ?.querySelector("button:not(:disabled)")
+                    ?.focus();
                 } else addToBag(p.id, size);
               }}
             >
-              Add to bag
+              {p.sizes.every(
+                (s) => p.stock?.[s]?.tracked && p.stock[s].available < 1,
+              )
+                ? "Out of stock"
+                : "Add to bag"}
             </Button>
             <button
               aria-label={`${saved.includes(id) ? "Remove from" : "Add to"} saved items`}
@@ -1167,7 +1248,7 @@ function Product({ id }) {
               <Truck size={19} /> Delivery details at launch
             </span>
             <span>
-              <ArrowCounterClockwise size={19} /> Easy care. Everyday wear.
+              <ArrowCounterClockwise size={19} /> Size and care guidance
             </span>
           </div>
           <details open>
@@ -1226,6 +1307,7 @@ function Product({ id }) {
 }
 
 function Brands() {
+  const { products } = useCatalog();
   return (
     <div className="inner-page page-width">
       <div className="breadcrumbs">
@@ -1283,6 +1365,7 @@ function Brands() {
 }
 
 function Saved() {
+  const { products } = useCatalog();
   const { saved } = useContext(Store);
   return (
     <div className="inner-page page-width">
@@ -1335,7 +1418,7 @@ function Contact() {
             src={image("editorial")}
             width="700"
             height="680"
-            alt="The details of an ivory menswear hoodie"
+            alt="BOSS menswear fabric and jacket details"
           />
           <h2>Here to help</h2>
           <p>
@@ -1512,7 +1595,7 @@ function About() {
           src={image("hero")}
           width="1600"
           height="900"
-          alt="Shega menswear campaign at a stone architectural setting"
+          alt="A model wearing a dark BOSS hoodie with jacquard details"
         />
       </Reveal>
       <Reveal className="about-manifesto">
@@ -1546,6 +1629,7 @@ function About() {
 }
 
 function InfoPage({ privacy = false }) {
+  const { source } = useCatalog();
   return (
     <div className="inner-page page-width info-page" data-reveal="">
       <div className="breadcrumbs">
@@ -1577,6 +1661,20 @@ function InfoPage({ privacy = false }) {
             footer to review or change your choice.
           </p>
           <CookieSettingsButton />
+          {source === "database" && (
+            <>
+              <h2>Accounts</h2>
+              <p>
+                Customer accounts store a name, email address, password hash and
+                sessions in the local database. Staff accounts also record
+                product and stock activity. Signing in sets an eight-hour
+                session cookie: shega_customer for customers, or shega_staff for
+                staff. Sign out to end your session. Customer and staff access
+                are separate. Email verification and account recovery are not
+                connected in this preview.
+              </p>
+            </>
+          )}
           <h2>Before the store launches</h2>
           <p>
             Final store contact information, data handling terms, and any
@@ -1672,6 +1770,7 @@ function Footer() {
             <div>
               <h3>THE WORLD OF SHEGA</h3>
               <Link to="/about">Our story</Link>
+              {import.meta.env.DEV && <Link to="/login">Staff workspace</Link>}
               <Link to="/brands">Explore the brands</Link>
             </div>
           </div>
@@ -1691,7 +1790,11 @@ function Footer() {
 }
 
 function Overlay({ type: overlay }) {
-  const { setOverlay, bag, setBag } = useContext(Store);
+  const { products } = useCatalog();
+  const { setOverlay, bag: storedBag, setBag } = useContext(Store);
+  const bag = storedBag.filter((item) =>
+    products.some((p) => p.id === item.id),
+  );
   const dialog = useRef();
   const [query, setQuery] = useState("");
   const [checkoutPreview, setCheckoutPreview] = useState(false);
@@ -1857,6 +1960,10 @@ function Overlay({ type: overlay }) {
             <div className="bag-items">
               {bag.map((item) => {
                 const p = products.find((p) => p.id === item.id);
+                const stock = p.stock?.[item.size];
+                const limit = stock?.tracked
+                  ? Math.min(10, stock.available)
+                  : 10;
                 return (
                   <div className="bag-item" key={item.id + item.size}>
                     <Link to={`/product/${p.id}`} onClick={close}>
@@ -1895,14 +2002,14 @@ function Overlay({ type: overlay }) {
                         <span aria-label="Quantity">{item.quantity}</span>
                         <button
                           aria-label={`Increase quantity of ${p.name} in size ${item.size}`}
-                          disabled={item.quantity >= 10}
+                          disabled={item.quantity >= limit}
                           onClick={() =>
                             setBag((previous) =>
                               previous.map((i) =>
                                 i === item
                                   ? {
                                       ...i,
-                                      quantity: Math.min(10, i.quantity + 1),
+                                      quantity: Math.min(limit, i.quantity + 1),
                                     }
                                   : i,
                               ),
@@ -2040,6 +2147,7 @@ function Overlay({ type: overlay }) {
 }
 
 function App() {
+  const { products } = useCatalog();
   const rawLocation = useLocation();
   const location = {
     ...rawLocation,
@@ -2049,6 +2157,7 @@ function App() {
   const reduced = useReducedMotion();
   // A fresh document always gets the opening; in-app navigation never replays it.
   const [opening, setOpening] = useState(() =>
+    /^\/account(\/|$)/.test(location.pathname) ||
     window.matchMedia("(prefers-reduced-motion: reduce)").matches
       ? "complete"
       : "arriving",
@@ -2099,12 +2208,15 @@ function App() {
       "/saved": "Your saved pieces",
       "/delivery": "Delivery & returns",
       "/privacy": "Privacy information",
+      "/account": "Your account",
+      "/account/sign-in": "Sign in",
+      "/account/create": "Create account",
     };
     const product = location.pathname.startsWith("/product/")
       ? products.find((p) => p.id === location.pathname.split("/")[2])
       : null;
     document.title = `${product ? `${product.brand} ${product.name}` : titles[location.pathname] || "Discover your style"} | Shega Store`;
-  }, [location.pathname, location.search]);
+  }, [location.pathname, location.search, products]);
   useEffect(() => {
     setOverlay(null);
   }, [location.pathname, location.search]);
@@ -2120,6 +2232,18 @@ function App() {
   else if (location.pathname === "/about") page = <About />;
   else if (location.pathname === "/privacy") page = <InfoPage privacy />;
   else if (location.pathname === "/delivery") page = <InfoPage />;
+  else if (/^\/account(\/|$)/.test(location.pathname))
+    page = (
+      <React.Suspense
+        fallback={
+          <div className="inner-page page-width" role="status">
+            Opening your account…
+          </div>
+        }
+      >
+        <CustomerAccount />
+      </React.Suspense>
+    );
   else page = <NotFound />;
   return (
     <MotionConfig reducedMotion="user">
@@ -2202,10 +2326,32 @@ function App() {
   );
 }
 
+const AdminApp = React.lazy(() => import("./admin/AdminApp"));
+const StaticAdmin = React.lazy(() => import("./admin/StaticAdmin"));
+const CustomerAccount = React.lazy(() => import("./customer/CustomerAccount"));
+function Root() {
+  const location = useLocation();
+  const staff = /^\/(login|admin)(\/|$)/.test(location.pathname);
+  return staff ? (
+    <React.Suspense
+      fallback={
+        <main className="workspace-loading" role="status">
+          Opening workspace…
+        </main>
+      }
+    >
+      {staticPreview ? <StaticAdmin /> : <AdminApp />}
+    </React.Suspense>
+  ) : (
+    <App />
+  );
+}
 createRoot(document.getElementById("root")).render(
   <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "") || "/"}>
-    <StoreProvider>
-      <App />
-    </StoreProvider>
+    <CatalogProvider>
+      <StoreProvider>
+        <Root />
+      </StoreProvider>
+    </CatalogProvider>
   </BrowserRouter>,
 );

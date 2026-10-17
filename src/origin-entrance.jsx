@@ -2,7 +2,11 @@ import React, { useLayoutEffect, useRef } from "react";
 import "./origin-entrance.css";
 
 // Keep the original entrance available as a reversible fallback.
+const entryPath =
+  location.pathname.slice(import.meta.env.BASE_URL.replace(/\/$/, "").length) ||
+  "/";
 export const originEnabled =
+  !/^\/(login|admin|account)(\/|$)/.test(entryPath) &&
   new URLSearchParams(location.search).get("entrance") !== "classic" &&
   !matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (originEnabled && !window.__shegaOrigin)

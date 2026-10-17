@@ -4,3 +4,8 @@ dist/
 *.log
 artifacts/
 *.tar.gz
+
+var/
+.env
+.env.*
+!.env.example

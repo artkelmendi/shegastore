@@ -153,7 +153,7 @@ export function CookieConsent({ ready }) {
             <div className="cookie-details">
               <p>
                 <Check size={14} /> Essential storage: your bag, saved items and
-                this choice.
+                this choice, plus a session cookie if you sign in.
               </p>
               <p>
                 Optional cookies: none installed. Accepting does not add

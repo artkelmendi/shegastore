@@ -1,85 +1,64 @@
 # Shega Store
 
-A complete frontend for Shega, built with React, Vite, Motion, and custom CSS. Fonts, original Shega logos, official brand marks, and real brand photography are included locally. The hero uses the two images supplied by the store.
+React, Vite, Motion and custom CSS storefront, with local customer accounts and a staff workspace backed by Node and SQLite.
 
 ## Run locally
 
+Use Node 24 LTS and installed Google Chrome for browser verification.
+
 ```powershell
-cd "C:\Users\Art Kelmendi\Documents\ChatGPT\aureclothes\shega-website"
 npm install
 npm run dev
 ```
 
-Open the Local URL printed by Vite. `npm run build` creates a portable `dist` folder; `npm run preview` serves that production build.
+- Storefront: http://localhost:5173/
+- Customer sign-in: http://localhost:5173/account/sign-in
+- Customer registration: http://localhost:5173/account/create
+- Staff setup/sign-in: http://localhost:5173/login
+- Workspace: http://localhost:5173/admin
 
-## Included
+Create your own first administrator on the local setup screen. There are no default credentials. Products, accounts and stock records are stored privately under ignored `var/`; no real stock counts are assumed for the eight imported sample products.
 
-- Home with a two-slide hero with store-supplied BOSS and Emporio Armani images, categories, products, editorial, and an outfit edit.
-- Shop with category, brand, new-arrival and sale filters, search, sorting, and empty states.
-- Eight individual product pages with real model photography, selectable product/detail views, required size selection, zoom, a size guide, and related pieces.
-- Brand directory, saved pieces, contact, about, privacy, delivery, and a not-found page.
-- Persistent browser-local bag and saved items; bag quantities, removal, subtotal, and a checkout preview.
-- Native modal dialogs with focus management, Escape dismissal, and focus restoration.
-- A white editorial design, responsive layouts, touch-specific styling, and reduced-motion support.
-- A Shega-red ribbon of the original BOSS, Diesel, Emporio Armani, and HUGO logos in white, separated by Shega marks, with pause controls and keyboard/reduced-motion support.
+Customers register separately and can edit their name, change their passphrase and sign out. Their sessions cannot access the staff workspace. Email verification/recovery, customer orders and synchronised saved items are future work. Customer screens live in `src/customer/`; their API is in `server/customers.mjs`.
 
-## Motion direction
+See [the workspace guide](docs/WORKSPACE.md) for database structure, actual features, limitations, verification and future hosting requirements.
 
-The latest changes are local only. The hero includes the original Shega wordmark with an SVG outline-to-ink drawing animation; clicking it replays the drawing. Very faint Shega marks drift in the hero and page background. Pointer hover distorts only the nearby part of a mark, and presses send out short ripples. The effect uses a rasterized canvas texture, bounded ripple work, and a 30 fps background loop; reduced-motion mode is static. Category labels use a softer raspberry red (`#ce304d`). `src/brand-motion.jsx` and `src/brand-motion.css` contain these additions.
+## Storefront
 
-White editorial styling with design variance 7, motion intensity 7, and visual density 3. The original red-G / black-lettering SVG is the primary logo. White surfaces and black type are accented with Shega-red rules, arrows, active states, and a red brand ribbon. The user-selected option 05, locally hosted Panchang Bold, gives the lowercase hero its wide geometric character; the second line is Shega red. Clash Display handles the other headings and navigation, Chillax remains on the brand-ribbon caption, and Satoshi handles body text and controls. The three category tiles have solid red labels, white titles, and circular arrow details. Fontshare source URLs are recorded in `font-sources.json`. The editorial layer is in `src/editorial.css`.
+Home, shop, individual products, brand directory, saved pieces, bag/checkout preview, contact, FAQ, about, delivery and privacy pages. The local storefront reads published database products; standalone static hosting retains the existing sample catalogue. Contact and checkout remain previews and do not send messages or take payment.
 
-Each fresh document opens on a soft white surface. The logo fades upward over 1.1 seconds, followed by a 650 ms dissolve into the composed page. The handoff waits for fonts and the first hero image, with a bounded fallback for slow assets. A native dialog manages focus, Enter store and Escape skip the opening, and scrolling is released on completion. The intro does not use an old session flag and does not replay during in-app navigation. Reduced-motion visitors enter directly.
+Cabinet Grotesk 800 handles headings, Satoshi handles body text and controls, and Telma is reserved for the hero signature. White surfaces use Shega-red accents. Original Shega assets, published brand marks and real brand photography are hosted locally. `asset-sources.json` and `font-sources.json` record their sources. Supplied hero/editorial images are unchanged.
 
-The hero copy rises in a restrained stagger as the photography fades in. Both supplied hero images stay mounted, decode before becoming visible, and crossfade between slides. Dark type sits in their light negative space on desktop; mobile separates the copy from the product images. Page changes fade out in 140 ms and enter in 280 ms while the header stays still; scrolling resets during the handoff. Query-only filters update immediately. Other content reveals once with restrained stagger, and the hero has gentle scroll parallax. Interactive panels use a 280 ms exit/entrance. Motion honours reduced-motion preferences. No scroll hijacking is used.
+The coordinated origin entrance is the default; `?entrance=classic` retains the original opening. Reduced motion enters directly. The drawn Shega logo, water interaction, faint background marks, restrained scroll details and page transitions respect reduced motion. Mobile product grids show two columns.
 
-## Frontend boundaries
+Desktop wheel smoothing uses Lenis; mobile retains native scrolling. The red cursor stays attached to the native pointer. Cookie preferences offer equal accept/reject controls; no optional trackers are installed.
 
-No backend, live inventory, authentication, payment, email, analytics, or external form service is connected. Contact, newsletter, and checkout controls clearly explain their preview behaviour. The bag, saved items, and appearance preference are the only data saved, using local storage on the visitor's device.
+## Source map
 
-Products, prices, and garment measurements are illustrative. Replica status is disclosed in product cards, product details, store information, and the footer. Real campaign and model photography comes from the official BOSS, Diesel, and Armani websites, and the brand marks use their published artwork. Exact image URLs and source pages are recorded in `asset-sources.json`. These reference images are not photos of Shega's actual replica inventory. Confirm stock details, contact channels, delivery terms, and return conditions before live sales.
+| Location                                                                | Purpose                                                        |
+| ----------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `src/main.jsx`                                                          | Public pages, navigation, saved items and bag                  |
+| `src/catalog.jsx`                                                       | Database catalogue with standalone sample fallback             |
+| `src/data.js`                                                           | Sample catalogue used for initial database seed/static preview |
+| `src/admin/`                                                            | Staff login, catalogue editor, inventory and activity          |
+| `server/`                                                               | Local HTTP API, authentication, SQLite and schema              |
+| `src/type-system.css`                                                   | Shared typography and rhythm                                   |
+| `src/editorial.css`, `src/styles.css`                                   | Existing storefront layout and components                      |
+| `src/origin-entrance.*`, `src/brand-motion.*`, `src/scroll-details.jsx` | Entrance, brand and scroll motion                              |
+| `public/logos`, `public/images/real`                                    | Local marks and photographs                                    |
 
-Edit the catalogue in `src/data.js`, site components in `src/main.jsx`, and the white design in `src/editorial.css`. Shared component styles are in `src/styles.css`. Shega assets are in `public/logos`, original brand marks in `public/logos/brands`, and real photographs in `public/images/real`.
+## Verify
 
-## Verification
+```powershell
+npm run test:api
+npm run test:workspace
+npm run build
+```
 
-`node scripts/verify-brand-motion.mjs` checks the SVG drawing and replay, canvas response, five viewport widths, lighter captions, category navigation, search, and reduced motion. Its screenshots and results are in `artifacts/brand-motion`.
+Tests use isolated databases and synthetic staff credentials. Browser screenshots and reports go to ignored `artifacts/`. Public regression scripts are also available under `scripts/`, including `verify-type-system.mjs`, `verify-origin-entrance.mjs`, `verify-finishing.mjs` and `verify-pages.mjs`.
 
-`node scripts/verify.mjs` runs the browser integration checks with installed Google Chrome through Playwright. Set `SHEGA_PREVIEW_URL` to test a different local origin. It checks the hero, search-to-product flow, size validation, bag calculations and persistence, saved items, filtering, sorting, contact preview, routes, responsive overflow, images, white appearance, logo marquee controls, mobile navigation, and reduced motion. `node scripts/verify-motion.mjs` captures the opening and page handoff, checks measured logo movement/opacity, slow-image readiness, interruptible navigation, skip, mobile, and reduced motion. `node scripts/review-white.mjs` checks the catalogue at six viewport widths. `node scripts/review-direction.mjs` checks a cold first visit, stable hero placement, loaded fonts, removed uniform tile, and both supplied hero slides at five screen widths. Reports and screenshots are written to the ignored `artifacts` directory.
+## Deployment boundary
 
-The production build includes explicit HTML entry points for all collection, information, and product routes, so direct links also work on static hosting. Automated mobile emulation has been checked; touch feel and browser chrome behaviour still need a real phone.
+The public static site is https://artkelmendi.github.io/shegastore/. Pushes to `main` run `.github/workflows/pages.yml` with base `/shegastore/` and `VITE_STATIC_ADMIN=true`. The published `/admin/` dashboard is a public, read-only preview of the sample catalogue. `/login/` links to that preview without asking for credentials. Static builds make no API requests and disable customer sign-in. GitHub Pages cannot host the API/database; real accounts and editing remain in the local workspace until a backend is hosted. Local databases, uploads and credentials are not included in the deployment.
 
-## GitHub Pages
-
-Public URL: https://artkelmendi.github.io/shegastore/
-
-Pushes to `main` run `.github/workflows/pages.yml`, build with `VITE_BASE_PATH=/shegastore/`, and deploy `dist` to GitHub Pages. Local development keeps the `/` base. Product and FAQ routes include static entry points for direct links.
-
-The latest home layout uses Cabinet Grotesk and Telma, a drawn Shega logo with watery background marks outside the hero, T-shirts/Sweatshirts/Hoodies categories, and a continuously moving shuffled Our favorites carousel. Mobile product grids retain two columns. The BOSS editorial display was supplied by the store. FAQ answers describe the preview's actual limitations.
-
-Production checks: `npm run build` and `node scripts/verify-pages.mjs` (set `SHEGA_PREVIEW_URL` to the production-style preview URL).
-
-
-## Finishing details
-
-The former newsletter block is now a three-link outfit edit. Lenis smooths desktop wheel scrolling while mobile and reduced-motion visitors keep native scrolling. The red cursor highlight follows the native cursor without lag, and the scrollbar uses Shega red.
-
-Cookie preferences appear after the opening animation. Accept and reject have equal prominence; the choice is saved for 180 days and can be reopened in the footer. No analytics or advertising trackers are installed. Adding optional services requires gating their loading on consent and updating the consent version and privacy copy. Contact remains a frontend preview.
-
-Verify with `node scripts/verify-finishing.mjs`; `SHEGA_PREVIEW_URL` can target a production-style preview.
-
-The shop now uses Cabinet Grotesk headings, with Satoshi category tabs, product details and controls. `scripts/verify-shop-refresh.mjs` checks typography, responsive grids, filters, sorting and empty states.
-
-## Final type system
-
-`src/type-system.css` provides the shared type scale, control fonts, red details and spacing. Cabinet Grotesk 800 is used for headings; Satoshi 400/500/700 is used for readable text and interface controls. Telma is reserved for the hero signature. Legacy Clash Display, Panchang and Chillax font declarations and the obsolete preload have been removed.
-
-`node scripts/verify-type-system.mjs` audits rendered text fonts and overflow on 10 pages at 1440, 768, 390 and 320px, and verifies pointer hover/press feedback. Existing Motion reveals are supplemented with a reduced-motion-aware entrance for the FAQ, information pages, outfit edit and footer. The pointer remains attached to the native cursor without lag.
-
-## Origin entrance and scroll details
-
-The approved origin-based entrance is now the default in both development and production. A single document-timeline clock coordinates the circular reveal, logo, hero, navigation and controls over roughly 2.7 seconds. Fonts and the first hero image get a bounded readiness check, and a quiet first paint avoids compositing during the moving reveal. Final geometry is restored exactly; in-app navigation does not replay the opening.
-
-Use `?entrance=classic` to preview the preserved original opening. Escape or viewport changes safely settle the scene; reduced motion goes straight to the finished page. `scripts/verify-origin-entrance.mjs` verifies the production build against the original layout fixture, including mobile, slow assets and fallback behavior.
-
-Faint background marks now respond gently to scrolling as well as their existing slow drift and water interaction. The brand-strip G dividers and small editorial marks receive a bounded scroll rotation and translation. `ScrollDetails` only updates visible decorative elements and cleans up on navigation; all scroll effects stay static under reduced motion. Text, product cards and click targets retain their positions.
+Products, prices, measurements and photography remain illustrative until replaced with actual stock information. Existing preview disclosures remain in the storefront.

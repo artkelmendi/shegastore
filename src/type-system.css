@@ -361,3 +361,15 @@ body {
   line-height: 1.02;
   letter-spacing: -0.055em;
 }
+.product-availability {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 18px 0;
+  color: var(--muted);
+}
+.size-options button:disabled {
+  opacity: 0.3;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
