@@ -1,6 +1,7 @@
 import { webkit, devices, expect } from "@playwright/test";
 import assert from "node:assert/strict";
 import { products, categories, brands } from "../src/data.js";
+import { uniqueStyles } from "../src/colorways.js";
 const base =
   process.env.WOLF_PREVIEW_URL || "http://127.0.0.1:4175/shegastore/";
 const browser = await webkit.launch();
@@ -25,7 +26,9 @@ try {
       await page.keyboard.press("Escape");
   }
   await visit("shop/");
-  await expect(page.locator(".product-card")).toHaveCount(7);
+  await expect(page.locator(".product-card")).toHaveCount(
+    uniqueStyles(products).length,
+  );
   for (const p of products) {
     assert(brands.includes(p.brand));
     assert(categories.includes(p.category));
@@ -49,7 +52,7 @@ try {
   for (const c of categories.slice(1)) {
     await visit(`shop/?category=${encodeURIComponent(c)}`);
     await expect(page.locator(".product-card")).toHaveCount(
-      products.filter((p) => p.category === c).length,
+      uniqueStyles(products.filter((p) => p.category === c)).length,
     );
   }
   await visit("");
@@ -60,7 +63,7 @@ try {
   ]);
   await expect(
     page.locator(".favorites-group").first().locator(".product-card"),
-  ).toHaveCount(7);
+  ).toHaveCount(uniqueStyles(products).length);
   await page.screenshot({
     path: "../outputs/wolf-campaign-home-mobile.png",
     fullPage: true,

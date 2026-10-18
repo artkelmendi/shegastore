@@ -49,6 +49,7 @@ import {
 } from "@phosphor-icons/react";
 import { brands, brandLogos, categories, money } from "./data";
 import { socialLinks, instagramHandle } from "./site-config";
+import { getColorways, uniqueStyles } from "./colorways";
 import { CatalogProvider, useCatalog } from "./catalog";
 import { staticPreview } from "./api";
 import { ThemeProvider, ThemeToggle, useTheme } from "./theme";
@@ -723,7 +724,7 @@ function Home({ ready = true }) {
 function FavoritesCarousel() {
   const { products } = useCatalog();
   const selection = React.useMemo(() => {
-    const shuffled = [...products];
+    const shuffled = uniqueStyles(products);
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -828,7 +829,38 @@ function FAQ() {
   );
 }
 
-function ProductCard({ product, duplicate = false }) {
+function ColorChoices({ products, selected, onChange, duplicate = false }) {
+  if (products.length < 2) return null;
+  return (
+    <div
+      className="product-color-choices"
+      role="group"
+      aria-label="Choose colour"
+    >
+      {products.map((item) => (
+        <button
+          type="button"
+          key={item.id}
+          tabIndex={duplicate ? -1 : undefined}
+          aria-label={`Choose ${item.color}`}
+          aria-pressed={item.id === selected.id}
+          title={item.color}
+          onClick={() => onChange(item)}
+        >
+          <span style={{ backgroundColor: item.hex }} aria-hidden="true" />
+          <span className="color-choice-name">{item.color}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+function ProductCard({ product: initialProduct, duplicate = false }) {
+  const { products } = useCatalog();
+  const colorways = getColorways(initialProduct, products);
+  const [selectedId, setSelectedId] = useState(initialProduct.id);
+  const product =
+    colorways.find((item) => item.id === selectedId) || initialProduct;
+  useEffect(() => setSelectedId(initialProduct.id), [initialProduct.id]);
   const { saved, toggleSaved } = useContext(Store);
   const isSaved = saved.includes(product.id);
   return (
@@ -895,7 +927,13 @@ function ProductCard({ product, duplicate = false }) {
       >
         {product.name}
       </Link>
-      <div className="product-color">
+      <ColorChoices
+        products={colorways}
+        selected={product}
+        duplicate={duplicate}
+        onChange={(item) => setSelectedId(item.id)}
+      />
+      <div className="product-color" aria-live="polite">
         <span style={{ backgroundColor: product.hex }} />
         {product.color}
         <span className="product-type">1:1 replica</span>
@@ -930,6 +968,7 @@ function Shop() {
           .toLowerCase()
           .includes(query.toLowerCase())),
   );
+  filtered = uniqueStyles(filtered);
   if (sort === "price-asc")
     filtered = [...filtered].sort((a, b) => a.price - b.price);
   if (sort === "price-desc")
@@ -1090,7 +1129,13 @@ function Shop() {
 
 function Product({ id }) {
   const { products, loading } = useCatalog();
-  const p = products.find((item) => item.id === id);
+  const initialProduct = products.find((item) => item.id === id);
+  const [selectedColor, setSelectedColor] = useState(id);
+  const colorways = initialProduct
+    ? getColorways(initialProduct, products)
+    : [];
+  const p =
+    colorways.find((item) => item.id === selectedColor) || initialProduct;
   const { saved, toggleSaved, addToBag, setOverlay } = useContext(Store);
   const [size, setSize] = useState("");
   const [error, setError] = useState("");
@@ -1098,6 +1143,7 @@ function Product({ id }) {
   const [photo, setPhoto] = useState(0);
   const sizeGroup = useRef();
   useEffect(() => {
+    setSelectedColor(id);
     setSize("");
     setError("");
     setZoom(false);
@@ -1174,7 +1220,22 @@ function Product({ id }) {
             <span>1:1 replica</span>
           </div>
           <p className="product-description">{p.description}</p>
-          <div className="detail-color">
+          <ColorChoices
+            products={colorways}
+            selected={p}
+            onChange={(item) => {
+              setSelectedColor(item.id);
+              setPhoto(0);
+              setZoom(false);
+              setError("");
+              if (
+                !item.sizes.includes(size) ||
+                (item.stock?.[size]?.tracked && item.stock[size].available < 1)
+              )
+                setSize("");
+            }}
+          />
+          <div className="detail-color" aria-live="polite">
             Colour: <strong>{p.color}</strong>
             <span
               className="color-swatch"
@@ -1261,12 +1322,12 @@ function Product({ id }) {
                 : "Add to bag"}
             </Button>
             <button
-              aria-label={`${saved.includes(id) ? "Remove from" : "Add to"} saved items`}
-              aria-pressed={saved.includes(id)}
-              className={`save-detail icon-button ${saved.includes(id) ? "is-saved" : ""}`}
-              onClick={() => toggleSaved(id)}
+              aria-label={`${saved.includes(p.id) ? "Remove from" : "Add to"} saved items`}
+              aria-pressed={saved.includes(p.id)}
+              className={`save-detail icon-button ${saved.includes(p.id) ? "is-saved" : ""}`}
+              onClick={() => toggleSaved(p.id)}
             >
-              <Heart weight={saved.includes(id) ? "fill" : "regular"} />
+              <Heart weight={saved.includes(p.id) ? "fill" : "regular"} />
             </button>
           </div>
           <div className="product-order-note">
