@@ -1,12 +1,17 @@
-/* Original vector marks, balanced by optical width; no blend/contrast tricks. */
+/* An uninterrupted gallery of original vector wordmarks. Equal-width copies
+   each cover a complete viewport, so the loop never exposes an empty tail. */
 :root .brand-marquee {
-  background: var(--red);
-  color: #fff;
-  border-top: 2px solid var(--red);
-  border-bottom: 0;
-  padding: 22px 0;
+  background: #fff;
+  color: #171717;
+  border: 1px solid var(--red);
+  padding: 0;
+  overflow: hidden;
+  isolation: isolate;
 }
 :root .brand-marquee-window {
+  overflow: hidden;
+  margin: 0;
+  padding-block: 34px;
   mix-blend-mode: normal;
   mask-image: linear-gradient(
     90deg,
@@ -24,79 +29,105 @@
   );
 }
 :root .brand-marquee-track {
-  animation-duration: 48s;
+  display: flex;
+  width: max-content;
+  animation: brand-ribbon-travel 60s linear infinite;
+  will-change: transform;
 }
 :root .brand-marquee-group {
-  width: max-content;
-  gap: 32px;
-  padding-inline: 24px 8px;
-  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex: 0 0 auto;
+  width: max(1280px, calc(100vw - 32px));
+  height: 44px;
+  gap: 36px;
+  padding-inline: 30px 6px;
 }
 :root .brand-marquee .official-brand {
-  width: 120px;
+  flex: 0 0 auto;
+  width: 132px;
   height: 44px;
 }
 :root .brand-marquee .official-brand.brand-emporio {
-  width: 215px;
+  width: 220px;
 }
-:root .brand-marquee .official-brand.brand-diesel {
-  width: 120px;
+:root .brand-marquee .official-brand.brand-karl {
+  width: 228px;
 }
 :root .brand-marquee .official-brand img {
+  display: block;
   width: 100%;
   height: auto;
-  max-height: 36px;
+  max-height: 34px;
   object-fit: contain;
   filter: none;
   mix-blend-mode: normal;
+  opacity: 1;
 }
-:root .brand-band-divider {
-  width: 22px;
-  height: 1px;
-  background: #fff;
-  opacity: 0.4;
+:root .brand-marquee .brand-band-divider {
+  display: block;
+  flex: 0 0 1px;
+  width: 1px;
+  height: 20px;
+  background: var(--red);
+  opacity: 0.6;
+  transform: rotate(24deg);
+}
+/* Legacy hover/focus rules must not pause the continuously moving ribbon. */
+:root .brand-marquee-window:hover .brand-marquee-track,
+:root .brand-marquee-window:focus-within .brand-marquee-track,
+:root .brand-marquee-track.is-paused {
+  animation-play-state: running;
+}
+@keyframes brand-ribbon-travel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 @media (max-width: 767px) {
-  :root .brand-marquee {
-    padding: 14px 0;
+  :root .brand-marquee-window {
+    padding-block: 24px;
   }
   :root .brand-marquee-group {
-    height: 38px;
-    gap: 22px;
-    padding-inline: 16px 6px;
+    width: 1040px;
+    height: 34px;
+    gap: 28px;
+    padding-inline: 24px 4px;
   }
   :root .brand-marquee .official-brand {
-    width: 96px;
-    height: 32px;
+    width: 100px;
+    height: 34px;
   }
   :root .brand-marquee .official-brand.brand-emporio {
-    width: 178px;
+    width: 184px;
   }
-  :root .brand-marquee .official-brand.brand-diesel {
-    width: 98px;
+  :root .brand-marquee .official-brand.brand-karl {
+    width: 188px;
   }
   :root .brand-marquee .official-brand img {
     max-height: 28px;
   }
-  :root .brand-band-divider {
-    width: 14px;
+  :root .brand-marquee .brand-band-divider {
+    height: 16px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   :root .brand-marquee-track {
     animation: none;
+    transform: none;
+    will-change: auto;
   }
   :root .brand-marquee-window {
     overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
   :root .brand-marquee-group[aria-hidden="true"] {
     display: none;
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .brand-marquee-window:hover .brand-marquee-track {
-    animation-play-state: paused;
   }
 }
 .brand-name-label {

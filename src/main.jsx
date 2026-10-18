@@ -415,12 +415,18 @@ const heroSlides = [
   },
 ];
 
+// The label ribbon is independent of the current stock filters.
+const ribbonBrands = [
+  { name: "BOSS", logo: "boss.svg", key: "boss" },
+  { name: "DIESEL", logo: "diesel-wordmark.svg", key: "diesel" },
+  { name: "EMPORIO ARMANI", logo: "armani.svg", key: "emporio" },
+  { name: "KARL LAGERFELD", logo: "karl-lagerfeld.svg", key: "karl" },
+  { name: "HUGO", logo: "hugo.svg", key: "hugo" },
+];
 function BrandMarquee() {
+  const { products } = useCatalog();
   return (
-    <section
-      className="brand-marquee page-width"
-      aria-label="Explore the brands"
-    >
+    <section className="brand-marquee page-width" aria-label="Designer labels">
       <div className="brand-marquee-window">
         <div className="brand-marquee-track">
           {[0, 1].map((copy) => (
@@ -429,28 +435,34 @@ function BrandMarquee() {
               key={copy}
               aria-hidden={copy === 1 ? true : undefined}
             >
-              {brands.map((brand) => (
-                <React.Fragment key={brand}>
-                  <Link
-                    to={`/shop?brand=${encodeURIComponent(brand)}`}
-                    className={`official-brand brand-${brand.split(" ")[0].toLowerCase()}`}
-                    tabIndex={copy ? -1 : undefined}
-                    aria-label={`Shop ${brand}`}
-                  >
-                    {brandLogos[brand] ? (
+              {ribbonBrands.map((brand) => {
+                const stocked = products.some(
+                  (product) => product.brand === brand.name,
+                );
+                return (
+                  <React.Fragment key={brand.key}>
+                    <Link
+                      to={
+                        stocked
+                          ? `/shop?brand=${encodeURIComponent(brand.name)}`
+                          : "/contact"
+                      }
+                      className={`official-brand brand-${brand.key}`}
+                      tabIndex={copy ? -1 : undefined}
+                      aria-label={`${stocked ? "Shop" : "Ask about"} ${brand.name}`}
+                    >
                       <img
-                        src={brandLogos[brand].replace(".svg", "-white.svg")}
-                        alt={brand}
-                        width="160"
-                        height="50"
+                        src={asset(`logos/brands/${brand.logo}`)}
+                        alt={brand.name}
+                        width="240"
+                        height="44"
+                        loading="eager"
                       />
-                    ) : (
-                      <span className="brand-name-label">{brand}</span>
-                    )}
-                  </Link>
-                  <span className="brand-band-divider" aria-hidden="true" />
-                </React.Fragment>
-              ))}
+                    </Link>
+                    <span className="brand-band-divider" aria-hidden="true" />
+                  </React.Fragment>
+                );
+              })}
             </div>
           ))}
         </div>
