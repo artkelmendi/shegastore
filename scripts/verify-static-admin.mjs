@@ -1,5 +1,6 @@
 import { chromium, expect } from "@playwright/test";
 import assert from "node:assert/strict";
+import { products } from "../src/data.js";
 const base =
   process.env.SHEGA_PREVIEW_URL || "http://127.0.0.1:4175/shegastore/";
 const browser = await chromium.launch({ channel: "chrome", headless: true });
@@ -21,7 +22,7 @@ try {
       "admin/products/",
       "admin/stock/",
       "admin/activity/",
-      "admin/products/armani-essential-tee",
+      "admin/products/boss-black-zip-knit",
       "login/",
     ]) {
       await page.goto(new URL(route, base).href);
@@ -46,7 +47,10 @@ try {
   }
   await page.goto(new URL("admin/products/", base).href);
   await page.getByLabel("Search products").fill("DIESEL");
-  assert.equal(await page.locator(".workspace-table tbody tr").count(), 4);
+  assert.equal(
+    await page.locator(".workspace-table tbody tr").count(),
+    products.filter((p) => p.brand === "DIESEL").length,
+  );
   await page.goto(new URL("account/create/", base).href);
   await expect(
     page.getByText(

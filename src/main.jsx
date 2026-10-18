@@ -78,10 +78,10 @@ const ease = [0.23, 1, 0.32, 1];
 const editorialImages = {
   hero: "boss-striped-1",
   editorial: "editorial-boss",
-  flatlay: "diesel-sweat-16",
-  tee: "diesel-special-117",
-  sweatshirt: "diesel-sweat-14",
-  hoodie: "armani-sweat-5",
+  flatlay: "wolf-collection/diesel-black-core-sweatshirt/front",
+  tee: "wolf-collection/boss-black-geometric-tshirt/front",
+  sweatshirt: "wolf-collection/boss-off-white-sweatshirt/front",
+  hoodie: "wolf-collection/boss-blue-tracksuit/front",
 };
 const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 const image = (name) =>
@@ -436,12 +436,16 @@ function BrandMarquee() {
                     tabIndex={copy ? -1 : undefined}
                     aria-label={`Shop ${brand}`}
                   >
-                    <img
-                      src={brandLogos[brand].replace(".svg", "-white.svg")}
-                      alt={brand}
-                      width="160"
-                      height="50"
-                    />
+                    {brandLogos[brand] ? (
+                      <img
+                        src={brandLogos[brand].replace(".svg", "-white.svg")}
+                        alt={brand}
+                        width="160"
+                        height="50"
+                      />
+                    ) : (
+                      <span className="brand-name-label">{brand}</span>
+                    )}
                   </Link>
                   <span className="brand-band-divider" aria-hidden="true" />
                 </React.Fragment>
@@ -623,9 +627,9 @@ function Home({ ready = true }) {
               className: "category-sweats",
             },
             {
-              name: "HOODIES",
+              name: "TRACKSUITS",
               image: "hoodie",
-              link: "/shop?category=Hoodies",
+              link: "/shop?category=Tracksuits",
               sub: "Your everyday layer",
               className: "category-hoodies",
             },
@@ -682,7 +686,7 @@ function Home({ ready = true }) {
               The pieces you reach for, again and again. Easy layers, clean
               silhouettes, and details that make the difference.
             </p>
-            <Button to="/shop?category=Hoodies" className="button-outline">
+            <Button to="/shop?category=Tracksuits" className="button-outline">
               Find your everyday
             </Button>
           </Reveal>
@@ -945,7 +949,7 @@ function Shop() {
             {filtered.length} pieces
           </span>
         </div>
-        <p>T-shirts, hoodies and sweatshirts. Find your fit.</p>
+        <p>T-shirts, sweatshirts and coordinated layers. Find your fit.</p>
       </Reveal>
       <div className="shop-tabs" aria-label="Product categories">
         {categories.map((c) => (
@@ -1335,7 +1339,7 @@ function Brands() {
             src={image("flatlay")}
             width="900"
             height="1100"
-            alt="Official Diesel photography of a model wearing a distressed Oval D sweatshirt"
+            alt="Model wearing the Diesel Core logo crewneck"
           />
         </Reveal>
         <div className="brand-directory">
@@ -1345,12 +1349,16 @@ function Brands() {
                 <span
                   className={`official-brand brand-${brand.split(" ")[0].toLowerCase()}`}
                 >
-                  <img
-                    src={brandLogos[brand]}
-                    alt={brand}
-                    width="190"
-                    height="50"
-                  />
+                  {brandLogos[brand] ? (
+                    <img
+                      src={brandLogos[brand]}
+                      alt={brand}
+                      width="190"
+                      height="50"
+                    />
+                  ) : (
+                    <span className="brand-name-label">{brand}</span>
+                  )}
                 </span>
                 <span className="brand-piece-count">
                   {products.filter((p) => p.brand === brand).length}{" "}
@@ -1771,7 +1779,7 @@ function Footer() {
               <h3>THE COLLECTION</h3>
               <Link to="/shop?edit=new">New arrivals</Link>
               <Link to="/shop?category=T-Shirts">T-shirts</Link>
-              <Link to="/shop?category=Hoodies">Hoodies</Link>
+              <Link to="/shop?category=Tracksuits">Tracksuits</Link>
               <Link to="/shop?category=Sweatshirts">Sweatshirts</Link>
               <Link to="/shop?edit=sale">Sale</Link>
             </div>
@@ -1922,7 +1930,7 @@ function Overlay({ type: overlay }) {
             <MagnifyingGlass size={25} />
             <input
               aria-label="Search products"
-              placeholder="Try a brand, a hoodie, a new favourite..."
+              placeholder="Try a brand, a tracksuit, a new favourite..."
               autoFocus
               value={query}
               onChange={(event) => setQuery(event.target.value)}
@@ -1958,14 +1966,14 @@ function Overlay({ type: overlay }) {
                 </>
               ) : (
                 <p className="search-empty">
-                  No pieces found. Try “hoodie”, “Diesel”, or “T-shirt”.
+                  No pieces found. Try “tracksuit”, “Diesel”, or “T-shirt”.
                 </p>
               )}
             </div>
           ) : (
             <div className="popular-searches">
               <span>POPULAR RIGHT NOW</span>
-              {["Hoodies", "BOSS", "DIESEL", "T-Shirts"].map((term) => (
+              {["Tracksuits", "BOSS", "DIESEL", "T-Shirts"].map((term) => (
                 <button key={term} onClick={() => setQuery(term)}>
                   {term} <ArrowUpRight size={14} />
                 </button>

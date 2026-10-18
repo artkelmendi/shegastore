@@ -686,7 +686,13 @@ function ProductEditor({ product, onSave, allProducts }) {
                   value={form.brand}
                   onChange={(e) => change("brand", e.target.value)}
                 >
-                  {["BOSS", "DIESEL", "EMPORIO ARMANI", "HUGO"].map((v) => (
+                  {[
+                    "BOSS",
+                    "DIESEL",
+                    "ARMANI EXCHANGE",
+                    "EMPORIO ARMANI",
+                    "HUGO",
+                  ].map((v) => (
                     <option key={v}>{v}</option>
                   ))}
                 </select>
@@ -698,7 +704,13 @@ function ProductEditor({ product, onSave, allProducts }) {
                   value={form.category}
                   onChange={(e) => change("category", e.target.value)}
                 >
-                  {["T-Shirts", "Hoodies", "Sweatshirts"].map((v) => (
+                  {[
+                    "T-Shirts",
+                    "Hoodies",
+                    "Sweatshirts",
+                    "Knitwear",
+                    "Tracksuits",
+                  ].map((v) => (
                     <option key={v}>{v}</option>
                   ))}
                 </select>

@@ -6,8 +6,14 @@ import { join } from "node:path";
 import { openDatabase, productRecord, publicProduct } from "./database.mjs";
 import { hashPassword, checkPassword, newToken, tokenHash } from "./auth.mjs";
 import { createCustomerHandler } from "./customers.mjs";
-const brands = ["BOSS", "DIESEL", "EMPORIO ARMANI", "HUGO"];
-const categories = ["T-Shirts", "Hoodies", "Sweatshirts"];
+const brands = ["BOSS", "DIESEL", "ARMANI EXCHANGE", "EMPORIO ARMANI", "HUGO"];
+const categories = [
+  "T-Shirts",
+  "Hoodies",
+  "Sweatshirts",
+  "Knitwear",
+  "Tracksuits",
+];
 const fail = (status, message) => {
   throw Object.assign(new Error(message), { status });
 };

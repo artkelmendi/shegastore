@@ -99,3 +99,12 @@
     animation-play-state: paused;
   }
 }
+.brand-name-label {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
