@@ -27,7 +27,10 @@ export function InstagramStrip() {
         <h2 id="instagram-heading">
           See new arrivals and the details up close.
         </h2>
-        <p>Follow Wolf Shop on Instagram for more.</p>
+        <p>
+          We operate through Instagram only. For orders, availability and
+          replies, message @wolfshop.ks. More platforms coming soon.
+        </p>
       </div>
       <a
         className="instagram-link"
@@ -35,7 +38,7 @@ export function InstagramStrip() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Open Instagram <ArrowUpRight size={19} aria-hidden="true" />
+        Message us on Instagram <ArrowUpRight size={19} aria-hidden="true" />
       </a>
     </section>
   );

@@ -48,6 +48,7 @@ import {
   UserCircle,
 } from "@phosphor-icons/react";
 import { brands, brandLogos, categories, money } from "./data";
+import { socialLinks, instagramHandle } from "./site-config";
 import { CatalogProvider, useCatalog } from "./catalog";
 import { staticPreview } from "./api";
 import { ThemeProvider, ThemeToggle, useTheme } from "./theme";
@@ -772,11 +773,11 @@ function FAQ() {
     ],
     [
       "Can I order through this website?",
-      "This is a frontend preview. You can explore styles, save favorites and build a bag, but no payment or order is processed here.",
+      "Orders and all replies are handled through Instagram only: @wolfshop.ks. Send the product name or a screenshot and your size to confirm availability and the final price. This website does not take payment or place orders. More platforms are coming soon.",
     ],
     [
       "What about delivery and returns?",
-      "Delivery areas, costs, timeframes and return terms must be confirmed with Wolf Shop before an order. The preview does not calculate shipping or promise a delivery date.",
+      "Message @wolfshop.ks on Instagram to confirm delivery areas, costs, timing and return conditions before ordering. This website does not calculate shipping or promise a delivery date.",
     ],
     [
       "Are prices and stock final?",
@@ -1256,9 +1257,25 @@ function Product({ id }) {
               <Heart weight={saved.includes(id) ? "fill" : "regular"} />
             </button>
           </div>
+          <div className="product-order-note">
+            <p>
+              <strong>Orders &amp; availability: Instagram only.</strong>{" "}
+              Message {instagramHandle} with this piece and your size to confirm
+              stock and the final price. We reply there. More platforms coming
+              soon.
+            </p>
+            <a
+              className="text-link"
+              href={socialLinks.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Check availability on Instagram <ArrowUpRight size={17} />
+            </a>
+          </div>
           <div className="detail-services">
             <span>
-              <Truck size={19} /> Delivery details at launch
+              <Truck size={19} /> Delivery confirmed on Instagram
             </span>
             <span>
               <ArrowCounterClockwise size={19} /> Size and care guidance
@@ -1279,9 +1296,9 @@ function Product({ id }) {
               Delivery & returns <Plus size={16} />
             </summary>
             <p>
-              This storefront is a frontend preview. Shipping, payment, and
-              return terms will be added before orders open. No payment is taken
-              here.
+              Message @wolfshop.ks on Instagram before ordering to confirm
+              availability, the final price, delivery costs, timing and return
+              conditions. No orders or payments are processed on this website.
             </p>
           </details>
           <details>
@@ -1415,7 +1432,6 @@ function Saved() {
 }
 
 function Contact() {
-  const [sent, setSent] = useState(false);
   return (
     <div className="inner-page page-width contact-page">
       <div className="breadcrumbs">
@@ -1424,9 +1440,12 @@ function Contact() {
         <span>Contact</span>
       </div>
       <Reveal className="page-intro">
-        <p className="eyebrow">A LITTLE CONVERSATION</p>
-        <h1>Get in touch</h1>
-        <p>A question about a piece, a size, or your next look? We’re here.</p>
+        <p className="eyebrow">ONE PLACE TO REACH US</p>
+        <h1>Find us on Instagram.</h1>
+        <p>
+          All messages, order enquiries and availability checks happen at{" "}
+          {instagramHandle}.
+        </p>
       </Reveal>
       <div className="contact-layout">
         <Reveal className="contact-aside">
@@ -1436,155 +1455,55 @@ function Contact() {
             height="680"
             alt="BOSS menswear fabric and jacket details"
           />
-          <h2>Here to help</h2>
+          <h2>Instagram only. For now.</h2>
           <p>
-            Questions about fit or the collection? Leave a message below. Our
-            contact channels will be available when the store launches.
+            Instagram is our only active contact and ordering channel. We reply
+            to all messages there. More platforms are coming soon.
           </p>
-          <Link to="/about" className="text-link">
-            A little about Wolf Shop <ArrowUpRight size={16} />
-          </Link>
         </Reveal>
         <Reveal className="contact-form-wrap" delay={0.08}>
-          {sent ? (
-            <div className="form-success" role="status">
-              <CheckCircle size={44} weight="thin" />
-              <h2>LOOKING GOOD.</h2>
-              <p>
-                You’ve completed the contact form preview. No message has been
-                sent. Live messaging will be connected before launch.
-              </p>
-              <button className="text-link" onClick={() => setSent(false)}>
-                Back to the form <ArrowRight size={17} />
-              </button>
-            </div>
-          ) : (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSent(true);
-              }}
-            >
-              <h2>How can we help?</h2>
-              <div className="form-row">
-                <label>
-                  First name
-                  <input
-                    name="firstName"
-                    autoComplete="given-name"
-                    required
-                    placeholder="Your first name"
-                    maxLength="60"
-                  />
-                </label>
-                <label>
-                  Last name
-                  <input
-                    name="lastName"
-                    autoComplete="family-name"
-                    required
-                    placeholder="Your last name"
-                    maxLength="60"
-                  />
-                </label>
-              </div>
-              <label>
-                Email address
-                <input
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  required
-                  placeholder="you@example.com"
-                  maxLength="254"
-                />
-              </label>
-              <label>
-                What’s on your mind?
-                <select
-                  name="topic"
-                  aria-label="What’s on your mind?"
-                  required
-                  defaultValue=""
-                >
-                  <option value="" disabled>
-                    Select a topic
-                  </option>
-                  <option>Product & sizing</option>
-                  <option>Delivery & returns</option>
-                  <option>General enquiry</option>
-                  <option>Something else</option>
-                </select>
-              </label>
-              <label>
-                Your message
-                <textarea
-                  name="message"
-                  required
-                  minLength="10"
-                  maxLength="3000"
-                  rows="5"
-                  placeholder="Tell us a little more..."
-                />
-              </label>
-              <label className="checkbox-label">
-                <input required type="checkbox" name="consent" />
-                <span>
-                  I agree to the <Link to="/privacy">privacy information</Link>.
-                </span>
-              </label>
-              <Button type="submit">Preview message</Button>
-              <p className="form-note">
-                Frontend preview. This form does not send messages.
-              </p>
-            </form>
-          )}
+          <h2>Before you order</h2>
+          <p>
+            Send us the product name or a screenshot, your preferred size and
+            colour. Ask us to confirm availability and the final price before
+            placing an order.
+          </p>
+          <p>
+            Delivery costs, timing and return conditions must also be confirmed
+            with us on Instagram before you agree to an order.
+          </p>
+          <a
+            className="button"
+            href={socialLinks.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>Message {instagramHandle}</span>
+            <ArrowUpRight size={19} />
+          </a>
+          <p className="form-note">
+            This website is a catalog. It does not send messages, take payment
+            or place orders. Instagram opens in a new tab.
+          </p>
+          <Link to="/faq" className="text-link">
+            Common questions <ArrowUpRight size={16} />
+          </Link>
         </Reveal>
       </div>
       <section className="faq-section">
         <Reveal>
-          <h2>A FEW THINGS TO KNOW.</h2>
+          <h2>Know what you’re buying.</h2>
         </Reveal>
-        <div className="faq-grid">
-          <details>
-            <summary>
-              Are these original brand products? <Plus size={20} />
-            </summary>
-            <p>
-              No. Wolf Shop’s planned collection consists of 1:1 replica styles.
-              We are independent of the referenced brands and do not claim brand
-              authorisation.
-            </p>
-          </details>
-          <details>
-            <summary>
-              Can I place an order here? <Plus size={20} />
-            </summary>
-            <p>
-              This is a frontend preview. You can explore, save pieces, and
-              build your bag, but checkout and payments are not connected.
-            </p>
-          </details>
-          <details>
-            <summary>
-              How do I choose the right size? <Plus size={20} />
-            </summary>
-            <p>
-              Each product has a size selector and an illustrative size guide.
-              Final garment measurements will be confirmed when the actual
-              inventory is added.
-            </p>
-          </details>
-          <details>
-            <summary>
-              Where can I find delivery information? <Plus size={20} />
-            </summary>
-            <p>
-              Confirmed delivery areas, costs, and return terms will be
-              published before the store starts taking orders.
-            </p>
-          </details>
-        </div>
+        <p>
+          The clothing shown is offered as replica clothing, not authentic
+          merchandise from the named brands. Wolf Shop is independent and is not
+          affiliated with, authorised by or endorsed by those brands.
+        </p>
+        <p>
+          Photos are illustrative product previews. Ask for current photos,
+          measurements and stock details before ordering. Product names, sizes
+          and sample prices on this website are not a guarantee of availability.
+        </p>
       </section>
     </div>
   );
@@ -1637,9 +1556,10 @@ function About() {
         </div>
       </Reveal>
       <div className="shop-disclosure">
-        Our planned collection features 1:1 replica styles. All referenced brand
-        names belong to their respective owners. Wolf Shop is an independent
-        store, with no claim of brand affiliation or authorisation.
+        Our collection features replica styles, not authentic brand merchandise.
+        All referenced brand names belong to their respective owners. Wolf Shop
+        is an independent store, with no claim of brand affiliation or
+        authorisation.
       </div>
     </div>
   );
@@ -1665,9 +1585,11 @@ function InfoPage({ privacy = false }) {
           </p>
           <h2>Forms and payments</h2>
           <p>
-            The contact form is a demonstration. It does not send or save your
-            name, email address, or message to a server. No payment information
-            is collected.
+            This website has no contact form and collects no payment
+            information. Contact and order enquiries go to @wolfshop.ks on
+            Instagram. Messages sent there are handled on Instagram and are
+            subject to its privacy terms. Do not send payment details or
+            sensitive information in a message.
           </p>
           <h2>Cookies and choices</h2>
           <p>
@@ -1692,10 +1614,11 @@ function InfoPage({ privacy = false }) {
               </p>
             </>
           )}
-          <h2>Before the store launches</h2>
+          <h2>Contact and other platforms</h2>
           <p>
-            Final store contact information, data handling terms, and any
-            required notices will be published before live ordering is enabled.
+            All messages are handled through @wolfshop.ks on Instagram. More
+            platforms are coming soon. This website does not send messages or
+            process orders or payments.
           </p>
         </>
       ) : (
@@ -1703,13 +1626,15 @@ function InfoPage({ privacy = false }) {
           <h2>A storefront preview</h2>
           <p>
             You can explore the collection, save your favourite pieces, and add
-            items to your bag. Checkout is not connected and no orders or
-            payments are accepted.
+            items to your bag. No orders or payments are processed on this
+            website. Order enquiries are handled on Instagram only.
           </p>
           <h2>Delivery and returns</h2>
           <p>
-            Confirmed delivery areas, shipping costs, delivery estimates, and
-            return conditions will be added before launch.
+            All enquiries and orders are handled through @wolfshop.ks on
+            Instagram. Confirm delivery areas, shipping costs, timing and return
+            conditions there before placing an order. More platforms are coming
+            soon.
           </p>
           <h2>Product information</h2>
           <p>
@@ -1764,7 +1689,19 @@ function Footer() {
                 height="63"
               />
             </Link>
-            <p>Wear your own statement.</p>
+            <p>
+              Orders &amp; messages on Instagram only.
+              <br />
+              <a
+                href={socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {instagramHandle}
+              </a>
+              <br />
+              More platforms coming soon.
+            </p>
           </div>
           <nav className="footer-mobile-links" aria-label="Footer navigation">
             <Link to="/shop">Shop the collection</Link>
@@ -1806,8 +1743,11 @@ function Footer() {
           <span>EN / EUR €</span>
         </div>
         <p className="footer-disclosure">
-          Frontend preview with illustrative products and prices. 1:1 replica
-          styles. Wolf Shop is not affiliated with the brands shown.
+          Replica clothing, not authentic brand merchandise. Wolf Shop is not
+          affiliated with, authorised by or endorsed by the brands shown. Photos
+          and prices are illustrative; confirm the actual item and availability
+          on Instagram before ordering. No orders or payments are processed
+          here.
         </p>
       </div>
     </footer>
@@ -2071,14 +2011,27 @@ function Overlay({ type: overlay }) {
                 <span>Subtotal</span>
                 <strong>{money(total)}</strong>
               </div>
-              <p>Sample prices. Shipping is not yet configured.</p>
+              <p>
+                Sample prices. Confirm stock, final prices and delivery with{" "}
+                {instagramHandle} on Instagram.
+              </p>
+              <a
+                className="text-link"
+                href={socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Order enquiries on Instagram <ArrowUpRight size={17} />
+              </a>
               <Button onClick={() => setCheckoutPreview(true)}>
-                Preview checkout
+                How ordering works
               </Button>
               {checkoutPreview && (
                 <p className="checkout-preview" role="status">
-                  Your bag is ready. Checkout will open when the store launches.
-                  No payment has been taken.
+                  Send the product names or screenshots and your sizes to
+                  @wolfshop.ks on Instagram. We will confirm availability, final
+                  prices and delivery details there. No order has been placed
+                  and no payment has been taken on this website.
                 </p>
               )}
               <p className="bag-preview-note">

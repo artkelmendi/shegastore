@@ -459,3 +459,31 @@ html {
     row-gap: 30px !important;
   }
 }
+.product-order-note {
+  margin-block: 20px;
+  padding: 16px 18px;
+  border-left: 2px solid var(--red);
+  background: var(--surface-raised);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.product-order-note .text-link {
+  margin-top: 12px;
+  font-size: 12px;
+}
+.contact-form-wrap > p {
+  margin-block: 18px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.contact-form-wrap > .button {
+  margin-block: 8px;
+}
+.contact-page .faq-section > p {
+  max-width: 760px;
+  margin-block: 18px;
+  line-height: 1.7;
+}
+.footer-brand p a {
+  color: var(--red-text);
+}
