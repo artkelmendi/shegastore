@@ -1,0 +1,79 @@
+/* Image switches dissolve inside stable frames; no full-page layers change. */
+:root .product-image-link {
+  position: relative;
+}
+:root .product-transition-previous {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+:root .product-transition-previous[hidden] {
+  display: none;
+}
+.product-color-choices button {
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.hero-order-help {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: inherit;
+  font-size: 12px;
+  border-bottom: 1px solid var(--red);
+}
+.hero-order-help svg {
+  color: var(--red-text);
+}
+:root .hero-dots button {
+  min-height: 44px;
+  min-width: 28px;
+}
+:root .hero .circle-button {
+  min-width: 44px;
+  min-height: 44px;
+}
+:root .hero-arrows {
+  align-items: center;
+}
+.hero-order-help:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 4px;
+}
+.hero-copy-mobile {
+  display: none;
+}
+@media (max-width: 767px) {
+  .hero-copy-mobile {
+    display: inline;
+  }
+  .hero-copy-desktop {
+    display: none;
+  }
+  :root .hero {
+    height: clamp(326px, 44vw, 350px);
+  }
+  .hero-cta-row {
+    gap: 0;
+  }
+  .hero-order-help {
+    display: none;
+  }
+  :root .hero-pagination {
+    bottom: 6px;
+  }
+  :root .hero-content {
+    padding-bottom: 52px;
+  }
+}

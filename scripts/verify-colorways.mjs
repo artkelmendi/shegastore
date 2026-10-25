@@ -40,7 +40,7 @@ try {
   await page
     .getByRole("button", { name: "Choose Off-white", exact: true })
     .click();
-  await expect(page.locator(".product-zoom img")).toHaveAttribute(
+  await expect(page.locator(".product-zoom img").first()).toHaveAttribute(
     "src",
     /off-white-tshirt\/front/,
   );
@@ -58,7 +58,7 @@ try {
   await page.keyboard.press("Escape");
   await expect(page.locator("dialog[open]")).toHaveCount(0);
   await page.getByRole("button", { name: "Choose Black", exact: true }).click();
-  await expect(page.locator(".product-zoom img")).toHaveAttribute(
+  await expect(page.locator(".product-zoom img").first()).toHaveAttribute(
     "src",
     /black-tshirt\/front/,
   );

@@ -48,8 +48,22 @@ import {
   UserCircle,
 } from "@phosphor-icons/react";
 import { brands, brandLogos, categories, money } from "./data";
-import { socialLinks, instagramHandle } from "./site-config";
+import {
+  socialLinks,
+  instagramHandle,
+  websiteDomain,
+  contactEmail,
+} from "./site-config";
 import { getColorways, uniqueStyles } from "./colorways";
+import { ProductImage } from "./product-motion";
+import {
+  ShoppingNote,
+  EnquiryPanel,
+  CopyEnquiry,
+  FitHelp,
+  enquiryText,
+  sizeIsListed,
+} from "./customer-help";
 import { CatalogProvider, useCatalog } from "./catalog";
 import { staticPreview } from "./api";
 import { ThemeProvider, ThemeToggle, useTheme } from "./theme";
@@ -74,6 +88,8 @@ import "./mobile-shop.css";
 import "./product-type.css";
 import "./brand-strip.css";
 import "./reduced-motion.css";
+import "./customer-help.css";
+import "./product-motion.css";
 
 const Store = createContext();
 const ease = [0.23, 1, 0.32, 1];
@@ -310,6 +326,8 @@ function Opening({ phase, onComplete }) {
 }
 
 function Header() {
+  const { products } = useCatalog();
+  const hasSale = products.some((product) => product.oldPrice);
   const { bag, setOverlay, saved } = useContext(Store);
   const location = useLocation();
   const isHome = location.pathname === "/";
@@ -344,8 +362,11 @@ function Header() {
           </NavLink>
           <nav className="desktop-nav" aria-label="Main navigation">
             <NavLink to="/shop">Shop</NavLink>
-            <Link className="sale-link" to="/shop?edit=sale">
-              Sale
+            <Link
+              className={hasSale ? "sale-link" : ""}
+              to={hasSale ? "/shop?edit=sale" : "/shop?edit=new"}
+            >
+              {hasSale ? "Sale" : "New arrivals"}
             </Link>
             <NavLink to="/contact">Contact us</NavLink>
             <NavLink to="/faq">Common questions</NavLink>
@@ -400,15 +421,17 @@ function Header() {
 const heroSlides = [
   {
     title: ["Dress Like", "yourself."],
-    copy: "Distinctive pieces. Iconic names. A wardrobe with a point of view.",
+    copy: "Find your next everyday piece. Check sizes and availability with us on Instagram.",
+    mobileCopy: "Choose a piece. Ask us on Instagram.",
     image: "wolf-boss-hero",
     alt: "Stacked black and white BOSS polo shirts with contrasting collars and a patterned Porsche BOSS layer",
     label: "The BOSS edit",
     link: "/shop",
   },
   {
-    title: ["Make It", "personal."],
-    copy: "Considered details. Individual style. A new perspective on your everyday wardrobe.",
+    title: ["Dress Like", "yourself."],
+    copy: "Choose your colour. Make it yours. We’ll help you check the fit before you order.",
+    mobileCopy: "Find your colour. Check the fit with us.",
     image: "wolf-armani-hero",
     alt: "Stacked black and white Emporio Armani polo shirts with striped collars and eagle embroidery",
     label: "The Armani edit",
@@ -488,12 +511,48 @@ function Home({ ready = true }) {
     ["translateY(0px) scale(1.025)", "translateY(100px) scale(1.025)"],
   );
   const current = heroSlides[slide];
-  const change = (delta) => {
-    setDirection(delta);
-    setSlide(
-      (previous) => (previous + delta + heroSlides.length) % heroSlides.length,
-    );
+  const lastHeroSlide = useRef(slide);
+  useEffect(() => {
+    if (lastHeroSlide.current === slide) return;
+    lastHeroSlide.current = slide;
+    const description = hero.current?.querySelector(".hero-description");
+    const animation = description?.animate([{ opacity: 0.4 }, { opacity: 1 }], {
+      duration: reduced ? 140 : 280,
+      easing: "cubic-bezier(0.23,1,0.32,1)",
+    });
+    return () => animation?.cancel();
+  }, [slide, reduced]);
+  const desiredSlide = useRef(0);
+  const changeRequest = useRef(0);
+  useEffect(
+    () => () => {
+      changeRequest.current += 1;
+    },
+    [],
+  );
+  const showSlide = async (index, direction) => {
+    desiredSlide.current = index;
+    const request = ++changeRequest.current;
+    const photo = new Image();
+    photo.src = image(heroSlides[index].image);
+    try {
+      await photo.decode();
+    } catch {
+      return;
+    }
+    if (request !== changeRequest.current) return;
+    setLoadedImages((previous) => ({
+      ...previous,
+      [heroSlides[index].image]: true,
+    }));
+    setDirection(direction);
+    setSlide(index);
   };
+  const change = (delta) =>
+    showSlide(
+      (desiredSlide.current + delta + heroSlides.length) % heroSlides.length,
+      delta,
+    );
   return (
     <>
       <section
@@ -505,29 +564,25 @@ function Home({ ready = true }) {
           className="hero-photography"
           style={{ transform: reduced ? "none" : transform }}
         >
-          {heroSlides.map((item, index) => (
-            <img
-              key={item.image}
-              className={`hero-image hero-image-${item.image} ${index === slide ? "is-active" : ""} ${loadedImages[item.image] ? "is-loaded" : ""}`}
-              src={image(item.image)}
-              alt={item.alt}
-              aria-hidden={index !== slide}
-              width="1672"
-              height="941"
-              fetchPriority={index === 0 ? "high" : "low"}
-              decoding="async"
-              onLoad={async (event) => {
-                const element = event.currentTarget;
-                try {
-                  await element.decode();
-                } catch {}
-                setLoadedImages((previous) => ({
-                  ...previous,
-                  [item.image]: true,
-                }));
-              }}
-            />
-          ))}
+          <ProductImage
+            className={`hero-image hero-image-${current.image} is-active ${loadedImages[current.image] ? "is-loaded" : ""}`}
+            src={image(current.image)}
+            alt={current.alt}
+            width="1672"
+            height="941"
+            fetchPriority="high"
+            decoding="async"
+            onLoad={async (event) => {
+              const element = event.currentTarget;
+              try {
+                await element.decode();
+              } catch {}
+              setLoadedImages((previous) => ({
+                ...previous,
+                [current.image]: true,
+              }));
+            }}
+          />
         </motion.div>
         <div className="hero-shade" />
 
@@ -535,7 +590,6 @@ function Home({ ready = true }) {
           <DrawnHeroLogo />
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
-              key={slide}
               className="hero-message"
               initial={{
                 opacity: 0,
@@ -572,15 +626,20 @@ function Home({ ready = true }) {
                 className="hero-description hero-enter"
                 style={{ "--delay": "230ms" }}
               >
-                {current.copy}
+                <span className="hero-copy-desktop">{current.copy}</span>
+                <span className="hero-copy-mobile">{current.mobileCopy}</span>
               </p>
-              <div className="hero-enter" style={{ "--delay": "310ms" }}>
+              <div
+                className="hero-enter hero-cta-row"
+                style={{ "--delay": "310ms" }}
+              >
                 <Button to={current.link}>
-                  <span className="hero-cta-desktop">
-                    Explore the collection
-                  </span>
+                  <span className="hero-cta-desktop">Shop the collection</span>
                   <span className="hero-cta-mobile">Shop now</span>
                 </Button>
+                <Link to="/contact" className="hero-order-help">
+                  How to order <ArrowUpRight size={16} />
+                </Link>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -594,10 +653,7 @@ function Home({ ready = true }) {
                 className={slide === index ? "active" : ""}
                 aria-label={`Show ${s.label}`}
                 aria-pressed={slide === index}
-                onClick={() => {
-                  setDirection(index > slide ? 1 : -1);
-                  setSlide(index);
-                }}
+                onClick={() => showSlide(index, index > slide ? 1 : -1)}
               />
             ))}
           </div>
@@ -768,7 +824,7 @@ function FavoritesCarousel() {
         </div>
       </div>
       <p className="catalog-note">
-        A changing point of view. Sample styles and prices.
+        A few pieces to start with. Choose a colour to see another version.
       </p>
     </section>
   );
@@ -782,7 +838,7 @@ function FAQ() {
     ],
     [
       "How do I choose my size?",
-      "Open a product and use its size guide. Compare the measurements with a garment you already own. Available sizes are shown on each product; confirm fit and stock before placing an order.",
+      "Open Size & fit help beside the size buttons. Measure a similar garment you already wear and send those measurements to us on Instagram. We do not have verified product size charts yet. Listed sizes are not a guarantee of stock or fit.",
     ],
     [
       "Can I order through this website?",
@@ -876,7 +932,7 @@ function ProductCard({ product: initialProduct, duplicate = false }) {
           className="product-image-link"
           aria-label={`View ${product.brand} ${product.name}`}
         >
-          <img
+          <ProductImage
             src={image(product.image)}
             alt={`${product.brand} ${product.name} in ${product.color.toLowerCase()}`}
             width="600"
@@ -938,6 +994,9 @@ function ProductCard({ product: initialProduct, duplicate = false }) {
         {product.color}
         <span className="product-type">1:1 replica</span>
       </div>
+      <p className="product-listed-sizes">
+        Listed sizes: {product.sizes.join(" · ")}
+      </p>
     </article>
   );
 }
@@ -949,6 +1008,9 @@ function Shop() {
   const brand = params.get("brand") || "All brands";
   const edit = params.get("edit");
   const query = params.get("q") || "";
+  const listedSize = params.get("size") || "";
+  const filterCount =
+    Number(brand !== "All brands") + Number(!!edit) + Number(!!listedSize);
   const [sort, setSort] = useState("featured");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const update = (key, value) => {
@@ -963,6 +1025,7 @@ function Shop() {
       (brand === "All brands" || p.brand === brand) &&
       (edit !== "new" || p.fresh) &&
       (edit !== "sale" || p.oldPrice) &&
+      (!listedSize || sizeIsListed(p, listedSize)) &&
       (!query ||
         `${p.brand} ${p.name} ${p.category} ${p.color}`
           .toLowerCase()
@@ -998,11 +1061,15 @@ function Shop() {
         <div className="shop-heading-row">
           <h1>{title}</h1>
           <span className="shop-mobile-count" aria-live="polite">
-            {filtered.length} pieces
+            {filtered.length} {filtered.length === 1 ? "style" : "styles"}
           </span>
         </div>
-        <p>T-shirts, sweatshirts and coordinated layers. Find your fit.</p>
+        <p>
+          Find a piece you like. Choose your colour and listed size, then ask us
+          to confirm the details.
+        </p>
       </Reveal>
+      <ShoppingNote />
       <div className="shop-tabs" aria-label="Product categories">
         {categories.map((c) => (
           <button
@@ -1022,10 +1089,10 @@ function Shop() {
           aria-expanded={filtersOpen}
         >
           <SlidersHorizontal size={19} /> Filters{" "}
-          {brand !== "All brands" && <span>(1)</span>}
+          {filterCount > 0 && <span>({filterCount})</span>}
         </button>
         <span className="results-count" aria-live="polite">
-          {filtered.length} pieces
+          {filtered.length} {filtered.length === 1 ? "style" : "styles"}
         </span>
         <label className="sort-select">
           <span>Sort by</span>
@@ -1069,6 +1136,21 @@ function Shop() {
               <option value="sale">On sale</option>
             </select>
           </label>
+          <label>
+            Listed size
+            <select
+              aria-label="Listed size"
+              value={listedSize}
+              onChange={(e) => update("size", e.target.value)}
+            >
+              <option value="">All sizes</option>
+              {[...new Set(products.flatMap((product) => product.sizes))].map(
+                (value) => (
+                  <option key={value}>{value}</option>
+                ),
+              )}
+            </select>
+          </label>
           <button
             className="text-link"
             onClick={() => {
@@ -1080,7 +1162,7 @@ function Shop() {
           </button>
         </div>
       )}
-      {(query || brand !== "All brands" || edit) && (
+      {(query || brand !== "All brands" || edit || listedSize) && (
         <div className="active-filters">
           {query && (
             <button onClick={() => update("q", "")}>
@@ -1097,7 +1179,18 @@ function Shop() {
               {edit === "new" ? "New arrivals" : "On sale"} <X size={13} />
             </button>
           )}
+          {listedSize && (
+            <button onClick={() => update("size", "")}>
+              Size {listedSize} <X size={13} />
+            </button>
+          )}
         </div>
+      )}
+      {listedSize && (
+        <p className="size-availability-note">
+          Showing styles listed in {listedSize}. This is not a live stock
+          guarantee — confirm availability on Instagram.
+        </p>
       )}
       {filtered.length ? (
         <div
@@ -1112,8 +1205,16 @@ function Shop() {
         </div>
       ) : (
         <EmptyState
-          title="NOTHING HERE. YET."
-          text="Try another brand, category, or search term."
+          title={
+            edit === "sale"
+              ? "No sale pieces at the moment."
+              : "No pieces match those choices."
+          }
+          text={
+            edit === "sale"
+              ? "Browse the full collection, or remove a filter to see more."
+              : "Try removing a size or brand filter. You can also ask us about a piece on Instagram."
+          }
           action={
             <Button onClick={() => setParams({})}>View all pieces</Button>
           }
@@ -1142,6 +1243,24 @@ function Product({ id }) {
   const [zoom, setZoom] = useState(false);
   const [photo, setPhoto] = useState(0);
   const sizeGroup = useRef();
+  const info = useRef();
+  const previousColour = useRef(selectedColor);
+  const gentle = useReducedMotion();
+  useEffect(() => {
+    if (previousColour.current === selectedColor) return;
+    previousColour.current = selectedColor;
+    const animations = [
+      ...(info.current?.querySelectorAll(
+        ".detail-price, .product-description, .detail-color",
+      ) || []),
+    ].map((element) =>
+      element.animate([{ opacity: 0.25 }, { opacity: 1 }], {
+        duration: gentle ? 140 : 240,
+        easing: "cubic-bezier(0.23,1,0.32,1)",
+      }),
+    );
+    return () => animations.forEach((animation) => animation.cancel());
+  }, [selectedColor, gentle]);
   useEffect(() => {
     setSelectedColor(id);
     setSize("");
@@ -1176,7 +1295,7 @@ function Product({ id }) {
             }
             aria-pressed={zoom}
           >
-            <img
+            <ProductImage
               src={image(p.gallery?.[photo] || p.image)}
               alt={`${p.brand} ${p.name} in ${p.color.toLowerCase()}, photo ${photo + 1}`}
               width="800"
@@ -1205,198 +1324,202 @@ function Product({ id }) {
           </div>
         </Reveal>
         <Reveal className="product-info" delay={0.1}>
-          <Link
-            to={`/shop?brand=${encodeURIComponent(p.brand)}`}
-            className="product-detail-brand"
-          >
-            {p.brand}
-          </Link>
-          <h1>{p.name}</h1>
-          <div className="detail-price">
-            {p.oldPrice && (
-              <span className="old-price">{money(p.oldPrice)}</span>
-            )}
-            {money(p.price)}
-            <span>1:1 replica</span>
-          </div>
-          <p className="product-description">{p.description}</p>
-          <ColorChoices
-            products={colorways}
-            selected={p}
-            onChange={(item) => {
-              setSelectedColor(item.id);
-              setPhoto(0);
-              setZoom(false);
-              setError("");
-              if (
-                !item.sizes.includes(size) ||
-                (item.stock?.[size]?.tracked && item.stock[size].available < 1)
-              )
-                setSize("");
-            }}
-          />
-          <div className="detail-color" aria-live="polite">
-            Colour: <strong>{p.color}</strong>
-            <span
-              className="color-swatch"
-              style={{ background: p.hex }}
-              aria-label={p.color}
+          <div ref={info} className="product-info-content">
+            <Link
+              to={`/shop?brand=${encodeURIComponent(p.brand)}`}
+              className="product-detail-brand"
+            >
+              {p.brand}
+            </Link>
+            <h1>{p.name}</h1>
+            <div className="detail-price">
+              {p.oldPrice && (
+                <span className="old-price">{money(p.oldPrice)}</span>
+              )}
+              {money(p.price)}
+              <span>1:1 replica</span>
+            </div>
+            <p className="price-guidance">
+              Sample price. Confirm the final price and availability before
+              ordering.
+            </p>
+            <p className="product-description">{p.description}</p>
+            <ColorChoices
+              products={colorways}
+              selected={p}
+              onChange={(item) => {
+                setSelectedColor(item.id);
+                setPhoto(0);
+                setZoom(false);
+                setError("");
+                if (
+                  !item.sizes.includes(size) ||
+                  (item.stock?.[size]?.tracked &&
+                    item.stock[size].available < 1)
+                )
+                  setSize("");
+              }}
             />
-          </div>
-          <div className="size-heading">
-            <span>Select your size</span>
-            <button className="text-link" onClick={() => setOverlay("size")}>
-              Size guide <Ruler size={15} />
-            </button>
-          </div>
-          <div
-            ref={sizeGroup}
-            className={`size-options ${error ? "has-error" : ""}`}
-            role="group"
-            aria-label="Select your size"
-            aria-describedby={error ? "size-error" : undefined}
-          >
-            {p.sizes.map((s) => (
-              <button
-                key={s}
-                className={size === s ? "selected" : ""}
-                aria-pressed={size === s}
-                disabled={!!p.stock?.[s]?.tracked && p.stock[s].available < 1}
-                title={
-                  p.stock?.[s]?.tracked && p.stock[s].available < 1
-                    ? "Out of stock"
-                    : undefined
+            <div className="detail-color" aria-live="polite">
+              Colour: <strong>{p.color}</strong>
+              <span
+                className="color-swatch"
+                style={{ background: p.hex }}
+                aria-label={p.color}
+              />
+            </div>
+            <div className="size-heading">
+              <span>Select your size</span>
+              <button className="text-link" onClick={() => setOverlay("size")}>
+                Size &amp; fit help <Ruler size={15} />
+              </button>
+            </div>
+            <div
+              ref={sizeGroup}
+              className={`size-options ${error ? "has-error" : ""}`}
+              role="group"
+              aria-label="Select your size"
+              aria-describedby={error ? "size-error" : undefined}
+            >
+              {p.sizes.map((s) => (
+                <button
+                  key={s}
+                  className={size === s ? "selected" : ""}
+                  aria-pressed={size === s}
+                  disabled={!!p.stock?.[s]?.tracked && p.stock[s].available < 1}
+                  title={
+                    p.stock?.[s]?.tracked && p.stock[s].available < 1
+                      ? "Out of stock"
+                      : undefined
+                  }
+                  onClick={() => {
+                    setSize(s);
+                    setError("");
+                  }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+            <p className="size-availability-note">
+              Sizes vary by piece. Ask for garment measurements before ordering.
+              Listed sizes are subject to confirmation.
+            </p>
+            {error && (
+              <p id="size-error" className="field-error" role="alert">
+                {error}
+              </p>
+            )}
+            {p.stock && (
+              <p className="product-availability" aria-live="polite">
+                {p.sizes.every(
+                  (s) => p.stock[s]?.tracked && p.stock[s].available < 1,
+                )
+                  ? "This piece is currently out of stock."
+                  : size
+                    ? p.stock[size]?.tracked
+                      ? p.stock[size].available > 0
+                        ? `${p.stock[size].available} available in size ${size}`
+                        : "This size is currently out of stock."
+                      : "Availability for this size has not been confirmed."
+                    : "Choose a size to check availability."}
+              </p>
+            )}
+            <EnquiryPanel product={p} size={size} />
+            <div className="add-to-bag">
+              <Button
+                className="button-outline"
+                disabled={
+                  p.sizes.every(
+                    (s) => p.stock?.[s]?.tracked && p.stock[s].available < 1,
+                  ) ||
+                  (!!size &&
+                    !!p.stock?.[size]?.tracked &&
+                    p.stock[size].available < 1)
                 }
                 onClick={() => {
-                  setSize(s);
-                  setError("");
+                  if (!size) {
+                    setError("Please choose your size.");
+                    sizeGroup.current
+                      ?.querySelector("button:not(:disabled)")
+                      ?.focus();
+                  } else addToBag(p.id, size);
                 }}
               >
-                {s}
-              </button>
-            ))}
-          </div>
-          {error && (
-            <p id="size-error" className="field-error" role="alert">
-              {error}
-            </p>
-          )}
-          {p.stock && (
-            <p className="product-availability" aria-live="polite">
-              {p.sizes.every(
-                (s) => p.stock[s]?.tracked && p.stock[s].available < 1,
-              )
-                ? "This piece is currently out of stock."
-                : size
-                  ? p.stock[size]?.tracked
-                    ? p.stock[size].available > 0
-                      ? `${p.stock[size].available} available in size ${size}`
-                      : "This size is currently out of stock."
-                    : "Availability for this size has not been confirmed."
-                  : "Choose a size to check availability."}
-            </p>
-          )}
-          <div className="add-to-bag">
-            <Button
-              disabled={
-                p.sizes.every(
+                {p.sizes.every(
                   (s) => p.stock?.[s]?.tracked && p.stock[s].available < 1,
-                ) ||
-                (!!size &&
-                  !!p.stock?.[size]?.tracked &&
-                  p.stock[size].available < 1)
-              }
-              onClick={() => {
-                if (!size) {
-                  setError("Please choose your size.");
-                  sizeGroup.current
-                    ?.querySelector("button:not(:disabled)")
-                    ?.focus();
-                } else addToBag(p.id, size);
-              }}
-            >
-              {p.sizes.every(
-                (s) => p.stock?.[s]?.tracked && p.stock[s].available < 1,
-              )
-                ? "Out of stock"
-                : "Add to bag"}
-            </Button>
-            <button
-              aria-label={`${saved.includes(p.id) ? "Remove from" : "Add to"} saved items`}
-              aria-pressed={saved.includes(p.id)}
-              className={`save-detail icon-button ${saved.includes(p.id) ? "is-saved" : ""}`}
-              onClick={() => toggleSaved(p.id)}
-            >
-              <Heart weight={saved.includes(p.id) ? "fill" : "regular"} />
-            </button>
+                )
+                  ? "Out of stock"
+                  : "Add to bag"}
+              </Button>
+              <button
+                aria-label={`${saved.includes(p.id) ? "Remove from" : "Add to"} saved items`}
+                aria-pressed={saved.includes(p.id)}
+                className={`save-detail icon-button ${saved.includes(p.id) ? "is-saved" : ""}`}
+                onClick={() => toggleSaved(p.id)}
+              >
+                <Heart weight={saved.includes(p.id) ? "fill" : "regular"} />
+              </button>
+            </div>
+            <div className="detail-services">
+              <span>
+                <Truck size={19} /> Delivery confirmed on Instagram
+              </span>
+              <span>
+                <ArrowCounterClockwise size={19} /> Size and care guidance
+              </span>
+            </div>
+            <details open>
+              <summary>
+                About this piece <Plus size={16} />
+              </summary>
+              <p>
+                This is a replica style, not an authentic product from the named
+                brand. Photos are illustrative previews. Ask for current photos,
+                materials and measurements of the actual item before ordering.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Delivery & returns <Plus size={16} />
+              </summary>
+              <p>
+                Message @wolfshop.ks on Instagram before ordering to confirm
+                availability, the final price, delivery costs, timing and return
+                conditions. No orders or payments are processed on this website.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Care guide <Plus size={16} />
+              </summary>
+              <p>
+                Always follow the care label on your garment. Wash similar
+                colours together and avoid ironing directly over prints.
+              </p>
+            </details>
           </div>
-          <div className="product-order-note">
-            <p>
-              <strong>Orders &amp; availability: Instagram only.</strong>{" "}
-              Message {instagramHandle} with this piece and your size to confirm
-              stock and the final price. We reply there. More platforms coming
-              soon.
-            </p>
-            <a
-              className="text-link"
-              href={socialLinks.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Check availability on Instagram <ArrowUpRight size={17} />
-            </a>
-          </div>
-          <div className="detail-services">
-            <span>
-              <Truck size={19} /> Delivery confirmed on Instagram
-            </span>
-            <span>
-              <ArrowCounterClockwise size={19} /> Size and care guidance
-            </span>
-          </div>
-          <details open>
-            <summary>
-              About this piece <Plus size={16} />
-            </summary>
-            <p>
-              {p.description} This is an illustrative 1:1 replica style, not an
-              original brand product. Final materials, fit, and measurements
-              will be confirmed with the actual stock.
-            </p>
-          </details>
-          <details>
-            <summary>
-              Delivery & returns <Plus size={16} />
-            </summary>
-            <p>
-              Message @wolfshop.ks on Instagram before ordering to confirm
-              availability, the final price, delivery costs, timing and return
-              conditions. No orders or payments are processed on this website.
-            </p>
-          </details>
-          <details>
-            <summary>
-              Care guide <Plus size={16} />
-            </summary>
-            <p>
-              Always follow the care label on your garment. Wash similar colours
-              together and avoid ironing directly over prints.
-            </p>
-          </details>
         </Reveal>
       </div>
       <section className="section">
         <Reveal className="section-heading">
           <h2>
-            COMPLETE YOUR ROTATION<span className="accent">.</span>
+            MORE TO CONSIDER<span className="accent">.</span>
           </h2>
           <Link to="/shop" className="text-link">
             Explore all <ArrowUpRight size={18} />
           </Link>
         </Reveal>
         <div className="product-grid">
-          {products
-            .filter((item) => item.id !== id)
+          {uniqueStyles(products)
+            .filter(
+              (item) => !colorways.some((colour) => colour.id === item.id),
+            )
+            .sort(
+              (a, b) =>
+                Number(b.category === p.category) -
+                Number(a.category === p.category),
+            )
             .slice(0, 4)
             .map((item, i) => (
               <Reveal key={item.id} delay={i * 0.05}>
@@ -1528,10 +1651,10 @@ function Contact() {
             height="680"
             alt="BOSS menswear fabric and jacket details"
           />
-          <h2>Instagram only. For now.</h2>
+          <h2>{websiteDomain}</h2>
           <p>
-            Instagram is our only active contact and ordering channel. We reply
-            to all messages there. More platforms are coming soon.
+            Orders, availability checks and product messages are handled on
+            Instagram. More platforms are coming soon.
           </p>
         </Reveal>
         <Reveal className="contact-form-wrap" delay={0.08}>
@@ -1557,6 +1680,12 @@ function Contact() {
           <p className="form-note">
             This website is a catalog. It does not send messages, take payment
             or place orders. Instagram opens in a new tab.
+          </p>
+          <p>
+            For general enquiries:{" "}
+            <a className="text-link" href={`mailto:${contactEmail}`}>
+              {contactEmail}
+            </a>
           </p>
           <Link to="/faq" className="text-link">
             Common questions <ArrowUpRight size={16} />
@@ -1749,6 +1878,7 @@ function NotFound() {
 }
 
 function Footer() {
+  const { products } = useCatalog();
   return (
     <footer className="site-footer">
       <div className="page-width">
@@ -1773,7 +1903,9 @@ function Footer() {
                 {instagramHandle}
               </a>
               <br />
-              More platforms coming soon.
+              <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+              <br />
+              {websiteDomain}
             </p>
           </div>
           <nav className="footer-mobile-links" aria-label="Footer navigation">
@@ -1791,7 +1923,9 @@ function Footer() {
               <Link to="/shop?category=T-Shirts">T-shirts</Link>
               <Link to="/shop?category=Tracksuits">Tracksuits</Link>
               <Link to="/shop?category=Sweatshirts">Sweatshirts</Link>
-              <Link to="/shop?edit=sale">Sale</Link>
+              {products.some((product) => product.oldPrice) && (
+                <Link to="/shop?edit=sale">Sale</Link>
+              )}
             </div>
             <div>
               <h3>HERE TO HELP</h3>
@@ -1811,7 +1945,9 @@ function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} WOLF SHOP</span>
+          <span>
+            © {new Date().getFullYear()} {websiteDomain}
+          </span>
           <span>Independent style. Individual expression.</span>
           <span>EN / EUR €</span>
         </div>
@@ -1829,20 +1965,27 @@ function Footer() {
 
 function Overlay({ type: overlay }) {
   const { products } = useCatalog();
+  const currentLocation = useLocation();
+  const fitProduct = products.find(
+    (product) =>
+      product.id ===
+      currentLocation.pathname.replace(/\/+$/, "").split("/").at(-1),
+  );
   const { setOverlay, bag: storedBag, setBag } = useContext(Store);
   const bag = storedBag.filter((item) =>
     products.some((p) => p.id === item.id),
   );
   const dialog = useRef();
   const [query, setQuery] = useState("");
-  const [checkoutPreview, setCheckoutPreview] = useState(false);
   const reduced = useReducedMotion();
   const navigate = useNavigate();
   const searchResults = query.trim()
-    ? products.filter((p) =>
-        `${p.name} ${p.brand} ${p.category}`
-          .toLowerCase()
-          .includes(query.trim().toLowerCase()),
+    ? uniqueStyles(
+        products.filter((p) =>
+          `${p.name} ${p.brand} ${p.category} ${p.color}`
+            .toLowerCase()
+            .includes(query.trim().toLowerCase()),
+        ),
       )
     : [];
   useEffect(() => {
@@ -1920,7 +2063,7 @@ function Overlay({ type: overlay }) {
             : overlay === "search"
               ? "FIND YOUR NEXT PIECE."
               : overlay === "size"
-                ? "FIND YOUR FIT."
+                ? "SIZE & FIT HELP"
                 : "EXPLORE WOLF."}
         </h2>
         <button
@@ -2089,24 +2232,28 @@ function Overlay({ type: overlay }) {
                 {instagramHandle} on Instagram.
               </p>
               <a
-                className="text-link"
+                className="button"
                 href={socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Order enquiries on Instagram <ArrowUpRight size={17} />
+                Message us about your bag <ArrowUpRight size={19} />
               </a>
-              <Button onClick={() => setCheckoutPreview(true)}>
-                How ordering works
-              </Button>
-              {checkoutPreview && (
-                <p className="checkout-preview" role="status">
-                  Send the product names or screenshots and your sizes to
-                  @wolfshop.ks on Instagram. We will confirm availability, final
-                  prices and delivery details there. No order has been placed
-                  and no payment has been taken on this website.
-                </p>
-              )}
+              <CopyEnquiry
+                label="Copy bag details"
+                text={enquiryText(
+                  bag.map((item) => ({
+                    product: products.find((product) => product.id === item.id),
+                    size: item.size,
+                    quantity: item.quantity,
+                  })),
+                )}
+              />
+              <p className="checkout-preview">
+                Copy your bag details and paste them into Instagram. We’ll
+                confirm stock, prices and delivery before you decide. Nothing
+                has been ordered or reserved.
+              </p>
               <p className="bag-preview-note">
                 This is a frontend preview. No orders or payments are taken.
               </p>
@@ -2134,7 +2281,9 @@ function Overlay({ type: overlay }) {
         <nav className="mobile-menu" aria-label="Mobile navigation">
           {[
             ["Shop", "/shop"],
-            ["Sale", "/shop?edit=sale"],
+            products.some((product) => product.oldPrice)
+              ? ["Sale", "/shop?edit=sale"]
+              : ["New arrivals", "/shop?edit=new"],
             ["Contact us", "/contact"],
             ["Common questions", "/faq"],
           ].map(([label, url]) => (
@@ -2150,50 +2299,7 @@ function Overlay({ type: overlay }) {
       )}
       {overlay === "size" && (
         <div className="size-guide">
-          <p>
-            Illustrative menswear sizing. Measure a favourite garment laid flat
-            and compare the chest width.
-          </p>
-          <div className="table-scroll">
-            <table>
-              <caption>Example garment measurements in centimetres</caption>
-              <thead>
-                <tr>
-                  <th>Size</th>
-                  <th>Chest width</th>
-                  <th>Length</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["S", "52", "68"],
-                  ["M", "55", "70"],
-                  ["L", "58", "72"],
-                  ["XL", "61", "74"],
-                  ["XXL", "64", "76"],
-                ].map((row) => (
-                  <tr key={row[0]}>
-                    {row.map((cell, i) =>
-                      i === 0 ? (
-                        <th key={i} scope="row">
-                          {cell}
-                        </th>
-                      ) : (
-                        <td key={i}>{cell}</td>
-                      ),
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="form-note">
-            These are example measurements, not confirmed product
-            specifications. Final measurements will be added with stock.
-          </p>
-          <button className="text-link" onClick={() => go("/contact")}>
-            Need a hand? Get in touch <ArrowRight size={15} />
-          </button>
+          <FitHelp category={fitProduct?.category} />
         </div>
       )}
     </motion.dialog>
