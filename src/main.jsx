@@ -56,6 +56,7 @@ import {
 } from "./site-config";
 import { getColorways, uniqueStyles } from "./colorways";
 import { ProductImage } from "./product-motion";
+import { getPageSeo, applySeo } from "./seo";
 import {
   ShoppingNote,
   EnquiryPanel,
@@ -2361,26 +2362,6 @@ function App() {
     previousPath.current = location.pathname;
   }, [location.pathname, location.search]);
   useEffect(() => {
-    const titles = {
-      "/": "Wear your own statement.",
-      "/shop": "The collection",
-      "/brands": "Explore the brands",
-      "/contact": "Contact us",
-      "/faq": "Common questions",
-      "/about": "Our story",
-      "/saved": "Your saved pieces",
-      "/delivery": "Delivery & returns",
-      "/privacy": "Privacy information",
-      "/account": "Your account",
-      "/account/sign-in": "Sign in",
-      "/account/create": "Create account",
-    };
-    const product = location.pathname.startsWith("/product/")
-      ? products.find((p) => p.id === location.pathname.split("/")[2])
-      : null;
-    document.title = `${product ? `${product.brand} ${product.name}` : titles[location.pathname] || "Discover your style"} | Wolf Shop`;
-  }, [location.pathname, location.search, products]);
-  useEffect(() => {
     setOverlay(null);
   }, [location.pathname, location.search]);
   let page;
@@ -2492,6 +2473,16 @@ function App() {
   );
 }
 
+function SeoMetadata() {
+  const location = useLocation();
+  const { products } = useCatalog();
+  useEffect(
+    () => applySeo(getPageSeo(location.pathname, location.search, products)),
+    [location.pathname, location.search, products],
+  );
+  return null;
+}
+
 const AdminApp = React.lazy(() => import("./admin/AdminApp"));
 const StaticAdmin = React.lazy(() => import("./admin/StaticAdmin"));
 const CustomerAccount = React.lazy(() => import("./customer/CustomerAccount"));
@@ -2516,6 +2507,7 @@ createRoot(document.getElementById("root")).render(
   <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "") || "/"}>
     <ThemeProvider>
       <CatalogProvider>
+        <SeoMetadata />
         <StoreProvider>
           <Root />
         </StoreProvider>
