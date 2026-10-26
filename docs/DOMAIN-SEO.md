@@ -30,7 +30,7 @@ No nameserver changes, purchases, mail records, credentials or DNSSEC settings w
 - `https://wolfshop.style/sitemap.xml` contains 14 public URLs; `robots.txt` points to it.
 - Staff, account, saved-item and privacy pages use `noindex, follow`. Filter/search result URLs use a canonical shop URL and runtime noindex rather than creating duplicate indexed combinations.
 - Organization, WebSite, WebPage/CollectionPage and BreadcrumbList JSON-LD describes the real business/contact information. The catalog has an ItemList of product links.
-- No invented reviews, manufacturer authorisation, live-stock guarantees, or purchase Offers were added. Existing sample prices remain illustrative.
+- No invented reviews, manufacturer authorisation, live-stock guarantees, or purchase Offers were added. Public numeric prices are no longer published; customers request prices on Instagram.
 - `public/images/wolfshop-share.png` is the 1200×630 branded sharing card. Product pages use the selected colourway's photo as their sharing image.
 - Public pages include a useful no-JavaScript fallback with matching catalog information and replica disclosure.
 - Inner pages no longer preload the large homepage hero image.
@@ -52,3 +52,12 @@ The site is technically ready for crawling. No Google Search Console account was
 - https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https
 - https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics
 - https://developers.google.com/search/docs/appearance/structured-data/product
+
+
+## Public storefront changes — 26 October 2026
+
+Instagram now points to https://www.instagram.com/wolfshop.style/ (@wolfshop.style). Public cards, details, search and bag use price-on-request wording; price sorts, numeric prices and totals are removed. The committed public catalog stores null prices. The public API serializer suppresses internal prices while authenticated staff records retain them.
+
+Public `/admin` and `/login` routes are disabled, not merely hidden from navigation. They have no generated entry points and the production bundle excludes AdminApp and StaticAdmin. GitHub Pages serves the 404 fallback for these addresses, which displays Page not found and noindex metadata. Staff tools remain available only in local development behind the existing API authentication. `VITE_STATIC_ADMIN=true` is retained for legacy static API/customer-account behavior; it no longer enables a public admin preview.
+
+Checks: `npm run test:api`, `node scripts/verify-seo.mjs`, and `node scripts/verify-public-settings.mjs`. The public-settings check covers Instagram destinations, price removal, bag/search, and blocked staff pages in Chrome and WebKit.

@@ -6,6 +6,7 @@ import { randomUUID } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import { openDatabase } from "../server/database.mjs";
 import { createApi } from "../server/index.mjs";
+import { products as seedProducts } from "../src/data.js";
 
 test("customer migration preserves the existing staff database", async () => {
   const directory = await mkdtemp(resolve("artifacts/migration-test-"));
@@ -30,7 +31,10 @@ test("customer migration preserves the existing staff database", async () => {
       db.prepare("SELECT name FROM staff_users").get().name,
       "Existing staff",
     );
-    assert.equal(db.prepare("SELECT COUNT(*) AS n FROM products").get().n, 8);
+    assert.equal(
+      db.prepare("SELECT COUNT(*) AS n FROM products").get().n,
+      seedProducts.length,
+    );
     assert.equal(db.prepare("SELECT COUNT(*) AS n FROM customers").get().n, 0);
     assert.deepEqual(
       db

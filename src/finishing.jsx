@@ -29,7 +29,7 @@ export function InstagramStrip() {
         </h2>
         <p>
           We operate through Instagram only. For orders, availability and
-          replies, message @wolfshop.ks. More platforms coming soon.
+          replies, message @wolfshop.style. More platforms coming soon.
         </p>
       </div>
       <a

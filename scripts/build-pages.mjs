@@ -5,15 +5,9 @@ import { getPageSeo, indexablePaths, siteOrigin } from "../src/seo.js";
 const routes = [
   "",
   "shop",
-  "login",
   "account",
   "account/sign-in",
   "account/create",
-  "admin",
-  "admin/products",
-  "admin/products/new",
-  "admin/stock",
-  "admin/activity",
   "faq",
   "brands",
   "contact",
@@ -88,7 +82,7 @@ function seoHtml(path) {
         `<li><a href="${p === "/" ? "/" : `${p}/`}">${escape(p.startsWith("/product/") ? products.find((item) => `/product/${item.id}` === p)?.name + " — " + products.find((item) => `/product/${item.id}` === p)?.color : p === "/" ? "Home" : p.slice(1))}</a></li>`,
     )
     .join("");
-  const fallback = `<noscript><main style="max-width:960px;margin:60px auto;padding:24px;font:16px/1.7 Arial,sans-serif"><h1>${escape(meta.title.split(" | ")[0])}</h1><p>${escape(meta.description)}</p>${product ? `<img src="/images/real/${product.image}.webp" width="324" height="405" alt="${escape(product.name + " in " + product.color)}"><p>Colour: ${escape(product.color)}. Listed sizes: ${escape(product.sizes.join(", "))}. Prices and stock must be confirmed.</p>` : ""}<p>Replica clothing, not authentic branded merchandise. Wolf Shop is not affiliated with or authorised by the referenced brands.</p><p><a href="https://www.instagram.com/wolfshop.ks/">Contact @wolfshop.ks on Instagram</a> for product and order enquiries. No orders or payments are processed on this website.</p><p>Enable JavaScript for colour selection, the shopping bag and the full browsing experience.</p><nav aria-label="Site pages"><ul>${links}</ul></nav></main></noscript>`;
+  const fallback = `<noscript><main style="max-width:960px;margin:60px auto;padding:24px;font:16px/1.7 Arial,sans-serif"><h1>${escape(meta.title.split(" | ")[0])}</h1><p>${escape(meta.description)}</p>${product ? `<img src="/images/real/${product.image}.webp" width="324" height="405" alt="${escape(product.name + " in " + product.color)}"><p>Colour: ${escape(product.color)}. Listed sizes: ${escape(product.sizes.join(", "))}. Prices and stock must be confirmed.</p>` : ""}<p>Replica clothing, not authentic branded merchandise. Wolf Shop is not affiliated with or authorised by the referenced brands.</p><p><a href="https://www.instagram.com/wolfshop.style/">Contact @wolfshop.style on Instagram</a> for product and order enquiries. No orders or payments are processed on this website.</p><p>Enable JavaScript for colour selection, the shopping bag and the full browsing experience.</p><nav aria-label="Site pages"><ul>${links}</ul></nav></main></noscript>`;
   return html.replace("</body>", `${meta.noindex ? "" : fallback}\n</body>`);
 }
 for (const route of routes) {

@@ -47,7 +47,7 @@ import {
   Trash,
   UserCircle,
 } from "@phosphor-icons/react";
-import { brands, brandLogos, categories, money } from "./data";
+import { brands, brandLogos, categories } from "./data";
 import {
   socialLinks,
   instagramHandle,
@@ -66,7 +66,6 @@ import {
   sizeIsListed,
 } from "./customer-help";
 import { CatalogProvider, useCatalog } from "./catalog";
-import { staticPreview } from "./api";
 import { ThemeProvider, ThemeToggle, useTheme } from "./theme";
 import { BackgroundMarks, DrawnHeroLogo } from "./brand-motion";
 import {
@@ -843,15 +842,15 @@ function FAQ() {
     ],
     [
       "Can I order through this website?",
-      "Orders and all replies are handled through Instagram only: @wolfshop.ks. Send the product name or a screenshot and your size to confirm availability and the final price. This website does not take payment or place orders. More platforms are coming soon.",
+      "Orders and all replies are handled through Instagram only: @wolfshop.style. Send the product name or a screenshot and your size to confirm availability and the final price. This website does not take payment or place orders. More platforms are coming soon.",
     ],
     [
       "What about delivery and returns?",
-      "Message @wolfshop.ks on Instagram to confirm delivery areas, costs, timing and return conditions before ordering. This website does not calculate shipping or promise a delivery date.",
+      "Message @wolfshop.style on Instagram to confirm delivery areas, costs, timing and return conditions before ordering. This website does not calculate shipping or promise a delivery date.",
     ],
     [
       "Are prices and stock final?",
-      "The selection and prices are illustrative. Confirm the price, available colors and stock with Wolf Shop before purchasing.",
+      "We do not publish prices on this website. Message @wolfshop.style on Instagram for current prices, available colours and stock before ordering.",
     ],
     [
       "Where are my saved pieces kept?",
@@ -966,15 +965,15 @@ function ProductCard({ product: initialProduct, duplicate = false }) {
       </div>
       <div className="product-meta">
         <span className="product-brand">{product.brand}</span>
-        <span>
-          {product.oldPrice ? (
-            <>
-              <span className="old-price">{money(product.oldPrice)}</span>{" "}
-              <span className="sale-price">{money(product.price)}</span>
-            </>
-          ) : (
-            money(product.price)
-          )}
+        <span className="price-on-request">
+          <a
+            href={socialLinks.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabIndex={duplicate ? -1 : undefined}
+          >
+            Ask for price
+          </a>
         </span>
       </div>
       <Link
@@ -1033,10 +1032,6 @@ function Shop() {
           .includes(query.toLowerCase())),
   );
   filtered = uniqueStyles(filtered);
-  if (sort === "price-asc")
-    filtered = [...filtered].sort((a, b) => a.price - b.price);
-  if (sort === "price-desc")
-    filtered = [...filtered].sort((a, b) => b.price - a.price);
   if (sort === "new")
     filtered = [...filtered].sort((a, b) => Number(b.fresh) - Number(a.fresh));
   const title = query
@@ -1104,8 +1099,6 @@ function Shop() {
           >
             <option value="featured">Featured</option>
             <option value="new">Newest first</option>
-            <option value="price-asc">Price: low to high</option>
-            <option value="price-desc">Price: high to low</option>
           </select>
           <CaretDown size={12} />
         </label>
@@ -1223,7 +1216,8 @@ function Shop() {
       )}
       <p className="shop-disclosure">
         Wolf Shop offers 1:1 replica styles. Products are not manufactured or
-        authorised by the referenced brands. Images and prices are illustrative.
+        authorised by the referenced brands. Images are illustrative. Ask for
+        prices on Instagram.
       </p>
     </div>
   );
@@ -1333,16 +1327,12 @@ function Product({ id }) {
               {p.brand}
             </Link>
             <h1>{p.name}</h1>
-            <div className="detail-price">
-              {p.oldPrice && (
-                <span className="old-price">{money(p.oldPrice)}</span>
-              )}
-              {money(p.price)}
-              <span>1:1 replica</span>
+            <div className="detail-price price-on-request">
+              Price on request <span>1:1 replica</span>
             </div>
             <p className="price-guidance">
-              Sample price. Confirm the final price and availability before
-              ordering.
+              Ask {instagramHandle} on Instagram for the price of this piece and
+              current availability.
             </p>
             <p className="product-description">{p.description}</p>
             <ColorChoices
@@ -1485,7 +1475,7 @@ function Product({ id }) {
                 Delivery & returns <Plus size={16} />
               </summary>
               <p>
-                Message @wolfshop.ks on Instagram before ordering to confirm
+                Message @wolfshop.style on Instagram before ordering to confirm
                 availability, the final price, delivery costs, timing and return
                 conditions. No orders or payments are processed on this website.
               </p>
@@ -1704,8 +1694,9 @@ function Contact() {
         </p>
         <p>
           Photos are illustrative product previews. Ask for current photos,
-          measurements and stock details before ordering. Product names, sizes
-          and sample prices on this website are not a guarantee of availability.
+          measurements and stock details before ordering. Product names and
+          listed sizes are not a guarantee of availability. Ask us on Instagram
+          for current prices.
         </p>
       </section>
     </div>
@@ -1789,7 +1780,7 @@ function InfoPage({ privacy = false }) {
           <h2>Forms and payments</h2>
           <p>
             This website has no contact form and collects no payment
-            information. Contact and order enquiries go to @wolfshop.ks on
+            information. Contact and order enquiries go to @wolfshop.style on
             Instagram. Messages sent there are handled on Instagram and are
             subject to its privacy terms. Do not send payment details or
             sensitive information in a message.
@@ -1819,7 +1810,7 @@ function InfoPage({ privacy = false }) {
           )}
           <h2>Contact and other platforms</h2>
           <p>
-            All messages are handled through @wolfshop.ks on Instagram. More
+            All messages are handled through @wolfshop.style on Instagram. More
             platforms are coming soon. This website does not send messages or
             process orders or payments.
           </p>
@@ -1834,17 +1825,18 @@ function InfoPage({ privacy = false }) {
           </p>
           <h2>Delivery and returns</h2>
           <p>
-            All enquiries and orders are handled through @wolfshop.ks on
+            All enquiries and orders are handled through @wolfshop.style on
             Instagram. Confirm delivery areas, shipping costs, timing and return
             conditions there before placing an order. More platforms are coming
             soon.
           </p>
           <h2>Product information</h2>
           <p>
-            Styles, imagery, sizes, and prices shown here are illustrative.
-            Final stock details and garment measurements will be confirmed when
-            inventory is added. The collection features 1:1 replica styles, not
-            original products from the referenced brands.
+            Styles, imagery and listed sizes are illustrative. Prices are
+            provided on Instagram only. Final stock details and garment
+            measurements will be confirmed when inventory is added. The
+            collection features 1:1 replica styles, not original products from
+            the referenced brands.
           </p>
         </>
       )}
@@ -1940,7 +1932,7 @@ function Footer() {
             <div>
               <h3>THE WORLD OF WOLF</h3>
               <Link to="/about">Our story</Link>
-              {import.meta.env.DEV && <Link to="/login">Staff workspace</Link>}
+
               <Link to="/brands">Explore the brands</Link>
             </div>
           </div>
@@ -1950,14 +1942,13 @@ function Footer() {
             © {new Date().getFullYear()} {websiteDomain}
           </span>
           <span>Independent style. Individual expression.</span>
-          <span>EN / EUR €</span>
+          <span>EN</span>
         </div>
         <p className="footer-disclosure">
           Replica clothing, not authentic brand merchandise. Wolf Shop is not
           affiliated with, authorised by or endorsed by the brands shown. Photos
-          and prices are illustrative; confirm the actual item and availability
-          on Instagram before ordering. No orders or payments are processed
-          here.
+          are illustrative; confirm the actual item, price and availability on
+          Instagram before ordering. No orders or payments are processed here.
         </p>
       </div>
     </footer>
@@ -2005,11 +1996,6 @@ function Overlay({ type: overlay }) {
     close();
     navigate(url);
   };
-  const total = bag.reduce(
-    (sum, item) =>
-      sum + products.find((p) => p.id === item.id).price * item.quantity,
-    0,
-  );
   const isSearch = overlay === "search";
   return (
     <motion.dialog
@@ -2108,7 +2094,7 @@ function Overlay({ type: overlay }) {
                         <strong>{p.brand}</strong>
                         <span>{p.name}</span>
                       </span>
-                      <span>{money(p.price)}</span>
+                      <span>Ask for price</span>
                       <ArrowUpRight size={17} />
                     </button>
                   ))}
@@ -2206,7 +2192,7 @@ function Overlay({ type: overlay }) {
                       </div>
                     </div>
                     <div className="bag-item-price">
-                      <span>{money(p.price * item.quantity)}</span>
+                      <span>On request</span>
                       <button
                         aria-label={`Remove ${p.name} in size ${item.size} from bag`}
                         className="icon-button"
@@ -2225,11 +2211,11 @@ function Overlay({ type: overlay }) {
             </div>
             <div className="bag-summary">
               <div>
-                <span>Subtotal</span>
-                <strong>{money(total)}</strong>
+                <span>Pricing</span>
+                <strong>Ask on Instagram</strong>
               </div>
               <p>
-                Sample prices. Confirm stock, final prices and delivery with{" "}
+                Prices are available on request. Confirm stock and delivery with{" "}
                 {instagramHandle} on Instagram.
               </p>
               <a
@@ -2483,12 +2469,24 @@ function SeoMetadata() {
   return null;
 }
 
-const AdminApp = React.lazy(() => import("./admin/AdminApp"));
-const StaticAdmin = React.lazy(() => import("./admin/StaticAdmin"));
+// Staff tools remain local-only; no admin dashboard is bundled or routed on Pages.
+const AdminApp = import.meta.env.DEV
+  ? React.lazy(() => import("./admin/AdminApp"))
+  : null;
 const CustomerAccount = React.lazy(() => import("./customer/CustomerAccount"));
 function Root() {
   const location = useLocation();
   const staff = /^\/(login|admin)(\/|$)/.test(location.pathname);
+  if (staff && !import.meta.env.DEV)
+    return (
+      <main className="inner-page page-width unavailable-page">
+        <h1>Page not found.</h1>
+        <p>This page is not available.</p>
+        <Link className="text-link" to="/shop">
+          Browse the collection
+        </Link>
+      </main>
+    );
   return staff ? (
     <React.Suspense
       fallback={
@@ -2497,7 +2495,7 @@ function Root() {
         </main>
       }
     >
-      {staticPreview ? <StaticAdmin /> : <AdminApp />}
+      <AdminApp />
     </React.Suspense>
   ) : (
     <App />

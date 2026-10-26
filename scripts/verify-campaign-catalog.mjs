@@ -32,7 +32,7 @@ try {
   for (const p of products) {
     assert(brands.includes(p.brand));
     assert(categories.includes(p.category));
-    assert(p.price > 0);
+    assert.equal(p.price, null);
     for (const key of p.gallery) {
       const response = await page.request.get(
         new URL(`images/real/${key}.webp`, base).href,

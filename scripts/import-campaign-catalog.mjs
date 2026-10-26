@@ -32,13 +32,16 @@ try {
       "INSERT OR IGNORE INTO product_variants(id,product_id,size,color,sku) VALUES(?,?,?,?,?)",
     );
     for (const p of products) {
+      const existing = db
+        .prepare("SELECT price_cents,compare_at_cents FROM products WHERE id=?")
+        .get(p.id);
       insert.run(
         p.id,
         p.name,
         p.brand,
         p.category,
-        p.price * 100,
-        p.oldPrice ? p.oldPrice * 100 : null,
+        Number.isFinite(p.price) ? p.price * 100 : (existing?.price_cents ?? 0),
+        p.oldPrice ? p.oldPrice * 100 : (existing?.compare_at_cents ?? null),
         p.description,
         p.color,
         p.hex,

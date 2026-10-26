@@ -27,14 +27,7 @@ for (const path of indexablePaths()) {
   assert(html.includes("<noscript>"));
   if (path !== "/") assert(!html.match(/rel="preload"[^>]*as="image"/));
 }
-for (const path of [
-  "admin",
-  "admin/products",
-  "login",
-  "account",
-  "saved",
-  "privacy",
-]) {
+for (const path of ["account", "saved", "privacy"]) {
   const html = await readFile(`dist/${path}/index.html`, "utf8");
   assert(html.includes('content="noindex, follow"'));
 }
@@ -48,3 +41,7 @@ assert.equal(getPageSeo("/unknown").canonical, null);
 console.log(
   `SEO HTML passed: ${titles.size} unique public pages, correct canonical/share metadata, safe JSON-LD, noindex exclusions, sitemap and no-JS fallback.`,
 );
+
+for (const path of ["admin", "admin/products", "login"])
+  await assert.rejects(readFile(`dist/${path}/index.html`));
+assert.equal(getPageSeo("/admin").canonical, null);

@@ -1,11 +1,11 @@
-// Wolf Shop supplied campaign photos. Names and prices are illustrative.
+// Wolf Shop supplied campaign photos. Names are illustrative. Prices are supplied on Instagram only.
 export const products = [
   {
     id: "boss-black-zip-knit",
     brand: "BOSS",
     name: "Midnight zip-through knit",
     category: "Knitwear",
-    price: 65,
+    price: null,
     image: "wolf-collection/boss-black-zip-knit/front",
     alternate: "wolf-collection/boss-black-zip-knit/detail",
     gallery: [
@@ -25,7 +25,7 @@ export const products = [
     brand: "BOSS",
     name: "Atlantic zip tracksuit",
     category: "Tracksuits",
-    price: 95,
+    price: null,
     image: "wolf-collection/boss-blue-tracksuit/front",
     alternate: "wolf-collection/boss-blue-tracksuit/detail",
     gallery: [
@@ -45,7 +45,7 @@ export const products = [
     brand: "BOSS",
     name: "Ivory logo crewneck",
     category: "Sweatshirts",
-    price: 55,
+    price: null,
     image: "wolf-collection/boss-off-white-sweatshirt/front",
     alternate: "wolf-collection/boss-off-white-sweatshirt/detail",
     gallery: [
@@ -65,7 +65,7 @@ export const products = [
     brand: "BOSS",
     name: "Contour graphic T-shirt",
     category: "T-Shirts",
-    price: 39,
+    price: null,
     image: "wolf-collection/boss-black-geometric-tshirt/front",
     alternate: "wolf-collection/boss-black-geometric-tshirt/detail",
     gallery: [
@@ -85,7 +85,7 @@ export const products = [
     brand: "DIESEL",
     name: "Core logo crewneck",
     category: "Sweatshirts",
-    price: 59,
+    price: null,
     image: "wolf-collection/diesel-black-core-sweatshirt/front",
     alternate: "wolf-collection/diesel-black-core-sweatshirt/detail",
     gallery: [
@@ -105,7 +105,7 @@ export const products = [
     brand: "ARMANI EXCHANGE",
     name: "City frame T-shirt",
     category: "T-Shirts",
-    price: 35,
+    price: null,
     image: "wolf-collection/armani-exchange-black-tshirt/front",
     alternate: "wolf-collection/armani-exchange-black-tshirt/detail",
     gallery: [
@@ -125,7 +125,7 @@ export const products = [
     brand: "ARMANI EXCHANGE",
     name: "City frame T-shirt",
     category: "T-Shirts",
-    price: 35,
+    price: null,
     image: "wolf-collection/armani-exchange-off-white-tshirt/front",
     alternate: "wolf-collection/armani-exchange-off-white-tshirt/detail",
     gallery: [

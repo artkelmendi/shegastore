@@ -251,3 +251,27 @@
   font-size: 12px;
   color: var(--red-text);
 }
+.price-on-request a {
+  color: var(--red-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+:root .product-meta .price-on-request {
+  font-size: 12px;
+  font-weight: 500;
+}
+:root .detail-price.price-on-request {
+  font-size: 21px;
+}
+.unavailable-page {
+  min-height: 60vh;
+  padding-block: 100px;
+}
+.unavailable-page h1 {
+  font-size: clamp(32px, 5vw, 64px);
+  margin-bottom: 20px;
+}
+.unavailable-page p {
+  margin-bottom: 24px;
+  color: var(--muted);
+}

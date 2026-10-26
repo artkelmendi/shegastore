@@ -10,7 +10,7 @@
     "preview": "vite preview --host 0.0.0.0",
     "dev:store": "vite --host 127.0.0.1",
     "api": "node --watch server/index.mjs",
-    "test:api": "node --test tests/api.test.mjs tests/customers.test.mjs",
+    "test:api": "node --test tests/api.test.mjs tests/customers.test.mjs tests/public-catalog.test.mjs",
     "test:workspace": "node tests/workspace-ui.mjs"
   },
   "dependencies": {

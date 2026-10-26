@@ -122,7 +122,7 @@ for (const [engine, width, theme] of [
     ).toBeVisible();
     await expect(page.locator(".customer-enquiry a")).toHaveAttribute(
       "href",
-      "https://www.instagram.com/wolfshop.ks/",
+      "https://www.instagram.com/wolfshop.style/",
     );
     await page.screenshot({
       path: `../outputs/customer-pass-product-${width}-${theme}.png`,

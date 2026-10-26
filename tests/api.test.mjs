@@ -5,6 +5,7 @@ import { resolve, join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { openDatabase } from "../server/database.mjs";
 import { createApi } from "../server/index.mjs";
+import { products as seedProducts } from "../src/data.js";
 test("staff sessions, catalogue editing and atomic stock history", async (t) => {
   const directory = await mkdtemp(resolve("artifacts/api-test-"));
   const db = openDatabase(join(directory, "test.sqlite"));
@@ -84,7 +85,7 @@ test("staff sessions, catalogue editing and atomic stock history", async (t) => 
       409,
     );
     const source = await request("/api/admin/products");
-    assert.equal(source.data.products.length, 8);
+    assert.equal(source.data.products.length, seedProducts.length);
     assert.ok(
       source.data.products.every((p) =>
         p.variants.every((v) => v.tracked === 0 && v.on_hand === 0),

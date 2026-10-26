@@ -6,7 +6,7 @@ const shareImage = `${siteOrigin}/images/wolfshop-share.png`;
 const publicPages = {
   "/": [
     "Wolf Shop | Replica menswear & everyday style",
-    "Explore replica T-shirts, sweatshirts, knitwear and tracksuits at Wolf Shop. Ask @wolfshop.ks on Instagram to confirm sizes, availability and final prices.",
+    "Explore replica T-shirts, sweatshirts, knitwear and tracksuits at Wolf Shop. Ask @wolfshop.style on Instagram to confirm sizes, availability and final prices.",
   ],
   "/shop": [
     "Shop replica menswear | Wolf Shop",
@@ -18,11 +18,11 @@ const publicPages = {
   ],
   "/contact": [
     "Contact Wolf Shop | Instagram enquiries & email",
-    "Message @wolfshop.ks on Instagram about orders, sizes and availability. For general enquiries, email wolfshop.style@gmail.com. No checkout on this website.",
+    "Message @wolfshop.style on Instagram about orders, sizes and availability. For general enquiries, email wolfshop.style@gmail.com. No checkout on this website.",
   ],
   "/faq": [
     "Ordering, sizes & product questions | Wolf Shop",
-    "Find answers about Wolf Shop’s replica clothing, listed sizes, Instagram ordering, sample prices, delivery enquiries and saved pieces.",
+    "Find answers about Wolf Shop’s replica clothing, listed sizes, Instagram ordering, price enquiries, delivery enquiries and saved pieces.",
   ],
   "/about": [
     "About Wolf Shop | Independent replica clothing catalog",
@@ -30,13 +30,12 @@ const publicPages = {
   ],
   "/delivery": [
     "Delivery & returns information | Wolf Shop",
-    "Confirm delivery areas, costs, timing and return conditions with @wolfshop.ks on Instagram before ordering. No delivery promise or payment is made on this site.",
+    "Confirm delivery areas, costs, timing and return conditions with @wolfshop.style on Instagram before ordering. No delivery promise or payment is made on this site.",
   ],
 };
 const privateTitles = {
   "/privacy": "Privacy information",
   "/saved": "Saved pieces",
-  "/login": "Staff sign in",
   "/account": "Your account",
   "/account/sign-in": "Customer sign in",
   "/account/create": "Create account",
@@ -51,8 +50,7 @@ export function getPageSeo(pathname, search = "", products = catalog) {
   const page = publicPages[path];
   const title = product
     ? `${product.brand} ${product.name} — ${product.color} | Wolf Shop`
-    : page?.[0] ||
-      `${privateTitles[path] || (path.startsWith("/admin") ? "Staff dashboard" : "Page not found")} | Wolf Shop`;
+    : page?.[0] || `${privateTitles[path] || "Page not found"} | Wolf Shop`;
   const description = product
     ? `${product.description} Replica style, not authentic branded merchandise. Ask Wolf Shop on Instagram to confirm fit, stock and the final price.`
     : page?.[1] ||
@@ -64,9 +62,7 @@ export function getPageSeo(pathname, search = "", products = catalog) {
       ["q", "size", "category", "brand", "edit", "entrance"].includes(key),
     );
   const canonical =
-    page || product || privateTitles[path] || path.startsWith("/admin")
-      ? absolute(path)
-      : null;
+    page || product || privateTitles[path] ? absolute(path) : null;
   const image = product
     ? `${siteOrigin}/images/real/${product.image}.webp`
     : shareImage;
